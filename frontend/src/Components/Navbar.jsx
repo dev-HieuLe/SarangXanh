@@ -22,6 +22,7 @@ const Navbar = () => {
           <li className="hover:text-blue-400 cursor-pointer">Gallery</li>
           <li className="hover:text-blue-400 cursor-pointer">FAQs</li>
           <li className="hover:text-blue-400 cursor-pointer">Shop</li>
+          <li className="hover:text-blue-400 cursor-pointer">Members</li>
         </ul>
 
         {/* Right-side buttons */}
