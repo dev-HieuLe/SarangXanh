@@ -6,6 +6,13 @@ import Navbar from "./Components/Navbar";
 
 //Homepage
 import Banner from "./Components/Homepage/Banner";
+import AboutUs from "./Components/Homepage/AboutUs";
+import Effects from "./Components/Homepage/Effect"
+import ActionSlider from "./Components/Homepage/Slider";
+import StatsSection from "./Components/Homepage/Stats";
+import Tutorial from "./Components/Homepage/Tutorial"
+import MerchStore from "./Components/Homepage/Merch";
+import FAQSection from "./Components/Homepage/FAQ";
 //FAQ page
 import Faq from "./Components/faq/faq";
 //About page
@@ -27,7 +34,7 @@ function App() {
     <Router>
       <Navbar/>
       <Routes>
-        <Route path="/" element={<Banner />} />
+        <Route path="/" element={<><Banner /><AboutUs/><Effects/><ActionSlider/><StatsSection/><Tutorial/><MerchStore/><FAQSection/></>} />
         <Route path="/about" element={<About />} />
         <Route path="/data" element={<Data />} />
         <Route path="/gallery" element={<Gallery />} />

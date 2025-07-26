@@ -11,7 +11,7 @@ const Banner = () => {
       <div className="absolute inset-0 bg-black/20 backdrop-blur-sm pointer-events-none select-none"></div>
 
       {/* Content wrapper */}
-      <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 py-16 md:py-24 w-full max-w-7xl 2xl:max-w-[1600px] px-6 z-10 flex flex-col items-center">
+      <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 py-16 md:py-24 w-full max-w-6xl 2xl:max-w-[1600px] px-6 z-10 flex flex-col items-center">
         <div className="flex flex-col md:flex-row items-center justify-between gap-12 w-full">
           {/* Left Text */}
           <div className="flex-1 text-left">
@@ -44,8 +44,8 @@ const Banner = () => {
       </div>
 
       {/* Stats Section */}
-      <div className="absolute left-1/2 bottom-0 transform -translate-x-1/2 translate-y-1/2 w-full max-w-6xl 2xl:max-w-[1500px] z-20 px-4">
-        <div className="bg-blue-200/50 rounded-xl px-4 sm:px-6 2xl:px-10 py-8 sm:py-10 2xl:py-12 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-16 shadow-lg backdrop-blur-md w-full">
+      <div className="absolute left-1/2 bottom-0 transform -translate-x-1/2 translate-y-1/2 w-full max-w-6xl 2xl:max-w-[1200px] z-20">
+        <div className="bg-blue-200/50 rounded-xl px-4 sm:px-6 2xl:px-10 py-8 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-16 shadow-lg backdrop-blur-md w-full">
           {/* Icon + Title */}
           <div className="flex items-center gap-2 sm:gap-3 mb-4 md:mb-0">
             <Globe className="w-6 h-6 sm:w-8 sm:h-8 2xl:w-10 2xl:h-10 text-blue-700" />
