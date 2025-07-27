@@ -62,7 +62,7 @@ export default function AboutUs() {
           </div>
 
           {/* Button */}
-          <button className="mt-10 px-6 py-3 bg-cyan-600 hover:bg-cyan-700 text-white rounded-xl flex items-center gap-2 transition">
+          <button className="mt-10 w-fit px-6 py-3 rounded-xl text-white font-medium bg-cyan-600 hover:bg-cyan-700 transition shadow-md hover:shadow-lg flex gap-2 items-center">
             About Us <Leaf className="w-4 h-4" />
           </button>
         </div>

@@ -46,7 +46,7 @@ const Effects = () => {
       style={{ backgroundImage: "url('/bg.jpg')" }}
     >
       {/* Background overlay */}
-      <div className="absolute inset-0 bg-white/20 backdrop-blur-sm z-0" />
+      <div className="absolute inset-0 bg-[#042f2e]/30 backdrop-blur-sm z-0" />
 
       <div className="relative z-10 max-w-6xl mx-auto">
         {/* Grid with equal height cards */}
@@ -56,7 +56,7 @@ const Effects = () => {
             <p className="uppercase text-indigo-500 font-semibold text-sm tracking-widest mb-2">
               You Might Be Concerned?
             </p>
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900">
+            <h2 className="text-3xl md:text-5xl font-bold text-white">
               Environmental Effects of Microplastics
             </h2>
             <button className="mt-6 w-fit px-6 py-3 rounded-xl text-white font-medium bg-cyan-600 hover:bg-cyan-700 transition shadow-md hover:shadow-lg">

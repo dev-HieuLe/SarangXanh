@@ -28,7 +28,7 @@ export default function Tutorial() {
         <h2 className="text-md text-[#0092b8] font-medium mb-2 uppercase tracking-wide">
           🌱 Our Mission
         </h2>
-        <h1 className="text-3xl md:text-4xl font-bold mb-12 text-gray-900">
+        <h1 className="text-3xl md:text-4xl font-bold mb-12 text-blue-900">
           Process To Reduce Microplastic Pollution
         </h1>
 
