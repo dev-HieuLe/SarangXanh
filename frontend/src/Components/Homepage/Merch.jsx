@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import AOS from 'aos';
 
 const products = [
   {
@@ -19,6 +20,14 @@ const products = [
 ];
 
 const MerchStore = () => {
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // animation speed (1s)
+      once: true, // only animate on first scroll
+      easing: 'ease-in-out',
+    });
+  }, []);
+
   return (
     <section
       className="relative w-full bg-cover bg-center px-6 md:px-20 py-20"
@@ -31,7 +40,7 @@ const MerchStore = () => {
       <div className="relative z-10 max-w-6xl mx-auto">
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-start gap-10 mb-16">
-          <div className="max-w-lg">
+          <div className="max-w-lg" data-aos="fade-right">
             <p className="text-sm text-yellow-400 font-semibold flex items-center gap-2">
               What We Sell
             </p>
@@ -39,7 +48,7 @@ const MerchStore = () => {
               Support the Ocean With <br /> Every Purchase
             </h2>
           </div>
-          <div className="text-white max-w-md">
+          <div className="text-white max-w-md" data-aos="fade-left" data-aos-delay="150">
             <p className="text-xl leading-relaxed">
               “Each item is crafted to raise awareness and reduce microplastic waste in our seas.”
             </p>
@@ -58,6 +67,8 @@ const MerchStore = () => {
             <div
               key={index}
               className="relative rounded-xl overflow-hidden shadow-lg group"
+              data-aos="fade-up"
+              data-aos-delay={200 + index * 150} // stagger each card
             >
               {/* Image */}
               <img

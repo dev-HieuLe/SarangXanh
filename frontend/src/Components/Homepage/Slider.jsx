@@ -6,7 +6,8 @@ import {
   ArrowRight,
   ArrowLeft,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import AOS from "aos";
 
 export default function ActionSlider() {
   const services = [
@@ -46,7 +47,6 @@ export default function ActionSlider() {
   const visibleCount = 3;
   const cardWidth = 300;
   const gap = 40;
-
   const maxIndex = services.length - visibleCount;
 
   const handlePrev = () => {
@@ -57,10 +57,19 @@ export default function ActionSlider() {
     setStartIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
   };
 
+  // ✅ Init AOS for animations
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: true,
+      easing: "ease-in-out",
+    });
+  }, []);
+
   return (
     <section className="py-25 px-6 md:px-20 relative max-w-6xl mx-auto">
       {/* Title */}
-      <div className="text-center mb-10">
+      <div className="text-center mb-10" data-aos="fade-down">
         <div className="text-cyan-700 font-semibold flex justify-center items-center gap-2 mb-2">
           <Leaf className="w-5 h-5" />
           <span>OUR SERVICES</span>
@@ -70,17 +79,19 @@ export default function ActionSlider() {
         </h2>
       </div>
 
-      {/* Arrows */}
+      {/* Arrows with bounce animation */}
       <button
         onClick={handlePrev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow hover:bg-cyan-100 transition z-10"
+        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow hover:bg-cyan-100 transition z-10 hover:animate-bounce"
+        data-aos="fade-right"
       >
         <ArrowLeft className="text-cyan-600 w-6 h-6" />
       </button>
 
       <button
         onClick={handleNext}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow hover:bg-cyan-100 transition z-10"
+        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow hover:bg-cyan-100 transition z-10 hover:animate-bounce"
+        data-aos="fade-left"
       >
         <ArrowRight className="text-cyan-600 w-6 h-6" />
       </button>
@@ -98,6 +109,8 @@ export default function ActionSlider() {
             <div
               key={index}
               className="group relative bg-white/80 border border-gray-200 backdrop-blur-sm rounded-lg shadow-md flex-shrink-0 w-[300px] h-[380px] p-4 overflow-hidden"
+              data-aos="fade-up"
+              data-aos-delay={index * 150} // ✅ stagger animation
             >
               {/* IMAGE WRAPPER */}
               <div className="relative overflow-hidden rounded-md">

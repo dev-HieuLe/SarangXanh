@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import AOS from "aos";
 import { Plus, Minus, HelpCircle } from "lucide-react";
 
 const faqs = [
@@ -32,6 +33,15 @@ const faqs = [
 const FAQSection = () => {
   const [openIndex, setOpenIndex] = useState(null);
 
+  // ✅ Initialize AOS for scroll animations
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: true,
+      easing: "ease-in-out",
+    });
+  }, []);
+
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
@@ -40,7 +50,10 @@ const FAQSection = () => {
     <section className="w-full bg-white px-6 md:px-20 py-20">
       <div className="max-w-3xl mx-auto text-center">
         {/* Subtitle */}
-        <div className="flex items-center justify-center gap-2 text-teal-600 mb-2">
+        <div
+          className="flex items-center justify-center gap-2 text-teal-600 mb-2"
+          data-aos="fade-down"
+        >
           <HelpCircle className="w-5 h-5" />
           <p className="text-sm font-medium uppercase tracking-wide">
             Frequently Asked Questions
@@ -48,10 +61,20 @@ const FAQSection = () => {
         </div>
 
         {/* Title */}
-        <h2 className="text-4xl font-bold text-sky-900 mb-4">FAQ</h2>
+        <h2
+          className="text-4xl font-bold text-sky-900 mb-4"
+          data-aos="fade-down"
+          data-aos-delay="100"
+        >
+          FAQ
+        </h2>
 
         {/* Aqua Accent Line */}
-        <div className="w-16 h-1 bg-teal-400 mx-auto rounded-full mb-10"></div>
+        <div
+          className="w-16 h-1 bg-teal-400 mx-auto rounded-full mb-10"
+          data-aos="fade-up"
+          data-aos-delay="200"
+        ></div>
 
         {/* FAQ Items */}
         <div className="space-y-4">
@@ -61,6 +84,8 @@ const FAQSection = () => {
               <div
                 key={index}
                 className="border border-teal-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
+                data-aos="fade-up"
+                data-aos-delay={300 + index * 100} // ✅ stagger each FAQ card
               >
                 <button
                   className="w-full flex justify-between items-center px-6 py-4 text-left text-sky-900 font-medium hover:bg-teal-50 transition-colors"
