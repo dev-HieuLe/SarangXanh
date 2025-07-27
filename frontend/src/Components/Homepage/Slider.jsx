@@ -58,14 +58,14 @@ export default function ActionSlider() {
   };
 
   return (
-    <section className="py-35 px-6 md:px-20 relative max-w-6xl mx-auto">
+    <section className="py-25 px-6 md:px-20 relative max-w-6xl mx-auto">
       {/* Title */}
       <div className="text-center mb-10">
         <div className="text-cyan-700 font-semibold flex justify-center items-center gap-2 mb-2">
           <Leaf className="w-5 h-5" />
           <span>OUR SERVICES</span>
         </div>
-        <h2 className="text-5xl font-bold text-blue-900 leading-tight">
+        <h2 className="text-3xl md:text-4xl font-bold text-blue-900 leading-tight">
           SarangXanh Provide Environment <br /> Best Leading Services
         </h2>
       </div>

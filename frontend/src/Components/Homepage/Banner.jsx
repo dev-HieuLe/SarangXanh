@@ -27,7 +27,7 @@ const Banner = () => {
               create a cleaner and greener world.
             </p>
 
-            <button className="mt-8 inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 px-6 py-3 2xl:px-8 2xl:py-4 rounded-md text-sm 2xl:text-base font-semibold shadow-md">
+            <button className="mt-8 inline-flex items-center gap-2 bg-cyan-600 hover:bg-cyan-700 px-6 py-3 2xl:px-8 2xl:py-4 rounded-full text-sm 2xl:text-base font-semibold shadow-md">
               Save The Environment
             </button>
           </div>
