@@ -23,7 +23,8 @@ import Data from "./Components/Data/Data";
 import Gallery from "./Components/Gallery/Gallery";
 //Members page
 import Members from "./Components/Members/Members";
-
+//Shop page
+import Shop from "./Components/Shop/Shop";
 //Footer
 import Footer from "./Components/Footer";
 
@@ -40,6 +41,7 @@ function App() {
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/faqs" element={<Faq />} />
         <Route path="/members" element={<Members />} />
+        <Route path="/shop" element={<Shop />} />
       </Routes>
       <Footer/>
     </Router>
