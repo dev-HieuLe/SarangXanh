@@ -1,0 +1,27 @@
+.ellipse {
+  background-color: #403591;
+  border-radius: 120px;
+  filter: blur(240px);
+  height: 240px;
+  left: 340px;
+  position: relative;
+  width: 240px;
+}
+
+.vector {
+  align-self: stretch;
+  height: 1px;
+  margin-left: -720px;
+  margin-top: -27.5px;
+  object-fit: cover;
+  position: relative;
+  width: 100%;
+}
+
+.frame {
+  align-self: stretch;
+  flex: 0 0 auto;
+  margin-left: -720px;
+  position: relative;
+  width: 100%;
+}
