@@ -30,7 +30,15 @@ const MemberCard = ({ name, school, img = defaultImg, instagram, linkedin, isLea
       </p>
 
       {/* School name */}
-      <p className="text-xs text-gray-500">{school}</p>
+      <p
+        className={
+          school === "Korean Minjok Leadership Academy, Korea"
+            ? "text-[10px] text-gray-500"
+            : "text-xs text-gray-500"
+        }
+      >
+        {school}
+      </p>
 
       {/* Hover overlay */}
       <div className="absolute bottom-0 left-0 right-0 h-6 group-hover:h-20 bg-[#042f2e]/30 backdrop-blur-sm rounded-xl transition-all duration-500 flex items-center justify-center space-x-4 opacity-0 group-hover:opacity-100">
@@ -65,42 +73,41 @@ const TeamSection = ({ title, members }) => (
 const Members = () => {
   const teams = {
     "Content Team": [
-      { name: "Yehoon", school: "Valor International Scholars, Korea" },
-      { name: "Jewoo", school: "Valor International Scholars, Korea" },
-      { name: "Minwoo", school: "St, Antony's High School, NY" },
-      { name: "Thai Hoa (Panda)", school: "Delta Global School, Vietnam" },
-      { name: "Uyen Chi", school: "Delta Global School, Vietnam" },
-      { name: "Lan Chi", school: "Delta Global School, Vietnam" },
-      { name: "Hai Linh", school: "Delta Global School, Vietnam" },
-      { name: "Phuc Hoang", school: "Vietnam" },
+      { name: "Yehoon Park", school: "Valor International Scholars, Korea", instagram: "https://instagram.com/o6o6z3", linkedin: "https://linkedin.com/in/yehoon" },
+      { name: "Jewoo Shin", school: "Valor International Scholars, Korea", instagram: "https://instagram.com/jagam0o", linkedin: "https://linkedin.com/in/jewoo" },
+      { name: "Minwoo Shin", school: "St. Antony's High School, NY", instagram: "https://instagram.com/minwoo", linkedin: "https://linkedin.com/in/minwoo" },
+      { name: "Dang Thai Hoa", school: "Delta Global School, Vietnam", instagram: "https://instagram.com/ahahahahehehehahe", linkedin: "https://linkedin.com/in/panda" },
+      { name: "Le Uyen Chi", school: "Delta Global School, Vietnam", instagram: "https://instagram.com/_iun.lychee", linkedin: "https://linkedin.com/in/uyench" },
+      { name: "Nguyen Lan Chi", school: "Delta Global School, Vietnam", instagram: "https://instagram.com/lanchi", linkedin: "https://linkedin.com/in/lanchi" },
+      { name: "Dao Hai Linh", school: "Delta Global School, Vietnam", instagram: "https://instagram.com/hailinh", linkedin: "https://linkedin.com/in/hailinh" },
+      { name: "Nguyen Phuc Hoang", school: "Vietnam", instagram: "https://instagram.com/hoanggg_.koy", linkedin: "https://linkedin.com/in/phuchoang" },
     ],
     "Media Team": [
-      { name: "Jiwon", school: "Mercersburg Academy, PA" },
-      { name: "Khanh", school: "Delta Global School, Vietnam" },
-      { name: "Ha Ngan (Ginger)", school: "Delta Global School, Vietnam" },
+      { name: "Jiwon Chung", school: "Mercersburg Academy, PA", instagram: "https://instagram.com/jiwon", linkedin: "https://linkedin.com/in/jiwon" },
+      { name: "Nguyen Khanh", school: "Delta Global School, Vietnam", instagram: "https://instagram.com/kerbonthecurb", linkedin: "https://linkedin.com/in/khanh" },
+      { name: "Dao Ha Ngan", school: "Delta Global School, Vietnam", instagram: "https://instagram.com/ginger_nycuachi", linkedin: "https://linkedin.com/in/ginger" },
     ],
     "Website Team": [
-      { name: "Minjoo", school: "Korean Minjok Leadership Academy, Korea" },
-      { name: "Lan Chi", school: "Delta Global School, Vietnam" },
-      { name: "Hieu", school: "Delta Global School, Vietnam" },
-      { name: "Khanh", school: "Delta Global School, Vietnam" },
+      { name: "Minjoo Lee", school: "Korean Minjok Leadership Academy, Korea", instagram: "https://instagram.com/ww.minjoo", linkedin: "https://linkedin.com/in/minjoo" },
+      { name: "Nguyen Lan Chi", school: "Delta Global School, Vietnam", instagram: "https://instagram.com/lanchi", linkedin: "https://linkedin.com/in/lanchi" },
+      { name: "Le Trung Hieu", school: "Delta Global School, Vietnam", instagram: "https://instagram.com/ltheiu.css", linkedin: "https://linkedin.com/in/hieu" },
+      { name: "Nguyen Khanh", school: "Delta Global School, Vietnam", instagram: "https://instagram.com/kerbonthecurb", linkedin: "https://linkedin.com/in/khanh" },
+      { name: "Dang Chuc An", school: "Delta Global School, Vietnam", instagram: "https://instagram.com/vuofpage", linkedin: "https://linkedin.com/in/chucan" },
+      { name: "Dao Ha Ngan", school: "Delta Global School, Vietnam", instagram: "https://instagram.com/ginger_nycuachi", linkedin: "https://linkedin.com/in/ginger" },
     ],
     "Marketing Team": [
-      { name: "Yehoon", school: "Valor International Scholars, Korea" },
-      { name: "Ha Ngan (Ginger)", school: "Delta Global School, Vietnam" },
-      { name: "Tra My", school: "Delta Global School, Vietnam" },
-      { name: "Thai Hoa (Panda)", school: "Delta Global School, Vietnam" },
-      { name: "Hieu", school: "Delta Global School, Vietnam" },
-      { name: "Nam", school: "Delta Global School, Vietnam" },
+      { name: "Yehoon Park", school: "Valor International Scholars, Korea", instagram: "https://instagram.com/o6o6z3", linkedin: "https://linkedin.com/in/yehoon" },
+      { name: "Ha Ngan", school: "Delta Global School, Vietnam", instagram: "https://instagram.com/ginger_nycuachi", linkedin: "https://linkedin.com/in/ginger" },
+      { name: "Le Thi Tra My", school: "Delta Global School, Vietnam", instagram: "https://instagram.com/tmy_j.m", linkedin: "https://linkedin.com/in/tramy" },
+      { name: "Dang Thai Hoa", school: "Delta Global School, Vietnam", instagram: "https://instagram.com/ahahahahehehehahe", linkedin: "https://linkedin.com/in/panda" },
+      { name: "Le Trung Hieu", school: "Delta Global School, Vietnam", instagram: "https://instagram.com/ltheiu.css", linkedin: "https://linkedin.com/in/hieu" },
     ],
   };
 
-  // Add default img + links to all
+  // Add default img to all
   for (const team in teams) {
     teams[team] = teams[team].map((member) => ({
       img: defaultImg,
-      instagram: "https://instagram.com",
-      linkedin: "https://linkedin.com",
       ...member,
     }));
   }
