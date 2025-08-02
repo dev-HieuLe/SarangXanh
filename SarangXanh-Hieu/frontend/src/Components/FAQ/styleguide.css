@@ -1,0 +1,7 @@
+:root {
+  --colorsgrey-400: rgba(137, 139, 142, 1);
+  --colorsgrey-500: rgba(96, 98, 103, 1);
+  --colorswhitesolid: rgba(255, 255, 255, 1);
+  --light-normal: 0px 10px 30px 0px rgba(0, 0, 0, 0.05);
+}
+

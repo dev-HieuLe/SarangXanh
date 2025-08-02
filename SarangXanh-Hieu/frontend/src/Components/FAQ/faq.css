@@ -1,0 +1,200 @@
+.FA-qs {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.FA-qs .FA-qs-wrapper {
+  background-color: #ffffff;
+  height: 1276px;
+  width: 1440px;
+}
+
+.FA-qs .div {
+  height: 942px;
+  left: 199px;
+  position: relative;
+  top: 153px;
+  width: 1043px;
+}
+
+.FA-qs .content {
+  height: 76px;
+  left: 173px;
+  position: absolute;
+  top: 0;
+  width: 697px;
+}
+
+.FA-qs .h {
+  color: #000000;
+  font-family: "PT Sans Narrow-Narrow", Helvetica;
+  font-size: 71px;
+  font-weight: 400;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  white-space: nowrap;
+  width: 695px;
+}
+
+.FA-qs .questions {
+  height: 763px;
+  left: 0;
+  position: absolute;
+  top: 179px;
+  width: 1043px;
+}
+
+.FA-qs .question {
+  height: 78px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 1043px;
+}
+
+.FA-qs .overlap-group {
+  background-color: var(--colorswhitesolid);
+  border-radius: 5px;
+  box-shadow: var(--light-normal);
+  height: 78px;
+  position: relative;
+  top: 13px;
+}
+
+.FA-qs .icons-arrow-drop-wrapper {
+  background-color: var(--colorswhitesolid);
+  border-radius: 5px;
+  box-shadow: var(--light-normal);
+  height: 78px;
+  left: 0;
+  position: absolute;
+  top: 107px;
+  width: 1043px;
+}
+
+.FA-qs .question-2 {
+  background-color: #ebebeb;
+  border-radius: 5px;
+  box-shadow: var(--light-normal);
+  height: 186px;
+  left: 0;
+  position: absolute;
+  top: 201px;
+  width: 1043px;
+}
+
+.FA-qs .what-can-fecca-do {
+  color: #000000;
+  font-family: "PT Sans Narrow-NarrowBold", Helvetica;
+  font-size: 20px;
+  font-weight: 700;
+  left: 29px;
+  letter-spacing: 0;
+  line-height: 30px;
+  position: absolute;
+  top: 23px;
+  white-space: nowrap;
+}
+
+.FA-qs .body-normal {
+  color: var(--colorsgrey-500);
+  font-family: "Inter-Regular", Helvetica;
+  font-size: 16px;
+  font-weight: 400;
+  left: 29px;
+  letter-spacing: 0;
+  line-height: 28px;
+  position: absolute;
+  top: 69px;
+  width: 984px;
+}
+
+.FA-qs .question-3 {
+  background-color: var(--colorswhitesolid);
+  border-radius: 5px;
+  box-shadow: var(--light-normal);
+  height: 78px;
+  left: 0;
+  position: absolute;
+  top: 403px;
+  width: 1043px;
+}
+
+.FA-qs .what-makes-us-differ {
+  color: #565246;
+  font-family: "PT Sans Narrow-NarrowBold", Helvetica;
+  font-size: 20px;
+  font-weight: 700;
+  left: 29px;
+  letter-spacing: 0;
+  line-height: 30px;
+  position: absolute;
+  top: 23px;
+  width: 558px;
+}
+
+.FA-qs .question-4 {
+  background-color: var(--colorswhitesolid);
+  border-radius: 5px;
+  box-shadow: var(--light-normal);
+  height: 78px;
+  left: 0;
+  position: absolute;
+  top: 497px;
+  width: 1043px;
+}
+
+.FA-qs .text-wrapper {
+  color: #565246;
+  font-family: "PT Sans Narrow-NarrowBold", Helvetica;
+  font-size: 20px;
+  font-weight: 700;
+  left: 29px;
+  letter-spacing: 0;
+  line-height: 30px;
+  position: absolute;
+  top: 23px;
+  white-space: nowrap;
+}
+
+.FA-qs .question-5 {
+  background-color: var(--colorswhitesolid);
+  border-radius: 5px;
+  box-shadow: var(--light-normal);
+  height: 78px;
+  left: 0;
+  position: absolute;
+  top: 591px;
+  width: 1043px;
+}
+
+.FA-qs .question-6 {
+  background-color: var(--colorswhitesolid);
+  border-radius: 5px;
+  box-shadow: var(--light-normal);
+  height: 78px;
+  left: 0;
+  position: absolute;
+  top: 685px;
+  width: 1043px;
+}
+
+.FA-qs .how-can-i-cancel-or {
+  color: #565246;
+  font-family: "PT Sans Narrow-NarrowBold", Helvetica;
+  font-size: 20px;
+  font-weight: 700;
+  left: 29px;
+  letter-spacing: 0;
+  line-height: 30px;
+  position: absolute;
+  top: 23px;
+  width: 576px;
+}
