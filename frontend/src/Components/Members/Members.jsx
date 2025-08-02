@@ -1,20 +1,24 @@
 import React from "react";
 import { FaInstagram, FaLinkedin } from "react-icons/fa";
+import { motion } from "framer-motion";
 
-// Default image
-const defaultImg =
-  "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg";
+
+const defaultImg = "/bg.jpg";
 
 // MemberCard component
-const MemberCard = ({ name, img = defaultImg, instagram, linkedin, isLeader = false }) => {
+const MemberCard = ({ name, school, img = defaultImg, instagram, linkedin, isLeader = false }) => {
   return (
-    <div
-      className={`relative group flex flex-col items-center p-4 rounded-xl shadow-md transition hover:shadow-xl`}
+    <motion.div
+      className="relative group flex flex-col items-center p-4 rounded-xl shadow-md transition hover:shadow-xl"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
     >
       <img
         src={img}
         alt={name}
-        className="w-24 h-24 rounded-full object-cover mb-2 border-2 border-gray-200"
+        className="w-full h-48 object-cover mb-2 rounded-md border border-gray-200"
       />
       <p className="text-sm font-semibold text-gray-800 flex items-center gap-1">
         {name}
@@ -24,6 +28,9 @@ const MemberCard = ({ name, img = defaultImg, instagram, linkedin, isLeader = fa
           </span>
         )}
       </p>
+
+      {/* School name */}
+      <p className="text-xs text-gray-500">{school}</p>
 
       {/* Hover overlay */}
       <div className="absolute bottom-0 left-0 right-0 h-6 group-hover:h-20 bg-[#042f2e]/30 backdrop-blur-sm rounded-xl transition-all duration-500 flex items-center justify-center space-x-4 opacity-0 group-hover:opacity-100">
@@ -38,7 +45,7 @@ const MemberCard = ({ name, img = defaultImg, instagram, linkedin, isLeader = fa
           </a>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -58,35 +65,45 @@ const TeamSection = ({ title, members }) => (
 const Members = () => {
   const teams = {
     "Content Team": [
-      { name: "Yehoon", instagram: "https://instagram.com", linkedin: "https://www.linkedin.com" },
-      { name: "Jewoo", instagram: "https://instagram.com", linkedin: "https://www.linkedin.com" },
-      { name: "Minwoo", instagram: "https://instagram.com", linkedin: "https://www.linkedin.com" },
-      { name: "Hoa Dang (Panda)", instagram: "https://instagram.com", linkedin: "https://www.linkedin.com" },
-      { name: "Uyen Chi", instagram: "https://instagram.com", linkedin: "https://www.linkedin.com" },
-      { name: "Lan Chi", instagram: "https://instagram.com", linkedin: "https://www.linkedin.com" },
-      { name: "Linh Chi", instagram: "https://instagram.com", linkedin: "https://www.linkedin.com" },
-      { name: "Hoang", instagram: "https://instagram.com", linkedin: "https://www.linkedin.com" },
+      { name: "Yehoon", school: "Valor International Scholars, Korea" },
+      { name: "Jewoo", school: "Valor International Scholars, Korea" },
+      { name: "Minwoo", school: "St, Antony's High School, NY" },
+      { name: "Thai Hoa (Panda)", school: "Delta Global School, Vietnam" },
+      { name: "Uyen Chi", school: "Delta Global School, Vietnam" },
+      { name: "Lan Chi", school: "Delta Global School, Vietnam" },
+      { name: "Hai Linh", school: "Delta Global School, Vietnam" },
+      { name: "Phuc Hoang", school: "Vietnam" },
     ],
     "Media Team": [
-      { name: "Jiwon", instagram: "https://instagram.com", linkedin: "https://www.linkedin.com" },
-      { name: "Nguyen Khanh (Khanh)", instagram: "https://instagram.com", linkedin: "https://www.linkedin.com" },
-      { name: "Ha Ngan (Ginger)", instagram: "https://instagram.com", linkedin: "https://www.linkedin.com" },
+      { name: "Jiwon", school: "Mercersburg Academy, PA" },
+      { name: "Khanh", school: "Delta Global School, Vietnam" },
+      { name: "Ha Ngan (Ginger)", school: "Delta Global School, Vietnam" },
     ],
     "Website Team": [
-      { name: "Minjoo", instagram: "https://instagram.com", linkedin: "https://www.linkedin.com" },
-      { name: "Lan Chi", instagram: "https://instagram.com", linkedin: "https://www.linkedin.com" },
-      { name: "Hieu", instagram: "https://instagram.com", linkedin: "https://www.linkedin.com" },
-      { name: "Nguyen Khanh (Khanh)", instagram: "https://instagram.com", linkedin: "https://www.linkedin.com" },
+      { name: "Minjoo", school: "Korean Minjok Leadership Academy, Korea" },
+      { name: "Lan Chi", school: "Delta Global School, Vietnam" },
+      { name: "Hieu", school: "Delta Global School, Vietnam" },
+      { name: "Khanh", school: "Delta Global School, Vietnam" },
     ],
     "Marketing Team": [
-      { name: "Yehoon", instagram: "https://instagram.com", linkedin: "https://www.linkedin.com" },
-      { name: "Ha Ngan (Ginger)", instagram: "https://instagram.com", linkedin: "https://www.linkedin.com" },
-      { name: "Tra My", instagram: "https://instagram.com", linkedin: "https://www.linkedin.com" },
-      { name: "Panda", instagram: "https://instagram.com", linkedin: "https://www.linkedin.com" },
-      { name: "Hieu", instagram: "https://instagram.com", linkedin: "https://www.linkedin.com" },
-      { name: "Nam", instagram: "https://instagram.com", linkedin: "https://www.linkedin.com" },
+      { name: "Yehoon", school: "Valor International Scholars, Korea" },
+      { name: "Ha Ngan (Ginger)", school: "Delta Global School, Vietnam" },
+      { name: "Tra My", school: "Delta Global School, Vietnam" },
+      { name: "Thai Hoa (Panda)", school: "Delta Global School, Vietnam" },
+      { name: "Hieu", school: "Delta Global School, Vietnam" },
+      { name: "Nam", school: "Delta Global School, Vietnam" },
     ],
   };
+
+  // Add default img + links to all
+  for (const team in teams) {
+    teams[team] = teams[team].map((member) => ({
+      img: defaultImg,
+      instagram: "https://instagram.com",
+      linkedin: "https://linkedin.com",
+      ...member,
+    }));
+  }
 
   return (
     <section className="w-full bg-gradient-to-b from-white to-blue-50 py-20 px-6">
