@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import AOS from "aos";
 import { Leaf, PiggyBank, ShieldCheck } from "lucide-react";
-
+import { useNavigate } from 'react-router-dom';
 export default function AboutUs() {
+  const navigate = useNavigate();
   // ✅ Initialize AOS once
   useEffect(() => {
     AOS.init({
@@ -93,6 +94,7 @@ export default function AboutUs() {
 
           {/* Button */}
           <button
+           onClick={() => navigate('/about')}
             className="mt-10 w-fit px-6 py-3 rounded-xl text-white font-medium bg-cyan-600 hover:bg-cyan-700 transition shadow-md hover:shadow-lg flex gap-2 items-center"
             data-aos="fade-up"
             data-aos-delay="500"
