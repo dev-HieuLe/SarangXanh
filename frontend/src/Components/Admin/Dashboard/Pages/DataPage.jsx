@@ -8,7 +8,6 @@ import {
   X,
   Calendar,
   FileText,
-  Image as ImageIcon,
   Loader2,
 } from "lucide-react";
 
@@ -174,63 +173,58 @@ const AdminData = () => {
     );
   }
 
+  // ✅ Button styles
+  const buttonBase =
+    "inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md font-semibold transition duration-200";
+  const primaryBtn = `${buttonBase} bg-gray-900 hover:bg-gray-800 text-white`; // 🔥 now dark like “View All Reviews”
+  const secondaryBtn = `${buttonBase} bg-gray-200 hover:bg-gray-300 text-gray-800 h-9 px-3`; // ✏️ edit/cancel
+  const dangerBtn = `${buttonBase} bg-red-500 hover:bg-red-600 text-white h-9 px-3`; // 🗑 delete
+
   return (
     <div className="p-8 bg-gray-50 min-h-screen">
-      <h1 className="text-4xl font-bold mb-8">🔧 Admin Dashboard</h1>
+      {/* ✅ Top Title */}
+      <h1 className="text-3xl font-extrabold mb-8 text-gray-900">
+        Dashboard
+      </h1>
 
-      {/* ✅ Stats Editing */}
-      <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-10">
-        <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
-          <FileText className="w-5 h-5 text-blue-500" /> Update Stats
+      {/* ✅ Stats Editing Section */}
+      <div className="bg-white p-6 rounded-xl shadow-md mb-8 border border-gray-100">
+        <h2 className="text-md font-semibold mb-4 flex items-center gap-2 text-gray-800">
+          <FileText className="w-5 h-5 text-gray-900" /> Update Stats
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <input
-            name="plastic_collected"
-            type="number"
-            value={data.stats.plastic_collected}
-            onChange={handleStatChange}
-            placeholder="Plastic Collected"
-            className="border p-3 rounded-xl focus:ring-2 focus:ring-blue-300 outline-none"
-            required
-          />
-          <input
-            name="plastic_recycled"
-            type="number"
-            value={data.stats.plastic_recycled}
-            onChange={handleStatChange}
-            placeholder="Plastic Recycled"
-            className="border p-3 rounded-xl focus:ring-2 focus:ring-blue-300 outline-none"
-            required
-          />
-          <input
-            name="volunteers"
-            type="number"
-            value={data.stats.volunteers}
-            onChange={handleStatChange}
-            placeholder="Volunteers"
-            className="border p-3 rounded-xl focus:ring-2 focus:ring-blue-300 outline-none"
-            required
-          />
+          {["plastic_collected", "plastic_recycled", "volunteers"].map((field) => (
+            <input
+              key={field}
+              name={field}
+              type="number"
+              value={data.stats[field]}
+              onChange={handleStatChange}
+              placeholder={field.replace("_", " ").replace(/\b\w/g, (c) => c.toUpperCase())}
+              className="border border-gray-200 p-3 rounded-md focus:ring-2 focus:ring-gray-300 outline-none"
+              required
+            />
+          ))}
         </div>
 
-        <button
-          onClick={saveStats}
-          className="mt-4 flex items-center gap-2 bg-blue-500 hover:bg-blue-600 transition text-white px-6 py-2 rounded-xl shadow-sm"
-        >
+        <button onClick={saveStats} className={`${primaryBtn} mt-6`}>
           <Save className="w-4 h-4" /> Save Stats
         </button>
       </div>
 
-      {/* ✅ Timeline Management */}
-      <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-        <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
-          <Calendar className="w-5 h-5 text-green-500" /> Timeline Events
+      {/* ✅ Timeline Management Section */}
+      <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-md">
+        <h2 className="text-md font-semibold mb-4 flex items-center gap-2 text-gray-800">
+          <Calendar className="w-5 h-5 text-gray-900" /> Timeline Events
         </h2>
 
-        {/* Existing events */}
+        {/* Existing Events */}
         {data.timeline.map((event) => (
-          <div key={event.id} className="border border-gray-100 p-4 mb-4 rounded-xl hover:shadow-sm transition">
+          <div
+            key={event.id}
+            className="border border-gray-100 p-4 mb-4 rounded-lg hover:shadow transition"
+          >
             {editEventId === event.id ? (
               <div>
                 {/* Editing Mode */}
@@ -238,63 +232,63 @@ const AdminData = () => {
                   type="date"
                   value={editEvent.date}
                   onChange={(e) => setEditEvent({ ...editEvent, date: e.target.value })}
-                  className="border p-2 rounded-xl mb-2 w-full"
+                  className="border border-gray-200 p-2 rounded-md mb-2 w-full focus:ring-2 focus:ring-gray-300"
                 />
                 <input
                   placeholder="Title"
                   value={editEvent.title}
                   onChange={(e) => setEditEvent({ ...editEvent, title: e.target.value })}
-                  className="border p-2 rounded-xl mb-2 w-full"
+                  className="border border-gray-200 p-2 rounded-md mb-2 w-full focus:ring-2 focus:ring-gray-300"
                 />
                 <input
                   placeholder="Description"
                   value={editEvent.description}
                   onChange={(e) => setEditEvent({ ...editEvent, description: e.target.value })}
-                  className="border p-2 rounded-xl mb-2 w-full"
+                  className="border border-gray-200 p-2 rounded-md mb-2 w-full focus:ring-2 focus:ring-gray-300"
                 />
                 <input
                   type="file"
                   accept="image/*"
-                  className="border p-2 rounded-xl mb-2 w-full"
+                  className="border border-gray-200 p-2 rounded-md mb-2 w-full focus:ring-2 focus:ring-gray-300"
                   onChange={(e) => setEditImageFile(e.target.files[0])}
                 />
 
-                <div className="flex gap-2">
-                  <button
-                    onClick={saveEditEvent}
-                    className="flex items-center gap-1 bg-green-500 hover:bg-green-600 transition text-white px-4 py-2 rounded-lg"
-                  >
+                <div className="flex gap-2 mt-3">
+                  <button onClick={saveEditEvent} className={primaryBtn}>
                     <Save className="w-4 h-4" /> Save
                   </button>
-                  <button
-                    onClick={cancelEdit}
-                    className="flex items-center gap-1 bg-gray-400 hover:bg-gray-500 transition text-white px-4 py-2 rounded-lg"
-                  >
+                  <button onClick={cancelEdit} className={secondaryBtn}>
                     <X className="w-4 h-4" /> Cancel
                   </button>
                 </div>
               </div>
             ) : (
-              <div className="flex justify-between">
+              <div className="flex justify-between items-start">
                 <div>
-                  <h3 className="font-semibold text-lg">
+                  <h3 className="font-semibold text-lg text-gray-800">
                     {event.date} – {event.title}
                   </h3>
                   <p className="text-gray-600">{event.description}</p>
                   {event.image && (
-                    <img src={event.image} alt="" className="mt-2 w-32 rounded-lg shadow-sm" />
+                    <img
+                      src={event.image}
+                      alt=""
+                      className="mt-2 w-32 rounded-md shadow-sm"
+                    />
                   )}
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 shrink-0">
                   <button
                     onClick={() => startEdit(event)}
-                    className="flex items-center gap-1 bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-lg"
+                    className={secondaryBtn}
+                    style={{ minWidth: "80px" }}
                   >
                     <Edit className="w-4 h-4" /> Edit
                   </button>
                   <button
                     onClick={() => handleDeleteEvent(event.id)}
-                    className="flex items-center gap-1 bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg"
+                    className={dangerBtn}
+                    style={{ minWidth: "80px" }}
                   >
                     <Trash2 className="w-4 h-4" /> Delete
                   </button>
@@ -304,28 +298,28 @@ const AdminData = () => {
           </div>
         ))}
 
-        {/* Add new event */}
-        <h3 className="text-xl font-semibold mt-6 flex items-center gap-2">
-          <Plus className="w-5 h-5 text-green-500" /> Add New Event
+        {/* Add New Event */}
+        <h3 className="text-lg font-semibold mt-6 flex items-center gap-2 text-gray-800">
+          <Plus className="w-5 h-5 text-gray-900" /> Add New Event
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mt-2">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mt-3">
           <input
             type="date"
-            className="border p-2 rounded-xl focus:ring-2 focus:ring-green-300 outline-none"
+            className="border border-gray-200 p-2 rounded-md focus:ring-2 focus:ring-gray-300 outline-none"
             value={newEvent.date}
             onChange={(e) => setNewEvent({ ...newEvent, date: e.target.value })}
             required
           />
           <input
             placeholder="Title"
-            className="border p-2 rounded-xl focus:ring-2 focus:ring-green-300 outline-none"
+            className="border border-gray-200 p-2 rounded-md focus:ring-2 focus:ring-gray-300 outline-none"
             value={newEvent.title}
             onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
             required
           />
           <input
             placeholder="Description"
-            className="border p-2 rounded-xl focus:ring-2 focus:ring-green-300 outline-none"
+            className="border border-gray-200 p-2 rounded-md focus:ring-2 focus:ring-gray-300 outline-none"
             value={newEvent.description}
             onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
             required
@@ -333,14 +327,11 @@ const AdminData = () => {
           <input
             type="file"
             accept="image/*"
-            className="border p-2 rounded-xl focus:ring-2 focus:ring-green-300 outline-none"
+            className="border border-gray-200 p-2 rounded-md focus:ring-2 focus:ring-gray-300 outline-none"
             onChange={(e) => setImageFile(e.target.files[0])}
           />
         </div>
-        <button
-          onClick={handleAddEvent}
-          className="mt-4 flex items-center gap-2 bg-green-500 hover:bg-green-600 transition text-white px-6 py-2 rounded-xl shadow-sm"
-        >
+        <button onClick={handleAddEvent} className={`${primaryBtn} mt-4`}>
           <Plus className="w-4 h-4" /> Add Event
         </button>
       </div>

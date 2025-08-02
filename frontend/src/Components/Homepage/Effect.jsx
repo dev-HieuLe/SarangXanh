@@ -52,7 +52,7 @@ const Effects = () => {
   return (
     <section
       className="relative bg-cover bg-center py-14 mt-20"
-      style={{ backgroundImage: "url('/bg.jpg')" }}
+      style={{ backgroundImage: "url('/bg2.png')" }}
     >
       {/* Background overlay */}
       <div className="absolute inset-0 bg-[#042f2e]/30 backdrop-blur-sm z-0" />
