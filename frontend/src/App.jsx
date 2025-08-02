@@ -67,7 +67,7 @@ function App() {
               <ActionSlider />
               <StatsSection />
               <Tutorial />
-              <MerchStore />
+              
               <FAQSection />
             </>
           }
