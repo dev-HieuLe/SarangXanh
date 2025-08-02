@@ -4,11 +4,20 @@ import {
   ThumbsUp,
   User,
   MousePointerClick,
-  Bell,
-  FileText,
-  CreditCard,
-  PlusCircle,
+  Rocket,
+  Store,
+  Star,
+  LineChart as LucideLineChart,
 } from "lucide-react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 const dashboardData = {
   metrics: [
@@ -34,32 +43,21 @@ const dashboardData = {
     negative: 3,
   },
   shops: [
-    { name: "Eco Bottle", members: 4, budget: "$14,000", sales: 60 },
+    { name: "Eco Bottle", members: 4, budget: "$14,000", sales: 10 },
     { name: "Recycle Box", members: 2, budget: "$3,000", sales: 10 },
+    { name: "Reusable Bag", members: 3, budget: "Not set", sales: 40 },
     { name: "Reusable Bag", members: 3, budget: "Not set", sales: 100 },
+    { name: "Reusable Bag", members: 3, budget: "Not set", sales: 80 },
+    { name: "Reusable Bag", members: 3, budget: "Not set", sales: 45 },
   ],
-  orders: [
-    {
-      icon: <Bell className="text-green-500" />,
-      title: "$2400, Design changes",
-      date: "22 DEC 7:20 PM",
+  socialStats: {
+    viewsByMonth: [300, 420, 500, 600, 480, 520, 610, 580, 900],
+    platforms: {
+      instagram: 1200,
+      facebook: 1400,
+      youtube: 1800,
     },
-    {
-      icon: <FileText className="text-red-500" />,
-      title: "New order #1832412",
-      date: "21 DEC 11 PM",
-    },
-    {
-      icon: <CreditCard className="text-blue-500" />,
-      title: "Server payments for April",
-      date: "21 DEC 9:34 PM",
-    },
-    {
-      icon: <PlusCircle className="text-yellow-500" />,
-      title: "New card added for order #4395133",
-      date: "20 DEC 2:20 AM",
-    },
-  ],
+  },
   trashCollected: {
     values: [50, 120, 100, 180, 400, 250, 300, 280, 480],
     months: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
@@ -67,6 +65,16 @@ const dashboardData = {
 };
 
 const DashboardPage = () => {
+  const socialData = dashboardData.trashCollected.months.map((month, i) => ({
+    month,
+    views: dashboardData.socialStats.viewsByMonth[i],
+  }));
+
+  const trashData = dashboardData.trashCollected.months.map((month, i) => ({
+    month,
+    kg: dashboardData.trashCollected.values[i],
+  }));
+
   return (
     <div className="p-6 space-y-6 bg-gray-100 min-h-screen">
       {/* Metric Cards */}
@@ -86,9 +94,9 @@ const DashboardPage = () => {
         ))}
       </div>
 
-      {/* Review Box */}
+      {/* Reviews & Shops */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-2xl p-6 shadow-md col-span-1 md:col-span-1">
+        <div className="bg-white rounded-2xl p-6 shadow-md col-span-1">
           <h2 className="text-lg font-semibold mb-4">Reviews</h2>
           <div className="space-y-4">
             {["Positive", "Neutral", "Negative"].map((type, i) => {
@@ -119,11 +127,10 @@ const DashboardPage = () => {
           </button>
         </div>
 
-        {/* Shops */}
         <div className="bg-white rounded-2xl p-6 shadow-md col-span-2">
           <h2 className="text-lg font-semibold mb-1">Shops</h2>
           <p className="text-sm text-gray-500 mb-4">30 done this month</p>
-          <div className="space-y-3">
+          <div className="space-y-3 max-h-64 overflow-y-auto pr-2">
             {dashboardData.shops.map((shop, idx) => (
               <div
                 key={idx}
@@ -137,7 +144,7 @@ const DashboardPage = () => {
                   <div className="bg-gray-200 h-2 rounded-full">
                     <div
                       className="bg-blue-500 h-2 rounded-full"
-                      style={{ width: `${shop.sales}%` }}
+                      style={{ width: `${Math.min(shop.sales, 100)}%` }}
                     ></div>
                   </div>
                 </div>
@@ -148,11 +155,9 @@ const DashboardPage = () => {
       </div>
 
       {/* Footer Boxes */}
-      <div className="grid grid-cols-4 gap-6">
-        {/* Combined Card: Built by developers + Rocket side by side */}
-        <div className="bg-white rounded-2xl p-6 shadow-md flex flex-col md:flex-row items-center justify-between">
-          {/* Left: Text content */}
-          <div className="flex-cols-3 md:pr-6">
+      <div className="grid grid-cols-5 gap-6">
+        <div className="bg-white rounded-2xl p-6 shadow-md flex flex-col md:flex-row items-center justify-between col-span-3">
+          <div className="md:pr-6">
             <p className="text-sm font-semibold text-gray-600">
               Built by developers
             </p>
@@ -167,15 +172,12 @@ const DashboardPage = () => {
               Read More
             </button>
           </div>
-
-          {/* Right: Orange rocket box */}
-          <div className="bg-orange-500 rounded-2xl flex-cols-1 items-center justify-center w-48 h-40 mt-6 md:mt-0">
-            <img src="/rocket-icon.png" alt="Rocket" className="h-24" />
+          <div className="bg-orange-500 rounded-2xl flex items-center justify-center w-48 h-40 mt-6 md:mt-0">
+            <Rocket className="h-12 w-12 text-white" />
           </div>
         </div>
 
-        {/* Card: Work with the rockets */}
-        <div className="bg-white rounded-2xl p-6 shadow-md grid-2">
+        <div className="bg-white rounded-2xl p-6 shadow-md col-span-2 grid">
           <h2 className="text-lg font-bold">Work with the rockets</h2>
           <p className="text-sm text-gray-500 mt-2">
             Wealth creation is an evolutionarily recent positive-sum game. It is
@@ -185,27 +187,55 @@ const DashboardPage = () => {
         </div>
       </div>
 
-      {/* Trash Collected Graph + Stats */}
+      {/* Graphs Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-zinc-900 text-white rounded-2xl p-6 shadow-md">
-          <h2 className="text-sm text-gray-300 mb-2">Active Users</h2>
-          <p className="text-xs text-green-400 mb-4">(+23%) than last week</p>
-          <div className="flex justify-between items-end h-40">
-            {dashboardData.trashCollected.values.map((val, idx) => (
-              <div key={idx} className="flex flex-col items-center">
-                <div
-                  className="w-2 bg-white rounded"
-                  style={{ height: `${val / 1.5}px` }}
-                ></div>
-              </div>
-            ))}
+          <h2 className="text-sm text-gray-300 mb-1">Social Media Stats</h2>
+          <p className="text-xs text-green-400 mb-4">(+23%) since last week</p>
+          <ResponsiveContainer width="100%" height={200}>
+            <LineChart data={socialData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#4b5563" />
+              <XAxis dataKey="month" stroke="#d1d5db" />
+              <YAxis stroke="#d1d5db" />
+              <Tooltip contentStyle={{ backgroundColor: "#1f2937", color: "#fff" }} />
+              <Line type="monotone" dataKey="views" stroke="#ffffff" strokeWidth={2} />
+            </LineChart>
+          </ResponsiveContainer>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 text-center">
+            <div className="bg-zinc-800 p-4 rounded-xl">
+              <h3 className="text-sm text-gray-400">Instagram</h3>
+              <p className="text-lg font-bold text-white">
+                {dashboardData.socialStats.platforms.instagram} views
+              </p>
+            </div>
+            <div className="bg-zinc-800 p-4 rounded-xl">
+              <h3 className="text-sm text-gray-400">Facebook</h3>
+              <p className="text-lg font-bold text-white">
+                {dashboardData.socialStats.platforms.facebook} views
+              </p>
+            </div>
+            <div className="bg-zinc-800 p-4 rounded-xl">
+              <h3 className="text-sm text-gray-400">YouTube</h3>
+              <p className="text-lg font-bold text-white">
+                {dashboardData.socialStats.platforms.youtube} views
+              </p>
+            </div>
           </div>
         </div>
 
         <div className="bg-white rounded-2xl p-6 shadow-md">
-          <h2 className="text-lg font-semibold">Trash Collected Overview</h2>
-          <p className="text-sm text-gray-500 mb-4">4% more in 2021</p>
-          <div className="w-full h-48 bg-gradient-to-b from-pink-300 via-purple-200 to-white rounded-xl"></div>
+          <h2 className="text-lg font-semibold mb-1">Trash Collected</h2>
+          <p className="text-sm text-gray-500 mb-4">Monthly collection</p>
+          <ResponsiveContainer width="100%" height={200}>
+            <LineChart data={trashData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis />
+              <Tooltip />
+              <Line type="monotone" dataKey="kg" stroke="#ec4899" strokeWidth={2} />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
       </div>
 
@@ -230,7 +260,10 @@ const DashboardPage = () => {
       </div>
 
       <p className="text-center text-xs text-gray-400 mt-6">
-        &copy; 2025, made with ❤️ by Creative Tim for a better web.
+        &copy; 2025, made with ❤️ by Hieu.
+      </p>
+      <p className="text-center text-xs text-gray-400 mt-6">
+        &copy; 2025, Design got inspired from Creative Tim.
       </p>
     </div>
   );
