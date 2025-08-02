@@ -17,7 +17,7 @@ const Members = () => {
           <div><p className="member-header">Advisor</p></div>
           <div className="member-container">
             <div className="individual-member">
-              <img src="https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg" alt="person"></img>
+              <img src="https://images.pexels.com/photos/1987301/pexels-photo-1987301.jpeg?cs=srgb&dl=pexels-tomaz-barcellos-999425-1987301.jpg&fm=jpg" alt="person"></img>
               <div className="member-name">input name</div>
             </div>
 
