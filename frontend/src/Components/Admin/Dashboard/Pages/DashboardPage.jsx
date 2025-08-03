@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
   ShoppingCart,
   ThumbsUp,
@@ -24,18 +25,16 @@ const dashboardData = {
     {
       icon: <User />,
       value: 1600,
-      label: "Users Active",
-      growth: "+55%",
+      label: "Total Members",
       color: "bg-orange-500",
     },
     {
       icon: <MousePointerClick />,
       value: 357,
-      label: "Click Events",
-      growth: "+124%",
+      label: "Website Visit",
     },
-    { icon: <ShoppingCart />, value: 2300, label: "Purchases", growth: "+15%" },
-    { icon: <ThumbsUp />, value: 940, label: "Likes", growth: "+90%" },
+    { icon: <ShoppingCart />, value: 2300, label: "Total Purchases" },
+    { icon: <ThumbsUp />, value: 940, label: "Total Views" },
   ],
   reviews: {
     positive: 80,
@@ -51,32 +50,40 @@ const dashboardData = {
     { name: "Reusable Bag", members: 3, budget: "Not set", sales: 45 },
   ],
   socialStats: {
-    viewsByMonth: [300, 420, 500, 600, 480, 520, 610, 580, 900],
     platforms: {
       instagram: 1200,
       facebook: 1400,
       youtube: 1800,
     },
-  },
-  trashCollected: {
-    values: [50, 120, 100, 180, 400, 250, 300, 280, 480],
-    months: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    viewsByMonth: [
+      { month: "Apr", value: 100 },
+      { month: "May", value: 200 },
+      { month: "Jun", value: 500 },
+      { month: "Jul", value: 650 },
+      { month: "Aug", value: 400 },
+      { month: "Sep", value: 230 },
+      { month: "Oct", value: 350 },
+    ],
   },
 };
 
 const DashboardPage = () => {
-  const socialData = dashboardData.trashCollected.months.map((month, i) => ({
-    month,
-    views: dashboardData.socialStats.viewsByMonth[i],
-  }));
+  const [trashData, setTrashData] = useState([]);
 
-  const trashData = dashboardData.trashCollected.months.map((month, i) => ({
-    month,
-    kg: dashboardData.trashCollected.values[i],
-  }));
+  useEffect(() => {
+    const fetchStats = async () => {
+      const res = await axios.get("/api/data", { withCredentials: true });
+      const cleaned = res.data.monthlyStats.map((m) => ({
+        month: m.month,
+        kg: m.plastic_collected,
+      }));
+      setTrashData(cleaned);
+    };
+    fetchStats();
+  }, []);
 
   return (
-    <div className="p-6 space-y-6 bg-gray-100 min-h-screen">
+    <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
       {/* Metric Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {dashboardData.metrics.map((metric, idx) => (
@@ -89,7 +96,6 @@ const DashboardPage = () => {
             <div className="text-3xl mb-3">{metric.icon}</div>
             <div className="text-3xl font-bold">{metric.value}</div>
             <div className="text-sm text-gray-200">{metric.label}</div>
-            <div className="text-xs text-white mt-1">{metric.growth}</div>
           </div>
         ))}
       </div>
@@ -154,51 +160,27 @@ const DashboardPage = () => {
         </div>
       </div>
 
-      {/* Footer Boxes */}
-      <div className="grid grid-cols-5 gap-6">
-        <div className="bg-white rounded-2xl p-6 shadow-md flex flex-col md:flex-row items-center justify-between col-span-3">
-          <div className="md:pr-6">
-            <p className="text-sm font-semibold text-gray-600">
-              Built by developers
-            </p>
-            <h2 className="text-2xl font-bold text-gray-900 mt-1">
-              Soft UI Dashboard
-            </h2>
-            <p className="text-gray-500 text-base mt-3">
-              From colors, cards, typography to complex elements, you will find
-              the full documentation.
-            </p>
-            <button className="mt-4 text-gray-600 text-sm font-semibold">
-              Read More
-            </button>
-          </div>
-          <div className="bg-orange-500 rounded-2xl flex items-center justify-center w-48 h-40 mt-6 md:mt-0">
-            <Rocket className="h-12 w-12 text-white" />
-          </div>
-        </div>
-
-        <div className="bg-white rounded-2xl p-6 shadow-md col-span-2 grid">
-          <h2 className="text-lg font-bold">Work with the rockets</h2>
-          <p className="text-sm text-gray-500 mt-2">
-            Wealth creation is an evolutionarily recent positive-sum game. It is
-            all about who takes the opportunity first.
-          </p>
-          <button className="mt-4 text-blue-500 text-sm">Read More</button>
-        </div>
-      </div>
-
       {/* Graphs Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-zinc-900 text-white rounded-2xl p-6 shadow-md">
           <h2 className="text-sm text-gray-300 mb-1">Social Media Stats</h2>
           <p className="text-xs text-green-400 mb-4">(+23%) since last week</p>
           <ResponsiveContainer width="100%" height={200}>
-            <LineChart data={socialData}>
+            <LineChart
+              data={dashboardData.socialStats.viewsByMonth}
+            >
               <CartesianGrid strokeDasharray="3 3" stroke="#4b5563" />
               <XAxis dataKey="month" stroke="#d1d5db" />
               <YAxis stroke="#d1d5db" />
-              <Tooltip contentStyle={{ backgroundColor: "#1f2937", color: "#fff" }} />
-              <Line type="monotone" dataKey="views" stroke="#ffffff" strokeWidth={2} />
+              <Tooltip
+                contentStyle={{ backgroundColor: "#1f2937", color: "#fff" }}
+              />
+              <Line
+                type="monotone"
+                dataKey="value"
+                stroke="#ffffff"
+                strokeWidth={2}
+              />
             </LineChart>
           </ResponsiveContainer>
 
@@ -233,7 +215,12 @@ const DashboardPage = () => {
               <XAxis dataKey="month" />
               <YAxis />
               <Tooltip />
-              <Line type="monotone" dataKey="kg" stroke="#ec4899" strokeWidth={2} />
+              <Line
+                type="monotone"
+                dataKey="kg"
+                stroke="#ec4899"
+                strokeWidth={2}
+              />
             </LineChart>
           </ResponsiveContainer>
         </div>

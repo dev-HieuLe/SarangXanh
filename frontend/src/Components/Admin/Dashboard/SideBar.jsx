@@ -40,7 +40,7 @@ const Sidebar = () => {
     }`;
 
   return (
-    <aside className="w-64 h-screen bg-gray-50 p-4 flex flex-col justify-between">
+    <aside className="w-64 min-h-screen bg-gray-50 p-4 flex flex-col justify-between">
       {/* Logo Section */}
       <div>
         <Link to="/" className="flex items-center gap-2 mb-6">

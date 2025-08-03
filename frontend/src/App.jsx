@@ -41,7 +41,6 @@ import AdminDashboard from "./Components/Admin/Dashboard/Dashboard";
 import DataPage from "./Components/Admin/Dashboard/Pages/DataPage";
 import GalleryPage from "./Components/Admin/Dashboard/Pages/GalleryPage";
 import MembersPage from "./Components/Admin/Dashboard/Pages/MembersPage";
-import ShopPage from "./Components/Admin/Dashboard/Pages/ShopPage";
 import DashboardPage from "./Components/Admin/Dashboard/Pages/DashboardPage";
 
 //Donate Page
@@ -94,7 +93,6 @@ function App() {
           <Route path="data" element={<DataPage />} />
           <Route path="gallery" element={<GalleryPage />} />
           <Route path="members" element={<MembersPage />} />
-          <Route path="shops" element={<ShopPage />} />
           <Route path="dashboard" element={<DashboardPage />} />
         </Route>
       </Routes>
