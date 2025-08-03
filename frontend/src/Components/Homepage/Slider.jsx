@@ -8,8 +8,10 @@ import {
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import AOS from "aos";
+import { useNavigate } from 'react-router-dom';
 
 export default function ActionSlider() {
+  const navigate = useNavigate();
   const services = [
     {
       title: "Dust Recycling",
@@ -81,6 +83,7 @@ export default function ActionSlider() {
 
       {/* Arrows with bounce animation */}
       <button
+        onClick={() => navigate('/data')}
         onClick={handlePrev}
         className="absolute left-4 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow hover:bg-cyan-100 transition z-10 hover:animate-bounce"
         data-aos="fade-right"
@@ -89,6 +92,7 @@ export default function ActionSlider() {
       </button>
 
       <button
+        
         onClick={handleNext}
         className="absolute right-4 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow hover:bg-cyan-100 transition z-10 hover:animate-bounce"
         data-aos="fade-left"
@@ -147,7 +151,7 @@ export default function ActionSlider() {
               </p>
 
               {/* BUTTON */}
-              <button className="group/button absolute bottom-4 left-4 px-4 py-1.5 flex items-center gap-2 rounded-md border-2 border-[rgb(0,146,184)] text-[rgb(0,146,184)] text-sm font-medium overflow-hidden transition-all duration-500 hover:-translate-y-1">
+              <button onClick={() => navigate('/data')} className="group/button absolute bottom-4 left-4 px-4 py-1.5 flex items-center gap-2 rounded-md border-2 border-[rgb(0,146,184)] text-[rgb(0,146,184)] text-sm font-medium overflow-hidden transition-all duration-500 hover:-translate-y-1">
                 {/* TEXT + ICON */}
                 <span className="relative z-10 flex items-center gap-2 transition-transform duration-500">
                   Explore
