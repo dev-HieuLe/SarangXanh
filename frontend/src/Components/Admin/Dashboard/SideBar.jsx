@@ -138,30 +138,6 @@ const Sidebar = () => {
           </li>
         </ul>
 
-        {/* Shop Management Section */}
-        <h2 className="mt-6 mb-2 text-xs font-semibold text-gray-500 uppercase">
-          Shop Management
-        </h2>
-        <ul className="space-y-2">
-          <li>
-            <NavLink to="/admin/dashboard/shops" className={menuItemClass}>
-              {({ isActive }) => (
-                <>
-                  <span
-                    className={`p-2 rounded-lg ${
-                      isActive
-                        ? "bg-orange-500 text-white"
-                        : "bg-white text-gray-700"
-                    }`}
-                  >
-                    <Pencil className="w-4 h-4" />
-                  </span>
-                  Edit Shops
-                </>
-              )}
-            </NavLink>
-          </li>
-        </ul>
       </div>
 
       {/* Footer: Profile + Logout */}

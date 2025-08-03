@@ -8,6 +8,7 @@ dotenv.config();
 import authRoutes from "./routes/AuthRoutes.js";
 import dataRoutes from "./routes/DataRoutes.js";
 import uploadRoutes from "./routes/UploadRoutes.js";
+import memberRoutes from "./routes/MemberRoutes.js";
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(cookieParser());
 // Routes
 app.use("/", authRoutes);
 app.use("/data", dataRoutes);
+app.use("/members", memberRoutes);
 app.use("/uploads", express.static("uploads"));
 app.use("/", uploadRoutes); 
 
