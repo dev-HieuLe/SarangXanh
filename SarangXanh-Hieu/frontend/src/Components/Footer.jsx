@@ -1,28 +1,29 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { FaFacebookF, FaGithub, FaYoutube, FaInstagram } from "react-icons/fa";
 
-const FooterSection = () => {
+const Footer = () => {
   return (
     <div className="w-full h-auto py-10 font-[inter] bg-[#2C708A] text-amber-50">
       <div className="flex flex-col gap-10 min-w-[300px] max-w-[1000px] w-auto h-auto mx-auto">
         {/* Horizontal Navigation Links */}
         <nav className="flex flex-wrap justify-center gap-x-10 gap-y-4 text-center sm:text-left mx-6">
           {[
-            { label: "Home", href: "/" },
-            { label: "About", href: "#" },
-            { label: "Data", href: "#" },
-            { label: "Gallery", href: "#" },
-            { label: "Faqs", href: "#" },
-            { label: "Shop", href: "#" },
-            { label: "Members", href: "#" },
+            { label: "Home", to: "/" },
+            { label: "About", to: "/about" },
+            { label: "Data", to: "/data" },
+            { label: "Gallery", to: "/gallery" },
+            { label: "Faqs", to: "/faqs" },
+            { label: "Shop", to: "/shop" },
+            { label: "Members", to: "/members" },
           ].map((link, idx) => (
-            <a
+            <Link
               key={idx}
-              href={link.href}
+              to={link.to}
               className="text-amber-50 hover:text-amber-300 transition-colors duration-200"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -44,7 +45,6 @@ const FooterSection = () => {
             >
               <FaGithub />
             </a>
-
             <a
               href="https://www.instagram.com/sarangxanh/"
               target="_blank"
@@ -60,4 +60,4 @@ const FooterSection = () => {
   );
 };
 
-export default FooterSection;
+export default Footer;

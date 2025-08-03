@@ -44,6 +44,9 @@ import MembersPage from "./Components/Admin/Dashboard/Pages/MembersPage";
 import ShopPage from "./Components/Admin/Dashboard/Pages/ShopPage";
 import DashboardPage from "./Components/Admin/Dashboard/Pages/DashboardPage";
 
+//Donate Page
+import DonationStepper from "./Components/Donation/Donate"
+
 //Protected Routes
 import ProtectedRoute from "./Context/ProtectedRoute";
 import { AuthContext } from "./Context/AuthContext";
@@ -78,6 +81,8 @@ function App() {
         <Route path="/faqs" element={<Faq />} />
         <Route path="/members" element={<Members />} />
         <Route path="/shop" element={<Shop />} />
+        <Route path="/donate" element={<DonationStepper/>} />
+        DonationStepper
         <Route
           path="/admin/dashboard"
           element={
