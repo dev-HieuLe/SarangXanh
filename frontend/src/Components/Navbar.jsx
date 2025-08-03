@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Menu, X, ShoppingBag } from "lucide-react";
+import {useNavigate} from "react-router-dom"
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -35,9 +37,12 @@ const Navbar = () => {
           </div>
 
           {/* Donate Button */}
-          <button className="hidden md:block border border-white text-white hover:bg-white/20 px-4 py-2 rounded-md text-sm font-semibold transition">
-            Donate
+          <button
+            onClick={() => navigate("/donate")} className="hidden md:block border border-white text-white hover:bg-white/20 px-4 py-2 rounded-md text-sm font-semibold transition" >
+
+          Donate
           </button>
+
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">

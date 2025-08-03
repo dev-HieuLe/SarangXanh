@@ -1,5 +1,6 @@
 
 import React from "react";
+import { Link } from "react-router-dom";
 import { FaFacebookF, FaGithub, FaYoutube, FaInstagram } from "react-icons/fa";
 
 const Footer = () => {
@@ -10,20 +11,20 @@ const Footer = () => {
         <nav className="flex flex-wrap justify-center gap-x-10 gap-y-4 text-center sm:text-left mx-6">
           {[
             { label: "Home", href: "/" },
-            { label: "About", href: "/about" },
-            { label: "Data", href: "/data" },
-            { label: "Gallery", href: "/gallery" },
-            { label: "Faqs", href: "/faqs" },
-            { label: "Shop", href: "/shop" },
-            { label: "Members", href: "/members" },
+            { label: "About", href: "#" },
+            { label: "Data", href: "#" },
+            { label: "Gallery", href: "#" },
+            { label: "Faqs", href: "#" },
+            { label: "Shop", href: "#" },
+            { label: "Members", href: "#" },
           ].map((link, idx) => (
-            <a
+            <Link
               key={idx}
-              href={link.href}
+              to={link.to}
               className="text-amber-50 hover:text-amber-300 transition-colors duration-200"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -45,7 +46,6 @@ const Footer = () => {
             >
               <FaGithub />
             </a>
-
             <a
               href="https://www.instagram.com/sarangxanh/"
               target="_blank"
@@ -61,5 +61,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
-
+export default FooterSection;
