@@ -1,6 +1,5 @@
 import React from "react";
 import { FaInstagram, FaLinkedin } from "react-icons/fa";
-import { motion } from "framer-motion";
 import Banner from "../Banner";
 
 const defaultImg = "/bg.jpg";
@@ -8,7 +7,7 @@ const defaultImg = "/bg.jpg";
 // Teams that should not get a "Leader" badge even on the first member
 const NO_LEADER_TEAMS = ["Teachers & Advisors", "Teachers & TA"];
 
-// MemberCard component
+// MemberCard component (animation removed)
 const MemberCard = ({
   name,
   school,
@@ -19,13 +18,7 @@ const MemberCard = ({
   role,
 }) => {
   return (
-    <motion.div
-      className="relative group flex flex-col items-center p-4 rounded-xl shadow-md transition hover:shadow-xl"
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-    >
+    <div className="relative group flex flex-col items-center p-4 rounded-xl shadow-md transition hover:shadow-xl">
       <div className="aspect-[2/3] w-full overflow-hidden rounded-md border border-gray-200 mb-2">
         <img src={img} alt={name} className="w-full h-full object-cover" />
       </div>
@@ -63,7 +56,7 @@ const MemberCard = ({
           </a>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 };
 
@@ -134,6 +127,7 @@ const Members = () => {
         school: "Vietnam",
         instagram: "https://instagram.com/hoanggg_.koy",
         linkedin: "https://linkedin.com/in/phuchoang",
+        img: "/Members/Hoang_Nguyen.jpeg",
       },
     ],
     "Media Team": [
@@ -165,6 +159,7 @@ const Members = () => {
         school: "Korean Minjok Leadership Academy, Korea",
         instagram: "https://instagram.com/ww.minjoo",
         linkedin: "https://linkedin.com/in/minjoo",
+        img: "/Members/Minjoo_Lee.jpeg",
       },
       {
         name: "Nguyen Lan Chi",
@@ -192,6 +187,7 @@ const Members = () => {
         school: "Delta Global School, Vietnam",
         instagram: "https://instagram.com/vuofpage",
         linkedin: "https://linkedin.com/in/chucan",
+        img: "/Members/Chuc_An.jpeg",
       },
       {
         name: "Dao Ha Ngan",
@@ -221,6 +217,7 @@ const Members = () => {
         school: "Delta Global School, Vietnam",
         instagram: "https://instagram.com/tmy_j.m",
         linkedin: "https://linkedin.com/in/tramy",
+        img: "/Members/My.jpeg",
       },
       {
         name: "Dang Thai Hoa",
@@ -239,18 +236,20 @@ const Members = () => {
     ],
     "Teachers & TA": [
       {
-        name: "Dao Hai Linh",
-        school: "Delta Global School, Vietnam",
-        instagram: "https://instagram.com/linh",
-        linkedin: "https://linkedin.com/in/linh",
-        role: "Teacher",
-      },
-      {
         name: "Luong Thien Tai",
         school: "Delta Global School, Vietnam",
         instagram: "https://instagram.com/tai",
         linkedin: "https://linkedin.com/in/tai",
         role: "Teacher",
+        img: "/Members/DrTai.jpeg",
+      },
+      {
+        name: "Dao Hai Linh",
+        school: "Delta Global School, Vietnam",
+        instagram: "https://instagram.com/linh",
+        linkedin: "https://linkedin.com/in/linh",
+        role: "Teacher",
+        img: "/Members/Linh.jpeg",
       },
       {
         name: "Yooseung Noh",
@@ -258,7 +257,7 @@ const Members = () => {
         instagram: "https://instagram.com/yooseung",
         linkedin: "https://linkedin.com/in/yooseung",
         role: "TA",
-        img : "/Members/Yooseung_Noh.jpeg",
+        img: "/Members/Yooseung_Noh.jpeg",
       },
     ],
   };
