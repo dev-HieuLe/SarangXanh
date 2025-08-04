@@ -5,10 +5,6 @@ import {
   ThumbsUp,
   User,
   MousePointerClick,
-  Rocket,
-  Store,
-  Star,
-  LineChart as LucideLineChart,
 } from "lucide-react";
 import {
   LineChart,
@@ -20,66 +16,82 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const dashboardData = {
-  metrics: [
-    {
-      icon: <User />,
-      value: 1600,
-      label: "Total Members",
-      color: "bg-orange-500",
-    },
-    {
-      icon: <MousePointerClick />,
-      value: 357,
-      label: "Website Visit",
-    },
-    { icon: <ShoppingCart />, value: 2300, label: "Total Purchases" },
-    { icon: <ThumbsUp />, value: 940, label: "Total Views" },
-  ],
-  reviews: {
-    positive: 80,
-    neutral: 17,
-    negative: 3,
-  },
-  shops: [
-    { name: "Eco Bottle", members: 4, budget: "$14,000", sales: 10 },
-    { name: "Recycle Box", members: 2, budget: "$3,000", sales: 10 },
-    { name: "Reusable Bag", members: 3, budget: "Not set", sales: 40 },
-    { name: "Reusable Bag", members: 3, budget: "Not set", sales: 100 },
-    { name: "Reusable Bag", members: 3, budget: "Not set", sales: 80 },
-    { name: "Reusable Bag", members: 3, budget: "Not set", sales: 45 },
-  ],
-  socialStats: {
-    platforms: {
-      instagram: 1200,
-      facebook: 1400,
-      youtube: 1800,
-    },
-    viewsByMonth: [
-      { month: "Apr", value: 100 },
-      { month: "May", value: 200 },
-      { month: "Jun", value: 500 },
-      { month: "Jul", value: 650 },
-      { month: "Aug", value: 400 },
-      { month: "Sep", value: 230 },
-      { month: "Oct", value: 350 },
-    ],
-  },
-};
-
 const DashboardPage = () => {
+  const [memberCount, setMemberCount] = useState(0);
   const [trashData, setTrashData] = useState([]);
+
+  const dashboardData = {
+    metrics: [
+      {
+        icon: <User />,
+        value: memberCount,
+        label: "Total Members",
+        color: "bg-orange-500",
+      },
+      {
+        icon: <MousePointerClick />,
+        value: 357,
+        label: "Website Visit",
+      },
+      { icon: <ShoppingCart />, value: 2300, label: "Total Purchases" },
+      { icon: <ThumbsUp />, value: 940, label: "Total Views" },
+    ],
+    reviews: {
+      positive: 80,
+      neutral: 17,
+      negative: 3,
+    },
+    shops: [
+      { name: "Eco Bottle", members: 4, budget: "$14,000", sales: 10 },
+      { name: "Recycle Box", members: 2, budget: "$3,000", sales: 10 },
+      { name: "Reusable Bag", members: 3, budget: "Not set", sales: 40 },
+      { name: "Reusable Bag", members: 3, budget: "Not set", sales: 100 },
+      { name: "Reusable Bag", members: 3, budget: "Not set", sales: 80 },
+      { name: "Reusable Bag", members: 3, budget: "Not set", sales: 45 },
+    ],
+    socialStats: {
+      platforms: {
+        instagram: 1200,
+        facebook: 1400,
+        youtube: 1800,
+      },
+      viewsByMonth: [
+        { month: "Apr", value: 100 },
+        { month: "May", value: 200 },
+        { month: "Jun", value: 500 },
+        { month: "Jul", value: 650 },
+        { month: "Aug", value: 400 },
+        { month: "Sep", value: 230 },
+        { month: "Oct", value: 350 },
+      ],
+    },
+  };
 
   useEffect(() => {
     const fetchStats = async () => {
-      const res = await axios.get("/api/data", { withCredentials: true });
-      const cleaned = res.data.monthlyStats.map((m) => ({
-        month: m.month,
-        kg: m.plastic_collected,
-      }));
-      setTrashData(cleaned);
+      try {
+        const res = await axios.get("/api/data", { withCredentials: true });
+        const cleaned = res.data.monthlyStats.map((m) => ({
+          month: m.month,
+          kg: m.plastic_collected,
+        }));
+        setTrashData(cleaned);
+      } catch (err) {
+        console.error("Failed to fetch stats", err);
+      }
     };
+
+    const fetchMemberCount = async () => {
+      try {
+        const res = await axios.get("/api/members");
+        setMemberCount(res.data.length);
+      } catch (err) {
+        console.error("Failed to fetch members", err);
+      }
+    };
+
     fetchStats();
+    fetchMemberCount();
   }, []);
 
   return (
@@ -166,9 +178,7 @@ const DashboardPage = () => {
           <h2 className="text-sm text-gray-300 mb-1">Social Media Stats</h2>
           <p className="text-xs text-green-400 mb-4">(+23%) since last week</p>
           <ResponsiveContainer width="100%" height={200}>
-            <LineChart
-              data={dashboardData.socialStats.viewsByMonth}
-            >
+            <LineChart data={dashboardData.socialStats.viewsByMonth}>
               <CartesianGrid strokeDasharray="3 3" stroke="#4b5563" />
               <XAxis dataKey="month" stroke="#d1d5db" />
               <YAxis stroke="#d1d5db" />
@@ -185,24 +195,14 @@ const DashboardPage = () => {
           </ResponsiveContainer>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 text-center">
-            <div className="bg-zinc-800 p-4 rounded-xl">
-              <h3 className="text-sm text-gray-400">Instagram</h3>
-              <p className="text-lg font-bold text-white">
-                {dashboardData.socialStats.platforms.instagram} views
-              </p>
-            </div>
-            <div className="bg-zinc-800 p-4 rounded-xl">
-              <h3 className="text-sm text-gray-400">Facebook</h3>
-              <p className="text-lg font-bold text-white">
-                {dashboardData.socialStats.platforms.facebook} views
-              </p>
-            </div>
-            <div className="bg-zinc-800 p-4 rounded-xl">
-              <h3 className="text-sm text-gray-400">YouTube</h3>
-              <p className="text-lg font-bold text-white">
-                {dashboardData.socialStats.platforms.youtube} views
-              </p>
-            </div>
+            {Object.entries(dashboardData.socialStats.platforms).map(
+              ([platform, value]) => (
+                <div key={platform} className="bg-zinc-800 p-4 rounded-xl">
+                  <h3 className="text-sm text-gray-400">{platform}</h3>
+                  <p className="text-lg font-bold text-white">{value} views</p>
+                </div>
+              )
+            )}
           </div>
         </div>
 
