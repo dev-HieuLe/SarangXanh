@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Banner from "../Banner";
+
 import {
   MapContainer,
   TileLayer,
@@ -22,6 +24,9 @@ import {
 } from "chart.js";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
+
+// Banner images for Data page
+const BANNER_IMAGES = ["/banner-right.jpg", "/Merch2.png", "/bg.jpg"];
 
 // Timeline events with photo & description
 const timelineEvents = [
@@ -75,44 +80,83 @@ const stats = [
 ];
 
 const Data = () => {
+  // Stat card hover state
+  const [hoveredStat, setHoveredStat] = useState(null);
+  // Active chart index
   const [activeChart, setActiveChart] = useState(null);
+  // Chart animation state
+  const [showChart, setShowChart] = useState(false);
+  // Timeline card hover state
+  const [hoveredTimeline, setHoveredTimeline] = useState(null);
 
-  const toggleChart = (index) => {
-    setActiveChart(activeChart === index ? null : index);
-  };
+  // Animate chart appearance when activeChart changes
+  useEffect(() => {
+    if (activeChart !== null) {
+      setShowChart(false);
+      const timer = setTimeout(() => setShowChart(true), 100);
+      return () => clearTimeout(timer);
+    }
+    setShowChart(false);
+  }, [activeChart]);
 
   return (
-    <section className="w-full bg-gray-50 py-20 px-6 text-gray-800">
-      <div className="max-w-6xl mx-auto">
+    <section className="w-full bg-gradient-to-b from-white to-blue-50 text-gray-800">
+      <Banner
+        images={BANNER_IMAGES}
+        title="Real-Time Data"
+        subtitle="Track our plastic collection, recycling, and volunteer growth across Vietnam."
+        buttonText="Explore Data"
+        onButtonClick={() =>
+          document
+            .getElementById("overview")
+            ?.scrollIntoView({ behavior: "smooth" })
+        }
+      />
 
+      <div className="max-w-6xl mx-auto py-20 px-6" id="overview">
         {/* Page Title */}
-        <h2 className="text-4xl font-extrabold text-center mb-4">
+        {/* <h2 className="text-4xl font-extrabold text-center mb-4">
           Real-Time <span className="text-blue-500">Data</span>
         </h2>
-        <p className="text-center text-gray-500 mb-10 text-sm">
-          Click the cards below to see the progress graph 📈
-        </p>
+        <p className="text-center text-blue-500 mb-10 text-lg">
+          Click the cards below to see the progress graphs and statistics of our
+          ongoing projects.
+        </p> */}
 
-        {/* Stat Cards */}
+        {/* Stat Cards - interactive hover and select */}
         <div className="grid md:grid-cols-3 gap-6 mb-12">
           {stats.map((stat, idx) => (
             <div
               key={idx}
-              onClick={() => toggleChart(idx)}
-              className={`cursor-pointer bg-blue-100 hover:bg-blue-200 p-6 rounded-xl shadow text-center transition border-2 ${
-                activeChart === idx ? "border-blue-600" : "border-transparent"
-              }`}
+              onClick={() => setActiveChart(idx)}
+              onMouseEnter={() => setHoveredStat(idx)}
+              onMouseLeave={() => setHoveredStat(null)}
+              className={`cursor-pointer bg-white p-6 rounded-xl shadow text-center transition border-2
+                ${activeChart === idx ? "border-blue-600 bg-blue-100 scale-105" : ""}
+                ${hoveredStat === idx && activeChart !== idx ? "bg-blue-50 scale-105 shadow-lg" : ""}
+              `}
+              style={{ transition: "all 0.3s" }}
             >
               <p className="text-blue-800 text-sm font-semibold">{stat.label}</p>
               <h3 className="text-3xl font-bold text-blue-700">{stat.value}</h3>
+              <span className="block mt-2 text-xs text-blue-400">
+                {activeChart === idx ? "Showing chart" : "Click to view chart"}
+              </span>
             </div>
           ))}
         </div>
 
-        {/* Line Chart */}
+        {/* Line Chart - animated fade-in */}
         {activeChart !== null && (
-          <div className="bg-white p-6 mb-20 rounded-lg shadow-lg">
-            <h4 className="text-lg font-semibold text-center mb-4">
+          <div
+            className={`bg-white p-6 mb-20 rounded-lg shadow-lg ${
+              showChart ? "opacity-100" : "opacity-0"
+            }`}
+            style={{
+              transition: "opacity 0.5s",
+            }}
+          >
+            <h4 className="text-lg font-semibold text-center mb-4 text-blue-700">
               {stats[activeChart].label} - Daily Progress
             </h4>
             <Line
@@ -141,19 +185,23 @@ const Data = () => {
 
         {/* Map Section */}
         <div className="mb-20">
-          <h3 className="text-2xl font-bold mb-4">🗺️ Collected Areas</h3>
+          <h3 className="text-2xl font-bold mb-4 text-blue-700">
+            🗺️ Collected Areas
+          </h3>
           <MapContainer
             center={[16.0544, 108.2022]}
             zoom={5}
             className="h-96 rounded-lg shadow z-10"
           >
             <TileLayer
-              attribution='&copy; OpenStreetMap contributors'
+              attribution="&copy; OpenStreetMap contributors"
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             {collectedLocations.map((loc, idx) => (
               <Marker key={idx} position={[loc.lat, loc.lng]}>
-                <Popup>{loc.city}</Popup>
+                <Popup>
+                  <span className="font-bold text-blue-700">{loc.city}</span>
+                </Popup>
               </Marker>
             ))}
             <Polyline
@@ -164,33 +212,46 @@ const Data = () => {
         </div>
 
         {/* Timeline Section */}
-        <h3 className="text-2xl font-bold mb-8">📅 Collection Timeline</h3>
-        <VerticalTimeline>
-          {timelineEvents.map((event, idx) => (
-            <VerticalTimelineElement
-              key={idx}
-              date={event.date}
-              iconStyle={{
-                background: "#3b82f6",
-                color: "#fff",
-              }}
-            >
-              <h3 className="text-lg font-bold">{event.title}</h3>
-              {event.image && (
-                <img
-                  src={event.image}
-                  alt={event.title}
-                  className="mt-4 rounded-lg shadow-md"
-                />
-              )}
-              {event.description && (
-                <p className="mt-2 text-sm text-gray-600 leading-relaxed">
-                  {event.description}
-                </p>
-              )}
-            </VerticalTimelineElement>
-          ))}
-        </VerticalTimeline>
+        <div className="mb-10">
+          <h3 className="text-2xl font-bold mb-8 text-blue-700">
+            📅 Collection Timeline
+          </h3>
+          <VerticalTimeline>
+            {timelineEvents.map((event, idx) => (
+              <VerticalTimelineElement
+                key={idx}
+                date={event.date}
+                iconStyle={{
+                  background: "#3b82f6",
+                  color: "#fff",
+                }}
+                className={`transition-all duration-300 ${
+                  hoveredTimeline === idx
+                    ? "scale-105 shadow-lg bg-blue-50"
+                    : ""
+                }`}
+                onMouseEnter={() => setHoveredTimeline(idx)}
+                onMouseLeave={() => setHoveredTimeline(null)}
+              >
+                <h3 className="text-lg font-bold text-blue-700">
+                  {event.title}
+                </h3>
+                {event.image && (
+                  <img
+                    src={event.image}
+                    alt={event.title}
+                    className="mt-4 rounded-lg shadow-md"
+                  />
+                )}
+                {event.description && (
+                  <p className="mt-2 text-sm text-gray-600 leading-relaxed">
+                    {event.description}
+                  </p>
+                )}
+              </VerticalTimelineElement>
+            ))}
+          </VerticalTimeline>
+        </div>
       </div>
     </section>
   );

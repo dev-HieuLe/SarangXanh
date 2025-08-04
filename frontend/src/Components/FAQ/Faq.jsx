@@ -1,108 +1,127 @@
-import React from "react";
+import React, { useState } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import Banner from "../Banner";
+
+// Banner images for FAQ page (reuse or customize)
+const BANNER_IMAGES = ["/banner-right.jpg", "/Merch2.png", "/bg.jpg"];
+
+// FAQ items data
+const FAQ_ITEMS = [
+  {
+    question: "What is SarangXanh?",
+    answer:
+      "SarangXanh is an initiative focused on promoting sustainable practices and green living. We offer a range of products and services designed to help individuals and communities reduce their environmental impact.",
+  },
+  {
+    question: "How can I get involved?",
+    answer:
+      "There are many ways to get involved with SarangXanh! You can participate in our events, volunteer for projects, or simply spread the word about our mission. Visit our Get Involved page for more information.",
+  },
+  {
+    question: "Where can I find your products?",
+    answer:
+      "Our products are available online through our website and at select retail locations. Check out our Shop page for more details on where to buy our products.",
+  },
+  {
+    question: "Do you organize community events?",
+    answer:
+      "Yes! We regularly host cleanups, workshops, and awareness campaigns. Follow us on social media or check our Events page for upcoming activities.",
+  },
+  {
+    question: "How do I contact SarangXanh?",
+    answer:
+      "You can reach us via our Contact page, email, or direct message on Instagram. We’re always happy to connect and answer your questions.",
+  },
+  {
+    question: "Can I volunteer if I’m not in Vietnam?",
+    answer:
+      "Absolutely! We welcome international volunteers for online campaigns, content creation, and remote support. Get in touch to learn more about global opportunities.",
+  },
+];
 
 const Faq = () => {
+  const [openIdx, setOpenIdx] = useState(null);
+  const [hoverIdx, setHoverIdx] = useState(null);
+
+  const toggleFaq = (idx) => {
+    setOpenIdx(openIdx === idx ? null : idx);
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-white m-50">
-      <div className="w-[600px] space-y-4">
-        {/* Header */}
-        <div className="mb-12 flex flex-col items-center space-y-4">
-          <span className="flex items-center gap-2 rounded-full border border-[#00B8A9] px-5 py-1 text-sm font-medium text-[#00B8A9]">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="#00B8A9"
-              strokeWidth="2"
+    <section className="w-full bg-gradient-to-b from-white to-blue-50 text-gray-800">
+      {/* Replaced manual banner with Banner component */}
+      <Banner
+        images={BANNER_IMAGES}
+        title="Frequently Asked Questions"
+        subtitle="Find answers to common questions about SarangXanh, our projects, and how you can contribute."
+        buttonText="Explore FAQ"
+        onButtonClick={() =>
+          document
+            .getElementById("faq-list")
+            ?.scrollIntoView({ behavior: "smooth" })
+        }
+      />
+
+      {/* FAQ content */}
+      <div className="max-w-6xl mx-auto px-6 py-20">
+        {/* <h2 className="text-4xl font-extrabold mb-6 text-gray-800 text-center">
+          Frequently Asked <span className="text-blue-500">Questions</span>
+        </h2>
+        <p className="text-blue-500 text-lg mb-12 text-center">
+          Have questions? We have answers! Browse below or reach out if you need
+          more help.
+        </p> */}
+
+        <div id="faq-list" className="space-y-4">
+          {FAQ_ITEMS.map((item, idx) => (
+            <div
+              key={idx}
+              className={`bg-white shadow-md rounded-lg transition-all duration-300 ${
+                hoverIdx === idx
+                  ? "ring-2 ring-blue-300 scale-[1.01] shadow-lg"
+                  : ""
+              }`}
+              onMouseEnter={() => setHoverIdx(idx)}
+              onMouseLeave={() => setHoverIdx(null)}
             >
-              <path d="M12 17h.01M12 11v2m0 8c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z" />
-            </svg>
-            Frequently Asked Questions
-          </span>
-          <h1 className="mx-auto text-center text-4xl font-bold text-[#0F3554]">
-            FAQ
-          </h1>
-          <div className="h-1 w-10 bg-[#00B8A9] rounded-full"></div>
-        </div>
-
-        {/* FAQ Items */}
-        {[
-          {
-            question: "What is SarangXanh?",
-            answer:
-              "SarangXanh is a project dedicated to reducing microplastic pollution by promoting eco-friendly products and raising awareness about ocean conservation.",
-          },
-          {
-            question: "What is SarangXanh?",
-            answer:
-              "SarangXanh is a project dedicated to reducing microplastic pollution by promoting eco-friendly products and raising awareness about ocean conservation.",
-          },
-          {
-            question: "What is SarangXanh?",
-            answer:
-              "SarangXanh is a project dedicated to reducing microplastic pollution by promoting eco-friendly products and raising awareness about ocean conservation.",
-          },
-          {
-            question: "What is SarangXanh?",
-            answer:
-              "SarangXanh is a project dedicated to reducing microplastic pollution by promoting eco-friendly products and raising awareness about ocean conservation.",
-          },
-          {
-            question: "How can I keep my passwords secure?",
-            answer:
-              "Use strong, unique passwords for each account. A password manager can help store them safely. Enable two-factor authentication for extra protection.",
-          },
-          {
-            question: "What should I do if I suspect a security breach?",
-            answer:
-              "Disconnect affected devices from the network immediately. Change your passwords and notify your IT or security team. Monitor accounts and activity for unusual behavior.",
-          },
-          {
-            question: "Why is regular software updating important",
-            answer:
-              "Updates often include patches for newly discovered vulnerabilities. Running outdated software leaves your system exposed. Enable automatic updates whenever possible...",
-          },
-        ].map((item, i) => (
-          <div
-            key={i}
-            className="overflow-hidden rounded-md border border-[#B3F0EC] bg-white text-[#0F3554]"
-          >
-            <button className="peer flex w-full justify-between p-5">
-              <h2 className="font-semibold">{item.question}</h2>
-
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+              <button
+                className="w-full flex items-center justify-between px-6 py-5 focus:outline-none"
+                onClick={() => toggleFaq(idx)}
+                aria-expanded={openIdx === idx}
+                aria-controls={`faq-panel-${idx}`}
               >
-                <path
-                  d="M6 9L12 15L18 9"
-                  stroke="#00B8A9"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-
-            <p className="max-h-0 translate-y-4 transform px-4 text-[#0F3554] opacity-0 transition-all duration-400 ease-in-out peer-focus:max-h-[90px] peer-focus:translate-y-0 peer-focus:pb-4 peer-focus:opacity-100">
-              {item.answer}
-            </p>
-          </div>
-        ))}
-
-        {/* Footer */}
-        <div className="mt-6 text-center">
-          <p className="text-sm font-light text-[#0F3554]">
-            Still have questions? Email us at{" "}
-            <span className="text-[#00B8A9]">sarangxanh@gmail.com</span>
-          </p>
+                <span
+                  className={`text-lg font-semibold text-gray-800 text-left transition-colors ${
+                    hoverIdx === idx ? "text-blue-600" : ""
+                  }`}
+                >
+                  {item.question}
+                </span>
+                {openIdx === idx ? (
+                  <ChevronUp className="text-blue-500" />
+                ) : (
+                  <ChevronDown className="text-blue-500" />
+                )}
+              </button>
+              <div
+                id={`faq-panel-${idx}`}
+                className={`overflow-hidden transition-all duration-400 ${
+                  openIdx === idx
+                    ? "max-h-40 opacity-100 py-2 px-6"
+                    : "max-h-0 opacity-0 px-6"
+                }`}
+                style={{
+                  transition: "max-height 0.4s, opacity 0.4s, padding 0.4s",
+                }}
+                aria-hidden={openIdx !== idx}
+              >
+                <p className="text-gray-700">{item.answer}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
