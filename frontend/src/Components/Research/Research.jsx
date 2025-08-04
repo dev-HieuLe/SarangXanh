@@ -1,9 +1,6 @@
 import React, { useState, useMemo } from "react";
 import Banner from "../Banner";
 
-// Banner images for Research page
-const BANNER_IMAGES = ["/banner-right.jpg", "/Merch2.png", "/bg.jpg"];
-
 const allResources = [
   {
     type: "News",
@@ -49,10 +46,10 @@ const Research = () => {
   const [selectedType, setSelectedType] = useState("All");
 
   const filtered = useMemo(() => {
-    const base = selectedType === "All"
-      ? allResources
-      : allResources.filter((item) => item.type === selectedType);
-    // Optional: sort by date descending
+    const base =
+      selectedType === "All"
+        ? allResources
+        : allResources.filter((item) => item.type === selectedType);
     return [...base].sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
@@ -61,7 +58,6 @@ const Research = () => {
   return (
     <section className="w-full bg-gradient-to-b from-white to-blue-50 text-gray-800">
       <Banner
-        images={BANNER_IMAGES}
         title="Research & Insights"
         subtitle="Explore our curated collection of research papers, news articles, and environmental reports."
         buttonText="Explore Research"

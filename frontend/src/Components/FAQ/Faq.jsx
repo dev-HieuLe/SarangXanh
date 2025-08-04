@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import Banner from "../Banner";
 
-// Banner images for FAQ page (reuse or customize)
-const BANNER_IMAGES = ["/banner-right.jpg", "/Merch2.png", "/bg.jpg"];
-
 // FAQ items data
 const FAQ_ITEMS = [
   {
@@ -49,9 +46,7 @@ const Faq = () => {
 
   return (
     <section className="w-full bg-gradient-to-b from-white to-blue-50 text-gray-800">
-      {/* Replaced manual banner with Banner component */}
       <Banner
-        images={BANNER_IMAGES}
         title="Frequently Asked Questions"
         subtitle="Find answers to common questions about SarangXanh, our projects, and how you can contribute."
         buttonText="Explore FAQ"
@@ -64,14 +59,6 @@ const Faq = () => {
 
       {/* FAQ content */}
       <div className="max-w-6xl mx-auto px-6 py-20">
-        {/* <h2 className="text-4xl font-extrabold mb-6 text-gray-800 text-center">
-          Frequently Asked <span className="text-blue-500">Questions</span>
-        </h2>
-        <p className="text-blue-500 text-lg mb-12 text-center">
-          Have questions? We have answers! Browse below or reach out if you need
-          more help.
-        </p> */}
-
         <div id="faq-list" className="space-y-4">
           {FAQ_ITEMS.map((item, idx) => (
             <div

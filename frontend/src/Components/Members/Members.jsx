@@ -3,8 +3,6 @@ import { FaInstagram, FaLinkedin } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Banner from "../Banner";
 
-// Banner images for Members page
-const BANNER_IMAGES = ["/banner-right.jpg", "/Merch2.png", "/bg.jpg"];
 const defaultImg = "/bg.jpg";
 
 // Teams that should not get a "Leader" badge even on the first member
@@ -144,6 +142,7 @@ const Members = () => {
         school: "Mercersburg Academy, PA",
         instagram: "https://instagram.com/jiwon",
         linkedin: "https://linkedin.com/in/jiwon",
+        img: "/Members/Jiwon_Chung.jpeg",
       },
       {
         name: "Nguyen Khanh",
@@ -259,6 +258,7 @@ const Members = () => {
         instagram: "https://instagram.com/yooseung",
         linkedin: "https://linkedin.com/in/yooseung",
         role: "TA",
+        img : "/Members/Yooseung_Noh.jpeg",
       },
     ],
   };
@@ -274,7 +274,6 @@ const Members = () => {
   return (
     <section className="w-full bg-gradient-to-b from-white to-blue-50 text-gray-800">
       <Banner
-        images={BANNER_IMAGES}
         title="Meet Our Team"
         subtitle="Get to know the passionate members behind SarangXanh’s projects and initiatives."
         buttonText="Explore Members"
@@ -286,15 +285,6 @@ const Members = () => {
       />
 
       <div className="max-w-6xl mx-auto px-6 py-20" id="teams">
-        {/* Title and description below banner */}
-        {/* <h2 className="text-4xl font-extrabold mb-6 text-gray-800 text-center">
-          Meet Our <span className="text-blue-500">Team</span>
-        </h2>
-        <p className="text-blue-500 text-lg text-center mb-10">
-          Get to know the passionate members behind SarangXanh’s projects and
-          initiatives.
-        </p> */}
-
         {Object.entries(teams).map(([teamName, members], idx) => (
           <TeamSection key={idx} title={teamName} members={members} />
         ))}

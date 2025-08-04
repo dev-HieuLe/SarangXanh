@@ -30,17 +30,13 @@ const highlights = [
   },
 ];
 
-// Banner images for About page
-const BANNER_IMAGES = ["/banner-right.jpg", "/Merch2.png", "/bg.jpg"];
-
 const About = () => {
   const [hovered, setHovered] = useState(null);
 
   return (
     <section className="w-full bg-gradient-to-b from-white to-blue-50 text-gray-800">
-      {/* Unified Banner */}
+      {/* Unified Banner using default images */}
       <Banner
-        images={BANNER_IMAGES}
         title="Meet SarangXanh"
         subtitle="A youth-led plastic cleanup movement in Vietnam, built for the planet."
         buttonText="Learn More"

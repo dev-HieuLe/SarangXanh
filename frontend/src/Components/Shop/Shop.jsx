@@ -2,9 +2,6 @@ import React, { useState, useMemo } from "react";
 import { ShoppingCart } from "lucide-react";
 import Banner from "../Banner";
 
-// Banner images for Shop page
-const BANNER_IMAGES = ["/banner-right.jpg", "/Merch2.png", "/bg.jpg"];
-
 const allProducts = [
   { id: 1, name: "Eco Tote Bag", price: 12.99, image: "/bg.jpg" },
   { id: 2, name: "Reusable Bottle", price: 18.5, image: "/bg.jpg" },
@@ -41,7 +38,6 @@ const Shop = () => {
   return (
     <section className="w-full bg-gradient-to-b from-white to-blue-50 text-gray-800">
       <Banner
-        images={BANNER_IMAGES}
         title="SarangXanh Shop"
         subtitle="Sustainably made. Ethically sourced. Always beautiful."
         buttonText="Explore Shop"
@@ -53,14 +49,6 @@ const Shop = () => {
       />
 
       <div className="max-w-6xl mx-auto px-6 py-20" id="products">
-        {/* Title */}
-        {/* <h2 className="text-4xl font-extrabold text-center mb-2">
-          Our <span className="text-blue-500">Products</span>
-        </h2>
-        <p className="text-center text-sm text-gray-500 mb-10">
-          Sustainably made. Ethically sourced. Always beautiful.
-        </p> */}
-
         {/* Controls: Search & Sort */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-12">
           <input

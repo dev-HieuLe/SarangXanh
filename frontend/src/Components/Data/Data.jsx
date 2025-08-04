@@ -25,9 +25,6 @@ import {
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
-// Banner images for Data page
-const BANNER_IMAGES = ["/banner-right.jpg", "/Merch2.png", "/bg.jpg"];
-
 // Timeline events with photo & description
 const timelineEvents = [
   {
@@ -102,7 +99,6 @@ const Data = () => {
   return (
     <section className="w-full bg-gradient-to-b from-white to-blue-50 text-gray-800">
       <Banner
-        images={BANNER_IMAGES}
         title="Real-Time Data"
         subtitle="Track our plastic collection, recycling, and volunteer growth across Vietnam."
         buttonText="Explore Data"
@@ -114,15 +110,6 @@ const Data = () => {
       />
 
       <div className="max-w-6xl mx-auto py-20 px-6" id="overview">
-        {/* Page Title */}
-        {/* <h2 className="text-4xl font-extrabold text-center mb-4">
-          Real-Time <span className="text-blue-500">Data</span>
-        </h2>
-        <p className="text-center text-blue-500 mb-10 text-lg">
-          Click the cards below to see the progress graphs and statistics of our
-          ongoing projects.
-        </p> */}
-
         {/* Stat Cards - interactive hover and select */}
         <div className="grid md:grid-cols-3 gap-6 mb-12">
           {stats.map((stat, idx) => (

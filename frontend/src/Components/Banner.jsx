@@ -3,13 +3,15 @@ import React, { useEffect, useState } from "react";
 /**
  * Reusable Banner component for SarangXanh pages.
  * Props:
- * - images: array of image URLs for the banner background (required)
+ * - images: array of image URLs for the banner background (optional; falls back to built-in defaults)
  * - title: string, main heading (required)
  * - subtitle: string, subheading (required)
  * - buttonText: string, button label (optional)
  * - onButtonClick: function, button click handler (optional)
  * - height: string, Tailwind height class (default: "h-[50vh]")
  */
+const DEFAULT_IMAGES = ["/Banner/Banner_Img1.jpeg", "/Banner/Banner_Img2.jpeg", "/Banner/Banner_Img3.jpeg"];
+
 const Banner = ({
   images = [],
   title,
@@ -18,16 +20,19 @@ const Banner = ({
   onButtonClick,
   height = "h-[50vh]",
 }) => {
+  const effectiveImages =
+    Array.isArray(images) && images.length > 0 ? images : DEFAULT_IMAGES;
+
   const [bannerIdx, setBannerIdx] = useState(0);
 
   // Auto-slide effect
   useEffect(() => {
-    if (images.length < 2) return;
+    if (effectiveImages.length < 2) return;
     const interval = setInterval(() => {
-      setBannerIdx((idx) => (idx + 1) % images.length);
+      setBannerIdx((idx) => (idx + 1) % effectiveImages.length);
     }, 4000);
     return () => clearInterval(interval);
-  }, [images.length]);
+  }, [effectiveImages.length]);
 
   // Manual dot click
   const handleBannerDot = (idx) => {
@@ -38,7 +43,7 @@ const Banner = ({
     <div
       className={`w-full ${height} flex items-center justify-center bg-cover bg-center relative group transition-all duration-700`}
       style={{
-        backgroundImage: `url('${images[bannerIdx]}')`,
+        backgroundImage: `url('${effectiveImages[bannerIdx]}')`,
       }}
     >
       <div className="absolute inset-0 bg-gradient-to-r from-blue-500/60 to-blue-400/60 flex flex-col justify-center items-center text-center px-4 transition-all duration-700 group-hover:backdrop-blur-md">
@@ -58,9 +63,9 @@ const Banner = ({
         )}
       </div>
       {/* Banner dots for manual image selection */}
-      {images.length > 1 && (
+      {effectiveImages.length > 1 && (
         <div className="absolute bottom-4 right-4 flex gap-2">
-          {images.map((img, idx) => (
+          {effectiveImages.map((_, idx) => (
             <button
               key={idx}
               className={`w-3 h-3 rounded-full transition ${
