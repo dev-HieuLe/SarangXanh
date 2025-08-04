@@ -19,13 +19,46 @@ const Navbar = () => {
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex flex-1 justify-center gap-10 text-sm font-semibold tracking-widest uppercase text-white">
-          <li><a href="/" className="hover:text-blue-200">Home</a></li>
-          <li><a href="/about" className="hover:text-blue-200">About</a></li>
-          <li><a href="/data" className="hover:text-blue-200">Data</a></li>
-          <li><a href="/gallery" className="hover:text-blue-200">Gallery</a></li>
-          <li><a href="/faqs" className="hover:text-blue-200">FAQs</a></li>
-          <li><a href="/shop" className="hover:text-blue-200">Shop</a></li>
-          <li><a href="/members" className="hover:text-blue-200">Members</a></li>
+          <li>
+            <a href="/" className="hover:text-blue-200">
+              Home
+            </a>
+          </li>
+          <li>
+            <a href="/about" className="hover:text-blue-200">
+              About
+            </a>
+          </li>
+          <li>
+            <a href="/data" className="hover:text-blue-200">
+              Data
+            </a>
+          </li>
+          <li>
+            <a href="/gallery" className="hover:text-blue-200">
+              Gallery
+            </a>
+          </li>
+          <li>
+            <a href="/faqs" className="hover:text-blue-200">
+              FAQs
+            </a>
+          </li>
+          <li>
+            <a href="/shop" className="hover:text-blue-200">
+              Shop
+            </a>
+          </li>
+          <li>
+            <a href="/members" className="hover:text-blue-200">
+              Members
+            </a>
+          </li>
+                    <li>
+            <a href="/research" className="hover:text-blue-200">
+              Research
+            </a>
+          </li>
         </ul>
 
         {/* Right-side buttons */}

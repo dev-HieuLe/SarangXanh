@@ -9,6 +9,7 @@ import {
 //Navbar
 import Navbar from "./Components/Navbar";
 
+
 //Homepage
 import Banner from "./Components/Homepage/Banner";
 import AboutUs from "./Components/Homepage/AboutUs";
@@ -30,6 +31,8 @@ import Gallery from "./Components/Gallery/Gallery";
 import Members from "./Components/Members/Members";
 //Shop page
 import Shop from "./Components/Shop/Shop";
+//Research page
+import Research from "./Components/Research/Research";
 //Footer
 import Footer from "./Components/Footer";
 //Admin Login
@@ -95,6 +98,7 @@ function App() {
           <Route path="members" element={<MembersPage />} />
           <Route path="dashboard" element={<DashboardPage />} />
         </Route>
+        <Route path="/research" element={<Research />} />
       </Routes>
       {!location.pathname.startsWith("/admin/dashboard") && <Footer />}
     </>
