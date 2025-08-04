@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Leaf, Users, Globe, Star, Rocket, HeartHandshake } from "lucide-react";
+import Banner from "../Banner";
 
+// Milestones data
 const milestones = [
   { label: "June 2025", text: "First cleanup held in Hanoi" },
   { label: "July 2025", text: "Live tracking system launched" },
@@ -9,25 +11,54 @@ const milestones = [
   { label: "October 2025", text: "Featured in ASEAN EcoYouth Forum" },
 ];
 
+// Highlight cards data
+const highlights = [
+  {
+    icon: <Globe size={20} />,
+    title: "Global Impact",
+    desc: "By showing exactly how much plastic we’ve cleaned, we encourage responsibility worldwide.",
+  },
+  {
+    icon: <Leaf size={20} />,
+    title: "Live Environmental Data",
+    desc: "Live stats show our progress—plastic collected, recycled, and released.",
+  },
+  {
+    icon: <Users size={20} />,
+    title: "People-Powered",
+    desc: "SarangXanh is driven by youth, supported by communities, and designed for collective power.",
+  },
+];
+
+// Banner images for About page
+const BANNER_IMAGES = ["/banner-right.jpg", "/Merch2.png", "/bg.jpg"];
+
 const About = () => {
+  const [hovered, setHovered] = useState(null);
+
   return (
     <section className="w-full bg-gradient-to-b from-white to-blue-50 text-gray-800">
-      <div className="max-w-6xl mx-auto px-6 py-24">
-        {/* Main Heading */}
-        <h2 className="text-4xl font-extrabold text-center mb-3">
-          Meet <span className="text-blue-500">SarangXanh</span>
-        </h2>
-        <p className="text-center text-sm text-gray-500 mb-12">
-          A youth-led plastic cleanup movement in Vietnam, built for the planet.
-        </p>
+      {/* Unified Banner */}
+      <Banner
+        images={BANNER_IMAGES}
+        title="Meet SarangXanh"
+        subtitle="A youth-led plastic cleanup movement in Vietnam, built for the planet."
+        buttonText="Learn More"
+        onButtonClick={() =>
+          document
+            .getElementById("purpose")
+            ?.scrollIntoView({ behavior: "smooth" })
+        }
+      />
 
-        {/* Image + Purpose */}
-        <div className="flex flex-col md:flex-row items-center gap-14 mb-24">
+      <div className="max-w-6xl mx-auto px-6 py-24">
+        {/* Purpose Section */}
+        <div className="flex flex-col md:flex-row items-center gap-14 mb-24" id="purpose">
           <div className="flex-1">
             <img
-              src="/banner-right.jpg"
+              src="/bg.jpg"
               alt="Cleanup action"
-              className="w-full rounded-2xl shadow-xl border border-blue-100"
+              className="w-full rounded-2xl shadow-xl border border-blue-100 transition-all duration-700"
             />
           </div>
           <div className="flex-1">
@@ -62,12 +93,24 @@ const About = () => {
             {milestones.map((item, idx) => (
               <div
                 key={idx}
-                className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition"
+                className="bg-white p-4 rounded-lg shadow transition cursor-pointer hover:shadow-xl hover:bg-blue-50 border border-blue-100"
+                onMouseEnter={() => setHovered(idx)}
+                onMouseLeave={() => setHovered(null)}
               >
-                <h4 className="text-md font-semibold text-blue-600 mb-1">
-                  {item.emoji} {item.label}
+                <h4
+                  className={`text-md font-semibold mb-1 transition ${
+                    hovered === idx ? "text-blue-500" : "text-blue-600"
+                  }`}
+                >
+                  {item.label}
                 </h4>
-                <p className="text-sm text-gray-700">{item.text}</p>
+                <p
+                  className={`text-sm transition ${
+                    hovered === idx ? "text-blue-700" : "text-gray-700"
+                  }`}
+                >
+                  {item.text}
+                </p>
               </div>
             ))}
           </div>
@@ -75,33 +118,22 @@ const About = () => {
 
         {/* Highlight Cards */}
         <div className="grid md:grid-cols-3 gap-8 mb-20">
-          <div className="bg-white bg-opacity-70 backdrop-blur-md p-6 rounded-2xl shadow-lg hover:shadow-2xl transition">
-            <div className="flex items-center gap-3 text-blue-600 mb-3">
-              <Globe size={20} />
-              <h4 className="text-lg font-semibold">Global Impact</h4>
+          {highlights.map((card, idx) => (
+            <div
+              key={idx}
+              className={`bg-white bg-opacity-70 backdrop-blur-md p-6 rounded-2xl shadow-lg transition cursor-pointer hover:shadow-2xl hover:bg-blue-50 border border-blue-100 ${
+                hovered === `highlight-${idx}` ? "scale-105" : ""
+              }`}
+              onMouseEnter={() => setHovered(`highlight-${idx}`)}
+              onMouseLeave={() => setHovered(null)}
+            >
+              <div className="flex items-center gap-3 text-blue-600 mb-3">
+                {card.icon}
+                <h4 className="text-lg font-semibold">{card.title}</h4>
+              </div>
+              <p className="text-sm text-gray-700 leading-relaxed">{card.desc}</p>
             </div>
-            <p className="text-sm text-gray-700 leading-relaxed">
-              By showing exactly how much plastic we’ve cleaned, we encourage responsibility worldwide.
-            </p>
-          </div>
-          <div className="bg-white bg-opacity-70 backdrop-blur-md p-6 rounded-2xl shadow-lg hover:shadow-2xl transition">
-            <div className="flex items-center gap-3 text-blue-600 mb-3">
-              <Leaf size={20} />
-              <h4 className="text-lg font-semibold">Live Environmental Data</h4>
-            </div>
-            <p className="text-sm text-gray-700 leading-relaxed">
-              Live stats show our progress—plastic collected, recycled, and released.
-            </p>
-          </div>
-          <div className="bg-white bg-opacity-70 backdrop-blur-md p-6 rounded-2xl shadow-lg hover:shadow-2xl transition">
-            <div className="flex items-center gap-3 text-blue-600 mb-3">
-              <Users size={20} />
-              <h4 className="text-lg font-semibold">People-Powered</h4>
-            </div>
-            <p className="text-sm text-gray-700 leading-relaxed">
-              SarangXanh is driven by youth, supported by communities, and designed for collective power.
-            </p>
-          </div>
+          ))}
         </div>
 
         {/* Vision */}

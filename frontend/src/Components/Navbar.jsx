@@ -51,6 +51,11 @@ const Navbar = () => {
               Members
             </a>
           </li>
+                    <li>
+            <a href="/research" className="hover:text-blue-200">
+              Research
+            </a>
+          </li>
         </ul>
 
         {/* Right-side buttons */}

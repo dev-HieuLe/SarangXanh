@@ -1,5 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { ShoppingCart } from "lucide-react";
+import Banner from "../Banner";
+
+// Banner images for Shop page
+const BANNER_IMAGES = ["/banner-right.jpg", "/Merch2.png", "/bg.jpg"];
 
 const allProducts = [
   { id: 1, name: "Eco Tote Bag", price: 12.99, image: "/bg.jpg" },
@@ -17,27 +21,45 @@ const Shop = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("default");
 
-  const filteredProducts = allProducts
-    .filter((product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .sort((a, b) => {
-      if (sortBy === "name") return a.name.localeCompare(b.name);
-      if (sortBy === "priceLow") return a.price - b.price;
-      if (sortBy === "priceHigh") return b.price - a.price;
-      return 0;
-    });
+  const filteredProducts = useMemo(() => {
+    const lower = searchTerm.toLowerCase();
+    let filtered = allProducts.filter((product) =>
+      product.name.toLowerCase().includes(lower)
+    );
+
+    if (sortBy === "name") {
+      filtered.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sortBy === "priceLow") {
+      filtered.sort((a, b) => a.price - b.price);
+    } else if (sortBy === "priceHigh") {
+      filtered.sort((a, b) => b.price - a.price);
+    }
+
+    return filtered;
+  }, [searchTerm, sortBy]);
 
   return (
-    <section className="w-full py-20 px-6 bg-gradient-to-br from-blue-50 to-white text-gray-800">
-      <div className="max-w-6xl mx-auto">
+    <section className="w-full bg-gradient-to-b from-white to-blue-50 text-gray-800">
+      <Banner
+        images={BANNER_IMAGES}
+        title="SarangXanh Shop"
+        subtitle="Sustainably made. Ethically sourced. Always beautiful."
+        buttonText="Explore Shop"
+        onButtonClick={() =>
+          document
+            .getElementById("products")
+            ?.scrollIntoView({ behavior: "smooth" })
+        }
+      />
+
+      <div className="max-w-6xl mx-auto px-6 py-20" id="products">
         {/* Title */}
-        <h2 className="text-4xl font-extrabold text-center mb-2">
+        {/* <h2 className="text-4xl font-extrabold text-center mb-2">
           Our <span className="text-blue-500">Products</span>
         </h2>
         <p className="text-center text-sm text-gray-500 mb-10">
           Sustainably made. Ethically sourced. Always beautiful.
-        </p>
+        </p> */}
 
         {/* Controls: Search & Sort */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-12">
@@ -46,14 +68,18 @@ const Shop = () => {
             placeholder="Search for products..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            aria-label="Search products"
             className="w-full md:w-1/2 px-4 py-2 border border-blue-300 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
           />
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
+            aria-label="Sort products"
             className="px-4 py-2 border border-blue-300 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
           >
-            <option value="default">Sort by</option>
+            <option value="default" disabled>
+              Sort by
+            </option>
             <option value="name">Name (A-Z)</option>
             <option value="priceLow">Price (Low to High)</option>
             <option value="priceHigh">Price (High to Low)</option>
