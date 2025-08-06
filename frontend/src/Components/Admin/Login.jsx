@@ -68,7 +68,7 @@ const Login = () => {
         {/* Left Image Section */}
         <div className="hidden md:block md:w-1/2">
           <img
-            src="/login.jpg"
+            src="/bg.jpg"
             alt="Login Visual"
             className="h-full w-full object-cover"
           />
@@ -78,27 +78,6 @@ const Login = () => {
         <div className="w-full md:w-1/2 p-10 md:p-14">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Brand</h1>
           <p className="text-gray-500 text-sm mb-8">Welcome back!</p>
-
-          {/* Google Login */}
-          <button className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition mb-6">
-            <img
-              src="https://www.svgrepo.com/show/475656/google-color.svg"
-              alt="Google"
-              className="w-5 h-5"
-            />
-            <span className="font-medium text-sm text-gray-700">
-              Sign in with Google
-            </span>
-          </button>
-
-          {/* Divider */}
-          <div className="flex items-center my-6">
-            <div className="flex-grow h-px bg-gray-200" />
-            <span className="px-4 text-sm text-gray-400">
-              OR LOGIN WITH EMAIL
-            </span>
-            <div className="flex-grow h-px bg-gray-200" />
-          </div>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -155,7 +134,7 @@ const Login = () => {
               href="/signup"
               className="text-black font-medium hover:underline"
             >
-              SIGN UP
+              =)) IDK
             </a>
           </p>
         </div>

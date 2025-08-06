@@ -5,10 +5,10 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 //Navbar
 import Navbar from "./Components/Navbar";
-
 
 //Homepage
 import Banner from "./Components/Homepage/Banner";
@@ -47,7 +47,10 @@ import MembersPage from "./Components/Admin/Dashboard/Pages/MembersPage";
 import DashboardPage from "./Components/Admin/Dashboard/Pages/DashboardPage";
 
 //Donate Page
-import DonationStepper from "./Components/Donation/Donate"
+import DonationStepper from "./Components/Donation/Donate";
+
+//404 Not Found Page
+import NotFound from "./Components/NotFound";
 
 //Protected Routes
 import ProtectedRoute from "./Context/ProtectedRoute";
@@ -60,8 +63,16 @@ function App() {
     <>
       {!location.pathname.startsWith("/admin/dashboard") && <Navbar />}
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route
+          path="/login"
+          element={
+            auth ? (
+              <Navigate to="/admin/dashboard/dashboard" replace />
+            ) : (
+              <Login />
+            )
+          }
+        />
         <Route
           path="/"
           element={
@@ -72,7 +83,7 @@ function App() {
               <ActionSlider />
               <StatsSection />
               <Tutorial />
-              
+
               <FAQSection />
             </>
           }
@@ -83,22 +94,49 @@ function App() {
         <Route path="/faqs" element={<Faq />} />
         <Route path="/members" element={<Members />} />
         <Route path="/shop" element={<Shop />} />
-        <Route path="/donate" element={<DonationStepper/>} />
-        DonationStepper
+        <Route path="/donate" element={<DonationStepper />} />
+        <Route
+          path="/admin"
+          element={<Navigate to="/admin/dashboard/dashboard" />}
+        />
         <Route
           path="/admin/dashboard"
+          element={<Navigate to="/admin/dashboard/dashboard" />}
+        />
+        import {Navigate} from "react-router-dom"; // This redirects /admin and
+        /admin/dashboard to /admin/dashboard/dashboard
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute auth={auth} loading={loading}>
+              <Navigate to="/admin/dashboard/dashboard" />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute auth={auth} loading={loading}>
+              <Navigate to="/admin/dashboard/dashboard" />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/dashboard/"
           element={
             <ProtectedRoute auth={auth} loading={loading}>
               <AdminDashboard />
             </ProtectedRoute>
           }
         >
+          <Route index element={<Navigate to="dashboard" />} />
           <Route path="data" element={<DataPage />} />
           <Route path="gallery" element={<GalleryPage />} />
           <Route path="members" element={<MembersPage />} />
           <Route path="dashboard" element={<DashboardPage />} />
         </Route>
         <Route path="/research" element={<Research />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       {!location.pathname.startsWith("/admin/dashboard") && <Footer />}
     </>

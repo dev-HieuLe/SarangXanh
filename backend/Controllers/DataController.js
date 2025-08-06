@@ -7,7 +7,7 @@ export const getData = async (req, res) => {
     const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
 
     // Get all current stats
-    const [monthlyStats] = await db.execute(`SELECT * FROM Stats ORDER BY month ASC`);
+    const [monthlyStats] = await db.execute(`SELECT * FROM Stats ORDER BY month DESC`);
 
     // Check if current month already exists
     const exists = monthlyStats.some((m) => m.month === currentMonth);
@@ -38,7 +38,7 @@ export const getData = async (req, res) => {
     }
 
     // Fetch fresh data (after insert)
-    const [updatedStats] = await db.execute(`SELECT * FROM Stats ORDER BY month ASC`);
+    const [updatedStats] = await db.execute(`SELECT * FROM Stats ORDER BY month DESC`);
     const [totals] = await db.execute(`
       SELECT 
         SUM(plastic_collected) AS plastic_collected,

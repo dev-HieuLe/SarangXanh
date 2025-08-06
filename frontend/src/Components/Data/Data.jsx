@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Banner from "../Banner";
-
 import {
   MapContainer,
   TileLayer,
@@ -25,68 +25,69 @@ import {
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
-// Timeline events with photo & description
-const timelineEvents = [
-  {
-    date: "June 2025",
-    title: "Started in Hanoi",
-    image: "/bg.jpg",
-    description:
-      "We held our very first cleanup event in the heart of Hanoi, bringing together over 50 student volunteers who collected more than 200kg of plastic waste in one day.",
-  },
-  {
-    date: "July 2025",
-    title: "Live Tracker Deployed",
-    image: "/bg.jpg",
-    description:
-      "Our real-time tracking system launched successfully, allowing communities to view updated statistics of plastic collected across Vietnam.",
-  },
-  {
-    date: "August 2025",
-    title: "1,000+ Volunteers",
-    image: "/bg.jpg",
-    description:
-      "We surpassed the milestone of 1,000 registered volunteers! Cleanup operations expanded to Da Nang and Ho Chi Minh City.",
-  },
-];
-
-// Map data
 const collectedLocations = [
   { city: "Hanoi", lat: 21.0285, lng: 105.8542 },
   { city: "Da Nang", lat: 16.0544, lng: 108.2022 },
   { city: "Ho Chi Minh City", lat: 10.7769, lng: 106.7009 },
 ];
 
-// Statistics data
-const stats = [
-  {
-    label: "Plastic Collected",
-    value: "12,450 kg",
-    chart: [200, 500, 1000, 2500, 3200, 4000, 5000],
-  },
-  {
-    label: "Plastic Recycled",
-    value: "4,732 kg",
-    chart: [100, 250, 500, 800, 1200, 1800, 4732],
-  },
-  {
-    label: "Volunteers",
-    value: "1,120 people",
-    chart: [10, 30, 100, 300, 500, 800, 1120],
-  },
-];
-
 const Data = () => {
-  // Stat card hover state
   const [hoveredStat, setHoveredStat] = useState(null);
-  // Active chart index
   const [activeChart, setActiveChart] = useState(null);
-  // Chart animation state
   const [showChart, setShowChart] = useState(false);
-  // Timeline card hover state
   const [hoveredTimeline, setHoveredTimeline] = useState(null);
 
-  // Animate chart appearance when activeChart changes
+  const [stats, setStats] = useState([]);
+  const [timelineEvents, setTimelineEvents] = useState([]);
+  const [monthlyStats, setMonthlyStats] = useState([]);
+
+  // Fetch backend data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get("/api/data", { withCredentials: true });
+        const backendStats = res.data.stats;
+        const timeline = res.data.timeline;
+        const monthly = res.data.monthlyStats;
+
+        setTimelineEvents(timeline);
+
+        // Construct chart data from monthly breakdown
+        const labels = monthly.map((item) => item.month.slice(5)); // "2025-07" → "07"
+        const collected = monthly.map((item) => item.plastic_collected);
+        const recycled = monthly.map((item) => item.plastic_recycled);
+        const volunteer = monthly.map((item) => item.volunteers);
+
+        setStats([
+          {
+            label: "Plastic Collected",
+            value: `${backendStats.plastic_collected} kg`,
+            chart: collected,
+            labels,
+          },
+          {
+            label: "Plastic Recycled",
+            value: `${backendStats.plastic_recycled} kg`,
+            chart: recycled,
+            labels,
+          },
+          {
+            label: "Volunteers",
+            value: `${backendStats.volunteers} people`,
+            chart: volunteer,
+            labels,
+          },
+        ]);
+
+        setMonthlyStats(monthly);
+      } catch (err) {
+        console.error("❌ Failed to fetch data:", err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   useEffect(() => {
     if (activeChart !== null) {
       setShowChart(false);
@@ -110,7 +111,7 @@ const Data = () => {
       />
 
       <div className="max-w-6xl mx-auto py-20 px-6" id="overview">
-        {/* Stat Cards - interactive hover and select */}
+        {/* Stat Cards */}
         <div className="grid md:grid-cols-3 gap-6 mb-12">
           {stats.map((stat, idx) => (
             <div
@@ -133,22 +134,20 @@ const Data = () => {
           ))}
         </div>
 
-        {/* Line Chart - animated fade-in */}
+        {/* Chart */}
         {activeChart !== null && (
           <div
             className={`bg-white p-6 mb-20 rounded-lg shadow-lg ${
               showChart ? "opacity-100" : "opacity-0"
             }`}
-            style={{
-              transition: "opacity 0.5s",
-            }}
+            style={{ transition: "opacity 0.5s" }}
           >
             <h4 className="text-lg font-semibold text-center mb-4 text-blue-700">
-              {stats[activeChart].label} - Daily Progress
+              {stats[activeChart].label} - Monthly Progress
             </h4>
             <Line
               data={{
-                labels: ["7/1", "7/2", "7/3", "7/4", "7/5", "7/6", "7/7"],
+                labels: stats[activeChart].labels,
                 datasets: [
                   {
                     label: stats[activeChart].label,
@@ -170,7 +169,7 @@ const Data = () => {
           </div>
         )}
 
-        {/* Map Section */}
+        {/* Map */}
         <div className="mb-20">
           <h3 className="text-2xl font-bold mb-4 text-blue-700">
             🗺️ Collected Areas
@@ -198,7 +197,7 @@ const Data = () => {
           </MapContainer>
         </div>
 
-        {/* Timeline Section */}
+        {/* Timeline */}
         <div className="mb-10">
           <h3 className="text-2xl font-bold mb-8 text-blue-700">
             📅 Collection Timeline
@@ -206,7 +205,7 @@ const Data = () => {
           <VerticalTimeline>
             {timelineEvents.map((event, idx) => (
               <VerticalTimelineElement
-                key={idx}
+                key={event.id || idx}
                 date={event.date}
                 iconStyle={{
                   background: "#3b82f6",

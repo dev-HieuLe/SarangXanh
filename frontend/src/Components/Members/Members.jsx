@@ -1,14 +1,14 @@
-import React from "react";
+// src/Pages/Members.jsx
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { FaInstagram, FaLinkedin } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Banner from "../Banner";
 
 const defaultImg = "/bg.jpg";
 
-// Teams that should not get a "Leader" badge even on the first member
 const NO_LEADER_TEAMS = ["Teachers & Advisors", "Teachers & TA"];
 
-// MemberCard component
 const MemberCard = ({
   name,
   school,
@@ -26,8 +26,12 @@ const MemberCard = ({
       viewport={{ once: true }}
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
-      <div className="aspect-[2/3] w-full overflow-hidden rounded-md border border-gray-200 mb-2">
-        <img src={img} alt={name} className="w-full h-full object-cover" />
+      <div className="w-full aspect-[2/3] overflow-hidden rounded-md border border-gray-200 mb-2 bg-white flex items-center justify-center">
+        <img
+          src={img}
+          alt={name}
+          className="h-full object-contain object-center"
+        />
       </div>
       <p className="text-sm font-semibold text-gray-800 flex items-center gap-1 text-center">
         {name}
@@ -67,14 +71,13 @@ const MemberCard = ({
   );
 };
 
-// TeamSection component
 const TeamSection = ({ title, members }) => (
   <div className="mb-16 text-left">
     <h3 className="text-2xl font-extrabold text-blue-700 mb-6">{title}</h3>
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
       {members.map((member, index) => (
         <MemberCard
-          key={index}
+          key={member.id || index}
           {...member}
           isLeader={!NO_LEADER_TEAMS.includes(title) && index === 0}
         />
@@ -83,193 +86,35 @@ const TeamSection = ({ title, members }) => (
   </div>
 );
 
-// Main component
 const Members = () => {
-  const teams = {
-    "Content Team": [
-      {
-        name: "Jewoo Shin",
-        school: "Valor International Scholars, Korea",
-        instagram: "https://instagram.com/jagam0o",
-        linkedin: "https://linkedin.com/in/jewoo",
-        img: "/Members/Jewoo_Shin.jpeg",
-      },
-      {
-        name: "Yehoon Park",
-        school: "Valor International Scholars, Korea",
-        instagram: "https://instagram.com/o6o6z3",
-        linkedin: "https://linkedin.com/in/yehoon",
-        img: "/Members/Yehoon_Park.jpeg",
-      },
-      {
-        name: "Minwoo Shin",
-        school: "St. Antony's High School, NY",
-        instagram: "https://instagram.com/minwoo",
-        linkedin: "https://linkedin.com/in/minwoo",
-        img: "/Members/Minwoo_Shin.jpeg",
-      },
-      {
-        name: "Dang Thai Hoa",
-        school: "Delta Global School, Vietnam",
-        instagram: "https://instagram.com/ahahahahehehehahe",
-        linkedin: "https://linkedin.com/in/panda",
-        img: "/Members/Hoa_Dang.jpeg",
-      },
-      {
-        name: "Le Uyen Chi",
-        school: "Delta Global School, Vietnam",
-        instagram: "https://instagram.com/_iun.lychee",
-        linkedin: "https://linkedin.com/in/uyench",
-        img: "/Members/Uyen_Chi.jpeg",
-      },
-      {
-        name: "Nguyen Lan Chi",
-        school: "Delta Global School, Vietnam",
-        instagram: "https://instagram.com/lanchi",
-        linkedin: "https://linkedin.com/in/lanchi",
-        img: "/Members/Lan_Chi.jpeg",
-      },
-      {
-        name: "Nguyen Phuc Hoang",
-        school: "Vietnam",
-        instagram: "https://instagram.com/hoanggg_.koy",
-        linkedin: "https://linkedin.com/in/phuchoang",
-      },
-    ],
-    "Media Team": [
-      {
-        name: "Jiwon Chung",
-        school: "Mercersburg Academy, PA",
-        instagram: "https://instagram.com/jiwon",
-        linkedin: "https://linkedin.com/in/jiwon",
-        img: "/Members/Jiwon_Chung.jpeg",
-      },
-      {
-        name: "Nguyen Khanh",
-        school: "Delta Global School, Vietnam",
-        instagram: "https://instagram.com/kerbonthecurb",
-        linkedin: "https://linkedin.com/in/khanh",
-        img: "/Members/Nguyen_Khanh.jpeg",
-      },
-      {
-        name: "Dao Ha Ngan",
-        school: "Delta Global School, Vietnam",
-        instagram: "https://instagram.com/ginger_nycuachi",
-        linkedin: "https://linkedin.com/in/ginger",
-        img: "/Members/Ha_Ngan.jpeg",
-      },
-    ],
-    "Website Team": [
-      {
-        name: "Minjoo Lee",
-        school: "Korean Minjok Leadership Academy, Korea",
-        instagram: "https://instagram.com/ww.minjoo",
-        linkedin: "https://linkedin.com/in/minjoo",
-      },
-      {
-        name: "Nguyen Lan Chi",
-        school: "Delta Global School, Vietnam",
-        instagram: "https://instagram.com/lanchi",
-        linkedin: "https://linkedin.com/in/lanchi",
-        img: "/Members/Lan_Chi.jpeg",
-      },
-      {
-        name: "Le Trung Hieu",
-        school: "Delta Global School, Vietnam",
-        instagram: "https://instagram.com/ltheiu.css",
-        linkedin: "https://linkedin.com/in/hieu",
-        img: "/Members/Trung_Hieu.jpeg",
-      },
-      {
-        name: "Nguyen Khanh",
-        school: "Delta Global School, Vietnam",
-        instagram: "https://instagram.com/kerbonthecurb",
-        linkedin: "https://linkedin.com/in/khanh",
-        img: "/Members/Nguyen_Khanh.jpeg",
-      },
-      {
-        name: "Dang Chuc An",
-        school: "Delta Global School, Vietnam",
-        instagram: "https://instagram.com/vuofpage",
-        linkedin: "https://linkedin.com/in/chucan",
-      },
-      {
-        name: "Dao Ha Ngan",
-        school: "Delta Global School, Vietnam",
-        instagram: "https://instagram.com/ginger_nycuachi",
-        linkedin: "https://linkedin.com/in/ginger",
-        img: "/Members/Ha_Ngan.jpeg",
-      },
-    ],
-    "Marketing Team": [
-      {
-        name: "Yehoon Park",
-        school: "Valor International Scholars, Korea",
-        instagram: "https://instagram.com/o6o6z3",
-        linkedin: "https://linkedin.com/in/yehoon",
-        img: "/Members/Yehoon_Park.jpeg",
-      },
-      {
-        name: "Ha Ngan",
-        school: "Delta Global School, Vietnam",
-        instagram: "https://instagram.com/ginger_nycuachi",
-        linkedin: "https://linkedin.com/in/ginger",
-        img: "/Members/Ha_Ngan.jpeg",
-      },
-      {
-        name: "Le Thi Tra My",
-        school: "Delta Global School, Vietnam",
-        instagram: "https://instagram.com/tmy_j.m",
-        linkedin: "https://linkedin.com/in/tramy",
-      },
-      {
-        name: "Dang Thai Hoa",
-        school: "Delta Global School, Vietnam",
-        instagram: "https://instagram.com/ahahahahehehehahe",
-        linkedin: "https://linkedin.com/in/panda",
-        img: "/Members/Hoa_Dang.jpeg",
-      },
-      {
-        name: "Le Trung Hieu",
-        school: "Delta Global School, Vietnam",
-        instagram: "https://instagram.com/ltheiu.css",
-        linkedin: "https://linkedin.com/in/hieu",
-        img: "/Members/Trung_Hieu.jpeg",
-      },
-    ],
-    "Teachers & TA": [
-      {
-        name: "Dao Hai Linh",
-        school: "Delta Global School, Vietnam",
-        instagram: "https://instagram.com/linh",
-        linkedin: "https://linkedin.com/in/linh",
-        role: "Teacher",
-      },
-      {
-        name: "Luong Thien Tai",
-        school: "Delta Global School, Vietnam",
-        instagram: "https://instagram.com/tai",
-        linkedin: "https://linkedin.com/in/tai",
-        role: "Teacher",
-      },
-      {
-        name: "Yooseung Noh",
-        school: "Boston University, USA",
-        instagram: "https://instagram.com/yooseung",
-        linkedin: "https://linkedin.com/in/yooseung",
-        role: "TA",
-        img : "/Members/Yooseung_Noh.jpeg",
-      },
-    ],
-  };
+  const [membersByTeam, setMembersByTeam] = useState({});
 
-  // Ensure default image on all members (only applied if missing)
-  for (const team in teams) {
-    teams[team] = teams[team].map((member) => ({
-      img: defaultImg,
-      ...member,
-    }));
-  }
+  useEffect(() => {
+    const fetchMembers = async () => {
+      try {
+        const res = await axios.get("/api/members");
+        const grouped = {};
+        res.data.forEach((member) => {
+          const team = member.team || "Others";
+          if (!grouped[team]) grouped[team] = [];
+          grouped[team].push({
+            id: member.id,
+            name: member.name,
+            role: member.role,
+            school: member.school,
+            description: member.description,
+            instagram: member.instagram,
+            linkedin: member.linkedin,
+            img: member.picture || defaultImg,
+          });
+        });
+        setMembersByTeam(grouped);
+      } catch (err) {
+        console.error("❌ Failed to fetch members:", err);
+      }
+    };
+    fetchMembers();
+  }, []);
 
   return (
     <section className="w-full bg-gradient-to-b from-white to-blue-50 text-gray-800">
@@ -278,14 +123,12 @@ const Members = () => {
         subtitle="Get to know the passionate members behind SarangXanh’s projects and initiatives."
         buttonText="Explore Members"
         onButtonClick={() =>
-          document
-            .getElementById("teams")
-            ?.scrollIntoView({ behavior: "smooth" })
+          document.getElementById("teams")?.scrollIntoView({ behavior: "smooth" })
         }
       />
 
       <div className="max-w-6xl mx-auto px-6 py-20" id="teams">
-        {Object.entries(teams).map(([teamName, members], idx) => (
+        {Object.entries(membersByTeam).map(([teamName, members], idx) => (
           <TeamSection key={idx} title={teamName} members={members} />
         ))}
       </div>

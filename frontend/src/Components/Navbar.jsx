@@ -14,7 +14,7 @@ const Navbar = () => {
         {/* Logo */}
         <div className="text-2xl font-bold tracking-wide">
           <span className="text-white">Sarang</span>
-          <span className="text-blue-900">Xanh</span>
+          <span className="text-cyan-600">Xanh</span>
         </div>
 
         {/* Desktop Menu */}

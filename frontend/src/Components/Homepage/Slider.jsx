@@ -83,7 +83,6 @@ export default function ActionSlider() {
 
       {/* Arrows with bounce animation */}
       <button
-        onClick={() => navigate('/data')}
         onClick={handlePrev}
         className="absolute left-4 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow hover:bg-cyan-100 transition z-10 hover:animate-bounce"
         data-aos="fade-right"
@@ -92,7 +91,6 @@ export default function ActionSlider() {
       </button>
 
       <button
-        
         onClick={handleNext}
         className="absolute right-4 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow hover:bg-cyan-100 transition z-10 hover:animate-bounce"
         data-aos="fade-left"

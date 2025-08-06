@@ -1,15 +1,4 @@
 import React, { useEffect, useState } from "react";
-
-/**
- * Reusable Banner component for SarangXanh pages.
- * Props:
- * - images: array of image URLs for the banner background (optional; falls back to built-in defaults)
- * - title: string, main heading (required)
- * - subtitle: string, subheading (required)
- * - buttonText: string, button label (optional)
- * - onButtonClick: function, button click handler (optional)
- * - height: string, Tailwind height class (default: "h-[50vh]")
- */
 const DEFAULT_IMAGES = ["/Banner/Banner_Img1.jpeg", "/Banner/Banner_Img2.jpeg", "/Banner/Banner_Img3.jpeg"];
 
 const Banner = ({
