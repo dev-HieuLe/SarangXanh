@@ -1,10 +1,10 @@
-# 🛠️ Backend Contribution Summary – Hieu Le
+# Backend Contribution Summary – Hieu Le
 
 This document outlines my **full-stack backend contributions** to the SarangXanh project — a Vietnamese non-profit organization. I was responsible for designing, building, and securing the backend architecture. All backend logic was written and fully understood by me.
 
 ---
 
-## ⚙️ Technologies Used
+## Technologies Used
 
 - **Node.js & Express** – Server setup and route handling  
 - **MySQL** – Relational database using `mysql2/promise`  
@@ -17,15 +17,15 @@ This document outlines my **full-stack backend contributions** to the SarangXanh
 
 ---
 
-## 🔑 Key Backend Contributions
+## Key Backend Contributions
 
-### 🔐 1. Authentication & Authorization
+### 1. Authentication & Authorization
 - Created **JWT-based login & session system**
 - Implemented `verifyUser.js` middleware to guard admin-only routes
 - Used **bcrypt** to hash passwords securely
 - Designed safe registration & login flow, using access token validation
 
-### 🧠 2. Core Backend Setup
+### 2. Core Backend Setup
 - Built Express server from scratch (`Server.js`)
 - Configured middlewares: CORS, JSON parser, custom error handling
 - Structured backend into modular layers:
@@ -34,7 +34,7 @@ This document outlines my **full-stack backend contributions** to the SarangXanh
   - `Models/` for SQL abstraction
   - `Middleware/` for auth and protection
 
-### 🗃️ 3. Database & API Logic
+### 3. Database & API Logic
 - Configured DB with `.env` variables (secured)
 - Used `mysql2/promise` and prepared statements to avoid injection
 - Built REST APIs for:
@@ -43,7 +43,7 @@ This document outlines my **full-stack backend contributions** to the SarangXanh
   - Posts/Blogs
   - Admin login
 
-### 📊 4. Admin Dashboard Integration
+### 4. Admin Dashboard Integration
 - Backend powers a React-based dashboard
 - APIs enable admin users to:
   - Create, update, and delete content
@@ -51,16 +51,16 @@ This document outlines my **full-stack backend contributions** to the SarangXanh
   - Moderate site blog/posts
   - Monitor user activity and changes
 
-### 🧪 5. Testing & Git Collaboration
+### 5. Testing & Git Collaboration
 - Used **Postman** to test endpoints and debug response errors
 - Created a dedicated branch `hieu` to push backend updates
 - Documented route behavior and coordinated merge requests
 
 ---
 
-## 🔄 🔍 Backend Logic Flow
+## Backend Logic Flow
 
-### 🛠️ General API Request Flow
+### General API Request Flow
 
 ```
 Client Request (Frontend)
@@ -78,7 +78,7 @@ MySQL Database (via mysql2/promise)
 Result sent back → Controller → Response to Client
 ```
 
-### 🔐 Admin Login Flow
+### Admin Login Flow
 
 ```
 POST /api/admin/login
@@ -90,7 +90,7 @@ POST /api/admin/login
 → All future admin requests send token in headers
 ```
 
-### 📁 CRUD Event Logic
+### CRUD Event Logic
 
 ```
 /api → /http://localhost:8081(in Vite config)
@@ -102,7 +102,7 @@ DELETE /api/events/:id → Delete by ID (admin only)
 
 ---
 
-## 📂 Backend File Ownership
+## Backend File Ownership
 
 | File/Folder              | Status                     |
 |--------------------------|----------------------------|
@@ -118,7 +118,7 @@ DELETE /api/events/:id → Delete by ID (admin only)
 
 ---
 
-## 🗂️ Backend Directory Structure
+## Backend Directory Structure
 
 ```bash
 /backend
@@ -140,7 +140,7 @@ DELETE /api/events/:id → Delete by ID (admin only)
 
 ---
 
-## 🧠 Admin Dashboard Structure (Frontend Support)
+## Admin Dashboard Structure (Frontend Support)
 
 ```bash
 /Admin
@@ -158,7 +158,7 @@ DELETE /api/events/:id → Delete by ID (admin only)
 
 ---
 
-## 📌 Notes
+## Notes
 
 > I wrote all backend code by myself and with the helps from AI. I fully understood, modified, and integrated every line of code into the project myself.
 > From JWT authentication to database connection, my work represents **secure, modular, and scalable architecture**.  
@@ -166,13 +166,13 @@ DELETE /api/events/:id → Delete by ID (admin only)
 
 ---
 
-# 🎨 Frontend Contribution Summary – Hieu Le
+# Frontend Contribution Summary – Hieu Le
 
 This section outlines my contributions to the frontend of the SarangXanh full-stack project, specifically focusing on the homepage and routing architecture.
 
 ---
 
-## ⚙️ Technologies Used
+## Technologies Used
 
 - **ReactJS** for component-based UI development
 - **React Router v6** for client-side routing
@@ -181,9 +181,9 @@ This section outlines my contributions to the frontend of the SarangXanh full-st
 
 ---
 
-## 📍 Key Contributions
+## Key Contributions
 
-### 🏠 1. Homepage UI & Component Architecture
+### 1. Homepage + Navbar UI & Component Architecture
 I fully built and implemented the homepage, which includes:
 - `Banner.jsx` – Hero section with intro visuals
 - `AboutUs.jsx` – Our mission and team background
@@ -193,17 +193,17 @@ I fully built and implemented the homepage, which includes:
 - `Tutorial.jsx` – Step-by-step guide to get involved
 - `FAQSection.jsx` – Embedded FAQ section on homepage
 - `Merch.jsx` – Product preview of eco-friendly merchandise
-- `Footer.jsx` – Responsive footer with social links and branding
+- `Navbar.jsx` – Responsive navbar with social links and branding
 
 All homepage components were styled and integrated manually to reflect SarangXanh’s identity.
 
-### 🌐 2. Routing System & Page Structure
+### 2. Routing System & Page Structure
 I designed the entire frontend routing architecture via `App.jsx`:
 - Set up **React Router v6** for seamless navigation
 - Handled all route definitions with `Routes` and `Route` components
 - Used `useLocation()` to dynamically hide/show `Navbar` and `Footer`
 
-### 🔒 3. Admin Route Protection
+### 3. Admin Route Protection
 - Created a `ProtectedRoute.jsx` wrapper using `AuthContext` to control access
 - Admin dashboard is only accessible after JWT auth validation
 - Redirects unauthenticated users to the login page
@@ -213,13 +213,13 @@ I designed the entire frontend routing architecture via `App.jsx`:
   - `/admin/dashboard/members`
   - `/admin/dashboard/dashboard`
 
-### 🔄 4. Conditional Layout Logic
+### 4. Conditional Layout Logic
 - `Navbar` and `Footer` are hidden from admin/dashboard routes
 - Ensures clean and distraction-free admin experience
 
 ---
 
-## 🧠 Logic Flow
+## Logic Flow
 
 ```txt
 1. App.jsx loads -> checks URL using useLocation()
@@ -233,12 +233,12 @@ I designed the entire frontend routing architecture via `App.jsx`:
 
 ---
 
-## 📌 Notes
+## Notes
 > While some code was assisted by AI tools, I thoroughly understood, customized, and manually integrated all routing, layout logic, and homepage UI to ensure a smooth, secure, and user-centered frontend experience.
 
 ---
 
-## 👤 Author
+## Author
 
 - **Name**: Hieu Le  
 - **Role**: Full-Stack Developer  
