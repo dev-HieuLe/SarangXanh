@@ -1,4 +1,3 @@
-// src/Pages/Members.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaInstagram, FaLinkedin } from "react-icons/fa";
@@ -7,15 +6,12 @@ import Banner from "../Banner";
 
 const defaultImg = "/bg.jpg";
 
-const NO_LEADER_TEAMS = ["Teachers & Advisors", "Teachers & TA"];
-
 const MemberCard = ({
   name,
   school,
   img = defaultImg,
   instagram,
   linkedin,
-  isLeader = false,
   role,
 }) => {
   return (
@@ -35,13 +31,16 @@ const MemberCard = ({
       </div>
       <p className="text-sm font-semibold text-gray-800 flex items-center gap-1 text-center">
         {name}
-        {isLeader && (
-          <span className="text-xs text-blue-500 font-bold bg-blue-100 px-2 py-0.5 rounded-full">
-            Leader
-          </span>
-        )}
         {role && (
-          <span className="text-xs text-green-600 font-bold bg-green-100 px-2 py-0.5 rounded-full">
+          <span
+            className={`text-xs font-bold px-2 py-0.5 rounded-full
+              ${role === "leader"
+                ? "bg-purple-100 text-purple-600"
+                : role === "co-leader"
+                ? "bg-blue-100 text-blue-600"
+                : "bg-green-100 text-green-600"
+              }`}
+          >
             {role}
           </span>
         )}
@@ -79,7 +78,6 @@ const TeamSection = ({ title, members }) => (
         <MemberCard
           key={member.id || index}
           {...member}
-          isLeader={!NO_LEADER_TEAMS.includes(title) && index === 0}
         />
       ))}
     </div>

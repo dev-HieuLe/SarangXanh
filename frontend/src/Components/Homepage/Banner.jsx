@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import AOS from "aos";
 import { Globe } from "lucide-react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Banner = () => {
   const [stats, setStats] = useState({
@@ -100,9 +101,11 @@ const Banner = () => {
               cleaner and greener world.
             </p>
 
-            <button className="mt-8 inline-flex items-center gap-2 bg-cyan-600 hover:bg-cyan-700 px-6 py-3 2xl:px-8 2xl:py-4 rounded-full text-sm 2xl:text-base font-semibold shadow-md">
-              Save The Environment
-            </button>
+            <Link to="/donate">
+              <button className="mt-8 inline-flex items-center gap-2 bg-cyan-600 hover:bg-cyan-700 px-6 py-3 2xl:px-8 2xl:py-4 rounded-full text-sm 2xl:text-base font-semibold shadow-md">
+                Save The Environment
+              </button>
+            </Link>
           </div>
 
           {/* Right Image */}
