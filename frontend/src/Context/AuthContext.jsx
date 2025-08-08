@@ -20,7 +20,6 @@ export const AuthProvider = ({ children }) => {
         { withCredentials: true }
       );
       if (res.data.status === "Success") {
-        console.log("✅ Access token refreshed");
         return true;
       }
     } catch (err) {

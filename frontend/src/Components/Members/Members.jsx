@@ -90,7 +90,7 @@ const Members = () => {
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const res = await axios.get("/api/members");
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/members`);
         const grouped = {};
         res.data.forEach((member) => {
           const team = member.team || "Others";

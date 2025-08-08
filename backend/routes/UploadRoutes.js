@@ -1,19 +1,23 @@
 import express from "express";
 import multer from "multer";
+import storage from "../Utils/storage.js";
 
-const router = express.Router(); // ✅ create a router
+const router = express.Router();
+const upload = multer({ storage });
 
-// ✅ Configure multer to save files in uploads/ folder
-const upload = multer({ dest: "uploads/" });
+// Route: POST /upload
+router.post("/", upload.single("image"), (req, res) => {
+  try {
+    // This is the URL of the uploaded file on Cloudinary
+    const fileUrl = req.file.path;
 
-// ✅ POST /upload route
-router.post("/upload", upload.single("image"), (req, res) => {
-  const file = req.file;
-  if (!file) {
-    return res.status(400).json({ error: "No file uploaded" });
+    res.status(200).json({
+      message: "Upload successful",
+      imageUrl: fileUrl,
+    });
+  } catch (err) {
+    res.status(500).json({ error: "Upload failed", details: err });
   }
-  const imageUrl = `http://localhost:8081/uploads/${file.filename}`;
-  res.json({ imageUrl });
 });
 
-export default router; // ✅ must export
+export default router;

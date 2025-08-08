@@ -21,8 +21,7 @@ const Banner = () => {
 
     const trackView = async () => {
       try {
-        await axios.post("/api/views/homepage");
-        console.log("✅ Homepage view tracked");
+        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/views/homepage`);
       } catch (err) {
         console.error("❌ Failed to track view:", err);
       }
@@ -30,9 +29,7 @@ const Banner = () => {
 
     const fetchStats = async () => {
       try {
-        const res = await axios.get("/api/data");
-        console.log("Stats API response:", res.data);
-
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/data`);
         const backendStats = res.data.stats;
 
         setStats({

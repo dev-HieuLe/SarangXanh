@@ -16,7 +16,9 @@ const DonationStepper = () => {
             <React.Fragment key={i}>
               <div
                 className={`w-8 h-8 rounded-full border-2 z-10 flex items-center justify-center text-white text-sm font-medium ${
-                  i <= step ? "bg-blue-600 border-blue-600" : "border-blue-300 bg-white"
+                  i <= step
+                    ? "bg-blue-600 border-blue-600"
+                    : "border-blue-300 bg-white"
                 }`}
               >
                 {i + 1}
@@ -36,7 +38,7 @@ const DonationStepper = () => {
 
         {/* Labels */}
         <div className="flex justify-between text-xs text-gray-500 mt-2 px-4">
-          {['Become a donor', 'Choose amount', 'Payment'].map((label, i) => (
+          {["Become a donor", "Choose amount", "Payment"].map((label, i) => (
             <span key={i} className="w-1/3 text-center">
               {label}
             </span>
@@ -48,8 +50,8 @@ const DonationStepper = () => {
             <div>
               <h2 className="text-2xl font-bold mb-2">Become a donor</h2>
               <p className="text-gray-600 mb-6">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                varius enim in eros elementum tristique.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Suspendisse varius enim in eros elementum tristique.
               </p>
               <button
                 onClick={nextStep}
@@ -112,7 +114,8 @@ const DonationStepper = () => {
             <div className="text-center">
               <h2 className="text-2xl font-bold mb-2">Scan to Pay</h2>
               <p className="text-gray-600 mb-6">
-                Use the QR code below to complete your donation of <strong>${amount}</strong>.
+                Use the QR code below to complete your donation of{" "}
+                <strong>${amount}</strong>.
               </p>
               <div className="flex justify-center">
                 <img
