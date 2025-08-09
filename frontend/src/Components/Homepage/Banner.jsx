@@ -81,9 +81,9 @@ const Banner = () => {
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/20 backdrop-blur-sm pointer-events-none select-none"></div>
 
-      {/* Content wrapper */}
-      <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 py-16 md:py-24 w-full max-w-6xl 2xl:max-w-[1600px] px-6 z-10 flex flex-col items-center">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-12 w-full">
+      {/* Content wrapper (text + image) */}
+      <div className="relative py-16 md:py-24 w-full px-6 z-10 flex flex-col items-center">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-12 w-full max-w-6xl mx-auto">
           {/* Left Text */}
           <div className="flex-1 text-left" data-aos="fade-up">
             <h5 className="uppercase text-base md:text-lg font-bold tracking-widest text-gray-300">
