@@ -37,7 +37,7 @@ const AdminData = () => {
 
   const fetchData = async () => {
     setLoading(true);
-    const res = await axios.get("/api/data", { withCredentials: true });
+    const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/data`, { withCredentials: true });
     setData(res.data);
     setLoading(false);
   };
@@ -48,7 +48,7 @@ const AdminData = () => {
     formData.append("image", file);
 
     try {
-      const res = await axios.post("/api/upload", formData, {
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/upload`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
@@ -75,7 +75,7 @@ const AdminData = () => {
     if (imageFile) uploadedImageUrl = await uploadImage(imageFile);
 
     await axios.post(
-      "/api/data/timeline",
+      `${import.meta.env.VITE_API_BASE_URL}/data/timeline`,
       { ...newEvent, image: uploadedImageUrl },
       { withCredentials: true }
     );
@@ -86,7 +86,7 @@ const AdminData = () => {
   };
 
   const handleDeleteEvent = async (id) => {
-    await axios.delete(`/api/data/timeline/${id}`, { withCredentials: true });
+    await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/data/timeline/${id}`, { withCredentials: true });
     fetchData();
   };
 
@@ -105,7 +105,7 @@ const AdminData = () => {
     if (editImageFile) uploadedImageUrl = await uploadImage(editImageFile);
 
     await axios.put(
-      `/api/data/timeline/${editEventId}`,
+      `${import.meta.env.VITE_API_BASE_URL}/data/timeline/${editEventId}`,
       { ...editEvent, image: uploadedImageUrl },
       { withCredentials: true }
     );
@@ -178,7 +178,7 @@ const AdminData = () => {
                         );
                         axios
                           .put(
-                            `/api/data/monthly/${m.month}`,
+                            `${import.meta.env.VITE_API_BASE_URL}/data/monthly/${m.month}`,
                             {
                               month: m.month,
                               plastic_collected: current.plastic_collected,

@@ -20,7 +20,7 @@ const Sidebar = () => {
 
   const handleLogout = () => {
     axios
-      .get("/api/logout")
+      .get(`${import.meta.env.VITE_API_BASE_URL}/logout`, { withCredentials: true })
       .then(() => {
         setAuth(false);
         setUser({});

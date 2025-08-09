@@ -31,7 +31,7 @@ const Login = () => {
     }
 
     axios
-      .post("/api/login", values, { withCredentials: true })
+      .post(`${import.meta.env.VITE_API_BASE_URL}/login`, values, { withCredentials: true })
       .then((res) => {
         if (res.data.status === "Success") {
           setAuth(true);

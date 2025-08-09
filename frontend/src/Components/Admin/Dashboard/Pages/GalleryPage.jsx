@@ -29,7 +29,7 @@ const GalleryPage = () => {
 
   const fetchGallery = async () => {
     try {
-      const res = await axios.get("/api/gallery");
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/gallery`);
       setGallery(res.data || {});
     } catch (err) {
       alert("❌ Failed to load gallery.");
@@ -40,7 +40,7 @@ const GalleryPage = () => {
     try {
       const form = new FormData();
       form.append("image", file);
-      const res = await axios.post("/api/upload", form);
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/upload`, form);
       return res.data.imageUrl;
     } catch (err) {
       alert("❌ Failed to upload image.");
@@ -56,7 +56,7 @@ const GalleryPage = () => {
     setLoading(true);
     try {
       const image_url = await handleUploadImage(newItem.file);
-      await axios.post("/api/gallery", {
+      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/gallery`, {
         year: newItem.year,
         title: newItem.title,
         description: newItem.description,
@@ -74,7 +74,7 @@ const GalleryPage = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/api/gallery/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/gallery/${id}`);
       fetchGallery();
     } catch {
       alert("❌ Failed to delete item.");
@@ -95,7 +95,7 @@ const GalleryPage = () => {
     try {
       let image_url = editingItem.image_url;
       if (editFile) image_url = await handleUploadImage(editFile);
-      await axios.put(`/api/gallery/${editingItem.id}`, {
+      await axios.put(`${import.meta.env.VITE_API_BASE_URL}/gallery/${editingItem.id}`, {
         ...editingItem,
         image_url,
       });

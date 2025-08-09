@@ -80,9 +80,9 @@ const DashboardPage = () => {
       setLoading(true);
       try {
         const [viewsRes, statsRes, membersRes] = await Promise.all([
-          axios.get("/api/views/homepage"),
-          axios.get("/api/data", { withCredentials: true }),
-          axios.get("/api/members"),
+          axios.get(`${import.meta.env.VITE_API_BASE_URL}/views/homepage`),
+          axios.get(`${import.meta.env.VITE_API_BASE_URL}/data}`, { withCredentials: true }),
+          axios.get(`${import.meta.env.VITE_API_BASE_URL}/members`),
         ]);
 
         setViewCount(viewsRes.data.totalViews);
