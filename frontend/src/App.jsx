@@ -20,7 +20,7 @@ import Tutorial from "./Components/Homepage/Tutorial";
 import MerchStore from "./Components/Homepage/Merch";
 import FAQSection from "./Components/Homepage/FAQ";
 //FAQ page
-import Faq from "./Components/faq/faq";
+import Faq from "./Components/FAQ/Faq";
 //About page
 import About from "./Components/About/About";
 //Data page
