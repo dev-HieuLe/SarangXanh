@@ -11,7 +11,7 @@ import dataRoutes from "./routes/DataRoutes.js";
 import uploadRoutes from "./routes/UploadRoutes.js";
 import memberRoutes from "./routes/MemberRoutes.js";
 import galleryRoutes from "./routes/GalleryRoutes.js";
-import StatsRoutes from "./Routes/ViewRoutes.js";
+import StatsRoutes from "./routes/ViewRoutes.js";
 import helmet from "helmet";
 
 
