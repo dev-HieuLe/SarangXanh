@@ -29,7 +29,9 @@ const GalleryPage = () => {
 
   const fetchGallery = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/gallery`);
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/gallery`, {
+        withCredentials: true,
+      });
       setGallery(res.data || {});
     } catch (err) {
       alert("❌ Failed to load gallery.");
@@ -40,7 +42,10 @@ const GalleryPage = () => {
     try {
       const form = new FormData();
       form.append("image", file);
-      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/upload`, form);
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/upload`, form, {
+        withCredentials: true,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       return res.data.imageUrl;
     } catch (err) {
       alert("❌ Failed to upload image.");
@@ -61,6 +66,8 @@ const GalleryPage = () => {
         title: newItem.title,
         description: newItem.description,
         image_url,
+      }, {
+        withCredentials: true,
       });
       alert("✅ Item added!");
       setNewItem({ year: "", title: "", description: "", file: null });
@@ -74,7 +81,9 @@ const GalleryPage = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/gallery/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/gallery/${id}`, {
+        withCredentials: true,
+      });
       fetchGallery();
     } catch {
       alert("❌ Failed to delete item.");
@@ -98,6 +107,8 @@ const GalleryPage = () => {
       await axios.put(`${import.meta.env.VITE_API_BASE_URL}/gallery/${editingItem.id}`, {
         ...editingItem,
         image_url,
+      }, {
+        withCredentials: true,
       });
       alert("✅ Item updated!");
       setShowModal(false);
@@ -162,6 +173,7 @@ const GalleryPage = () => {
         <button
           onClick={handleAdd}
           className="bg-gray-800 text-white px-5 py-2 rounded-xl hover:bg-gray-700 transition"
+          disabled={loading}
         >
           <Upload className="w-4 h-4 inline mr-1" /> {loading ? "Uploading..." : "Add"}
         </button>

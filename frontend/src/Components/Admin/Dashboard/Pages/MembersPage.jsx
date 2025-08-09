@@ -20,7 +20,9 @@ const MembersPage = () => {
 
   const fetchMembers = async () => {
     setLoading(true);
-    const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/members`);
+    const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/members`, {
+      withCredentials: true,
+    });
     setMembers(res.data);
     setLoading(false);
   };
@@ -31,6 +33,7 @@ const MembersPage = () => {
     form.append("image", file);
     const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/upload`, form, {
       headers: { "Content-Type": "multipart/form-data" },
+      withCredentials: true,
     });
     return res.data.imageUrl;
   };
@@ -59,7 +62,9 @@ const MembersPage = () => {
       picture: pictureUrl,
     };
 
-    await axios.post(`${import.meta.env.VITE_API_BASE_URL}/members`, newMember);
+    await axios.post(`${import.meta.env.VITE_API_BASE_URL}/members`, newMember, {
+      withCredentials: true,
+    });
     await fetchMembers();
 
     setNewMemberInputs((prev) => ({ ...prev, [team]: {} }));
@@ -68,12 +73,16 @@ const MembersPage = () => {
   };
 
   const handleUpdate = async (member) => {
-    await axios.put(`${import.meta.env.VITE_API_BASE_URL}/members/${member.id}`, member);
+    await axios.put(`${import.meta.env.VITE_API_BASE_URL}/members/${member.id}`, member, {
+      withCredentials: true,
+    });
     alert("✅ Member updated!");
   };
 
   const handleDelete = async (id) => {
-    await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/members/${id}`);
+    await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/members/${id}`, {
+      withCredentials: true,
+    });
     setMembers((prev) => prev.filter((m) => m.id !== id));
   };
 
