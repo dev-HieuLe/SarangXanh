@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 export const AuthContext = createContext();
 
@@ -9,6 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [authCheckedOnce, setAuthCheckedOnce] = useState(false);
   const [wasLoggedInBefore, setWasLoggedInBefore] = useState(false);
+  const location = useLocation();
 
   // Refresh token if access token expired
   const tryRefreshToken = async () => {
@@ -67,11 +69,20 @@ export const AuthProvider = ({ children }) => {
 
   // Check once on load
   useEffect(() => {
-    checkAuth();
-  }, []);
+    if (location.pathname.startsWith("/admin")) {
+      checkAuth();
+    } else {
+      // If not in /admin, reset auth states to defaults
+      setAuth(false);
+      setUser({});
+      setLoading(false);
+      setAuthCheckedOnce(true);
+    }
+  }, [location.pathname]);
 
   // Re-check every 5 minutes if user was logged in before
   useEffect(() => {
+    if (!location.pathname.startsWith("/admin")) return;
     if (!wasLoggedInBefore) return;
 
     const interval = setInterval(() => {
