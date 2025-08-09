@@ -45,7 +45,7 @@ const Data = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("/api/data", { withCredentials: true });
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/data`, { withCredentials: true });
         const backendStats = res.data.stats;
         const timeline = res.data.timeline;
         const monthly = res.data.monthlyStats;

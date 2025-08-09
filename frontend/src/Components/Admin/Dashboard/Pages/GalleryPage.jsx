@@ -229,7 +229,7 @@ const GalleryPage = () => {
               <img
                 src={editingItem.image_url}
                 alt="Preview"
-                className="rounded-lg mb-4 w-full h-auto object-cover"
+                className="rounded-lg mb-4 w-full h-auto object-cover max-h-64"
               />
             )}
             <input

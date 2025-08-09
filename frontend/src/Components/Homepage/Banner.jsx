@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import AOS from "aos";
 import { Globe } from "lucide-react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Banner = () => {
   const [stats, setStats] = useState({
@@ -20,8 +21,7 @@ const Banner = () => {
 
     const trackView = async () => {
       try {
-        await axios.post("/api/views/homepage");
-        console.log("✅ Homepage view tracked");
+        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/views/homepage`);
       } catch (err) {
         console.error("❌ Failed to track view:", err);
       }
@@ -29,9 +29,7 @@ const Banner = () => {
 
     const fetchStats = async () => {
       try {
-        const res = await axios.get("/api/data");
-        console.log("Stats API response:", res.data);
-
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/data`);
         const backendStats = res.data.stats;
 
         setStats({
@@ -100,9 +98,11 @@ const Banner = () => {
               cleaner and greener world.
             </p>
 
-            <button className="mt-8 inline-flex items-center gap-2 bg-cyan-600 hover:bg-cyan-700 px-6 py-3 2xl:px-8 2xl:py-4 rounded-full text-sm 2xl:text-base font-semibold shadow-md">
-              Save The Environment
-            </button>
+            <Link to="/donate">
+              <button className="mt-8 inline-flex items-center gap-2 bg-cyan-600 hover:bg-cyan-700 px-6 py-3 2xl:px-8 2xl:py-4 rounded-full text-sm 2xl:text-base font-semibold shadow-md">
+                Save The Environment
+              </button>
+            </Link>
           </div>
 
           {/* Right Image */}

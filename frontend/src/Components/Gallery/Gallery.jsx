@@ -12,7 +12,7 @@ const Gallery = () => {
   useEffect(() => {
     const fetchGallery = async () => {
       try {
-        const res = await axios.get("/api/gallery", { withCredentials: true });
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/gallery`, { withCredentials: true });
         setGalleryData(res.data);
       } catch (err) {
         console.error("❌ Failed to fetch gallery:", err);

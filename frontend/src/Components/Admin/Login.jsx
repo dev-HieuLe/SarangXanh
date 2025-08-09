@@ -105,7 +105,7 @@ const Login = () => {
                   Password
                 </label>
                 <a href="#" className="text-sm text-gray-500 hover:underline">
-                  Forgot Password?
+                  Forgot Password? Asks Hieu :)
                 </a>
               </div>
               <input
