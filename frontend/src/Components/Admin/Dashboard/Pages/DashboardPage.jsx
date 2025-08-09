@@ -81,7 +81,7 @@ const DashboardPage = () => {
       try {
         const [viewsRes, statsRes, membersRes] = await Promise.all([
           axios.get(`${import.meta.env.VITE_API_BASE_URL}/views/homepage`),
-          axios.get(`${import.meta.env.VITE_API_BASE_URL}/data}`, { withCredentials: true }),
+          axios.get(`${import.meta.env.VITE_API_BASE_URL}/data`, { withCredentials: true }),
           axios.get(`${import.meta.env.VITE_API_BASE_URL}/members`),
         ]);
 
