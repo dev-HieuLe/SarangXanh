@@ -16,7 +16,7 @@ const MemberCard = ({
 }) => {
   return (
     <motion.div
-      className="relative group flex flex-col items-center p-4 rounded-xl shadow-md transition hover:shadow-xl"
+      className="relative flex flex-col items-center p-4 rounded-xl shadow-md transition hover:shadow-xl"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -54,18 +54,6 @@ const MemberCard = ({
       >
         {school}
       </p>
-      <div className="absolute bottom-0 left-0 right-0 h-6 group-hover:h-20 bg-[#042f2e]/30 backdrop-blur-sm rounded-xl transition-all duration-500 flex items-center justify-center space-x-4 opacity-0 group-hover:opacity-100">
-        {instagram && (
-          <a href={instagram} target="_blank" rel="noopener noreferrer">
-            <FaInstagram className="text-white text-xl hover:text-gray-300" />
-          </a>
-        )}
-        {linkedin && (
-          <a href={linkedin} target="_blank" rel="noopener noreferrer">
-            <FaLinkedin className="text-white text-xl hover:text-gray-300" />
-          </a>
-        )}
-      </div>
     </motion.div>
   );
 };

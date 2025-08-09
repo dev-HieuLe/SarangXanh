@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Save, Trash2, Plus, Loader2 } from "lucide-react";
 
@@ -8,14 +8,18 @@ const teams = ["content", "media", "website", "marketing"];
 const MembersPage = () => {
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [uploadingMemberId, setUploadingMemberId] = useState(null); // image upload state
   const [newMemberInputs, setNewMemberInputs] = useState({});
   const [imageFiles, setImageFiles] = useState({});
+  const [addingTeam, setAddingTeam] = useState(null); // loading state for adding
+  const fileInputs = useRef({});
 
   useEffect(() => {
     fetchMembers();
   }, []);
 
   const fetchMembers = async () => {
+    setLoading(true);
     const res = await axios.get("/api/members");
     setMembers(res.data);
     setLoading(false);
@@ -38,6 +42,8 @@ const MembersPage = () => {
       return;
     }
 
+    setAddingTeam(team);
+
     const key = `new-${team}`;
     let pictureUrl = "";
     if (imageFiles[key]) {
@@ -58,6 +64,7 @@ const MembersPage = () => {
 
     setNewMemberInputs((prev) => ({ ...prev, [team]: {} }));
     setImageFiles((prev) => ({ ...prev, [key]: null }));
+    setAddingTeam(null);
   };
 
   const handleUpdate = async (member) => {
@@ -91,10 +98,30 @@ const MembersPage = () => {
       (member) => member.team?.toLowerCase() === team.toLowerCase()
     );
 
+  const handlePictureClick = (id) => {
+    if (fileInputs.current[id]) {
+      fileInputs.current[id].click();
+    }
+  };
+
+  const handleExistingImageChange = async (e, member) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setUploadingMemberId(member.id);
+    const imageUrl = await uploadImage(file);
+    const updatedMember = { ...member, picture: imageUrl };
+    await handleUpdate(updatedMember);
+    setMembers((prev) =>
+      prev.map((m) => (m.id === member.id ? updatedMember : m))
+    );
+    setUploadingMemberId(null);
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen text-gray-500">
-        <Loader2 className="animate-spin w-6 h-6" />
+        <Loader2 className="animate-spin w-8 h-8" />
       </div>
     );
   }
@@ -163,11 +190,26 @@ const MembersPage = () => {
                     className="p-2 border border-gray-300 rounded-lg"
                     placeholder="Description"
                   />
-                  <img
-                    src={member.picture}
-                    alt="pic"
-                    className="w-12 h-12 rounded-full object-cover border"
-                  />
+                  <div className="relative">
+                    <img
+                      src={member.picture}
+                      alt="pic"
+                      className={`w-12 h-12 rounded-full object-cover border cursor-pointer ${
+                        uploadingMemberId === member.id ? "opacity-50" : ""
+                      }`}
+                      onClick={() => handlePictureClick(member.id)}
+                    />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      ref={(el) => (fileInputs.current[member.id] = el)}
+                      onChange={(e) => handleExistingImageChange(e, member)}
+                      className="hidden"
+                    />
+                    {uploadingMemberId === member.id && (
+                      <Loader2 className="absolute top-0 left-0 w-12 h-12 animate-spin text-gray-500" />
+                    )}
+                  </div>
                   <div className="flex gap-2 justify-end">
                     <button
                       onClick={() => handleUpdate(member)}
@@ -240,9 +282,20 @@ const MembersPage = () => {
               />
               <button
                 onClick={() => handleAdd(team)}
-                className="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition"
+                disabled={addingTeam === team}
+                className={`px-4 py-2 rounded-lg text-white transition ${
+                  addingTeam === team
+                    ? "bg-gray-500 cursor-not-allowed"
+                    : "bg-gray-800 hover:bg-gray-700"
+                }`}
               >
-                <Plus className="w-4 h-4 inline" /> Add
+                {addingTeam === team ? (
+                  <Loader2 className="w-4 h-4 animate-spin inline" />
+                ) : (
+                  <>
+                    <Plus className="w-4 h-4 inline" /> Add
+                  </>
+                )}
               </button>
             </div>
           </div>

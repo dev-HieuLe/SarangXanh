@@ -8,7 +8,6 @@ const Shop = () => {
         src="https://form.jotform.com/252142534446453?width=full"
         width="100%"
         height="800"
-        frameBorder="0"
         allowFullScreen
       ></iframe>
     </div>
