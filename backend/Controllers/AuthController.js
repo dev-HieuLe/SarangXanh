@@ -26,12 +26,12 @@ export const register = async (req, res) => {
     res.cookie("token", accessToken, {
       httpOnly: true,
       sameSite: "Lax",
-      secure: isProd,
+      secure: true,
     });
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       sameSite: "Lax",
-      secure: isProd,
+      secure: true,
     });
 
     return res.status(201).json({ status: "Success", user: { name, email, id } });
@@ -74,12 +74,12 @@ export const login = async (req, res) => {
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       sameSite: "Lax",
-      secure: isProd,
+      secure: true,
     });
     res.cookie("token", accessToken, {
       httpOnly: true,
       sameSite: "Lax",
-      secure: isProd,
+      secure: true,
     });
 
     return res.status(200).json({ status: "Success", user: { name, email, id } });
@@ -122,7 +122,7 @@ export const refreshToken = (req, res) => {
     res.cookie("token", newAccessToken, {
       httpOnly: true,
       sameSite: "Lax",
-      secure: isProd,
+      secure: true,
     });
     return res.json({ status: "Success" });
   });

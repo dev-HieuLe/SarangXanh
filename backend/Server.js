@@ -39,6 +39,7 @@ app.use("/gallery", galleryRoutes);
 app.use("/views", StatsRoutes);
 app.use("/upload", uploadRoutes); 
 
+console.log("NODE_ENV:", process.env.NODE_ENV);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
