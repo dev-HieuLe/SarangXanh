@@ -3,7 +3,7 @@ import db from "../Config/db.js";
 export const getGallery = async (req, res) => {
   try {
     const [rows] = await db.execute(
-      "SELECT * FROM Gallery ORDER BY year DESC, created_at DESC"
+      "SELECT * FROM gallery ORDER BY year DESC, created_at DESC"
     );
 
     const grouped = {};
@@ -25,7 +25,7 @@ export const addGalleryItem = async (req, res) => {
     const { year, title, description, image_url } = req.body;
 
     await db.execute(
-      `INSERT INTO Gallery (year, title, description, image_url) VALUES (?, ?, ?, ?)`,
+      `INSERT INTO gallery (year, title, description, image_url) VALUES (?, ?, ?, ?)`,
       [year, title, description, image_url]
     );
 
@@ -43,7 +43,7 @@ export const updateGalleryItem = async (req, res) => {
     const { year, title, description, image_url } = req.body;
 
     await db.execute(
-      `UPDATE Gallery SET year = ?, title = ?, description = ?, image_url = ? WHERE id = ?`,
+      `UPDATE gallery SET year = ?, title = ?, description = ?, image_url = ? WHERE id = ?`,
       [year, title, description, image_url, id]
     );
 
@@ -59,7 +59,7 @@ export const deleteGalleryItem = async (req, res) => {
   try {
     const { id } = req.params;
 
-    await db.execute(`DELETE FROM Gallery WHERE id = ?`, [id]);
+    await db.execute(`DELETE FROM gallery WHERE id = ?`, [id]);
 
     res.json({ status: "Success", message: "Gallery item deleted" });
   } catch (err) {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { ShoppingCart, ThumbsUp, User, MousePointerClick } from "lucide-react";
+import { ShoppingCart, ThumbsUp, User, MousePointerClick, Loader2,} from "lucide-react";
 import {
   LineChart,
   Line,
@@ -15,6 +15,7 @@ const DashboardPage = () => {
   const [memberCount, setMemberCount] = useState(0);
   const [trashData, setTrashData] = useState([]);
   const [viewCount, setViewCount] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   // Calculate trash total & progress
   const goalKg = 300;
@@ -74,43 +75,42 @@ const DashboardPage = () => {
   };
 
   useEffect(() => {
-    const fetchViews = async () => {
+    // Fetch all data in parallel
+    const fetchAllData = async () => {
+      setLoading(true);
       try {
-        const res = await axios.get("/api/views/homepage");
-        setViewCount(res.data.totalViews);
-      } catch (err) {
-        console.error("Failed to fetch homepage views", err);
-      }
-    };
-    fetchViews();
-  }, []);
+        const [viewsRes, statsRes, membersRes] = await Promise.all([
+          axios.get("/api/views/homepage"),
+          axios.get("/api/data", { withCredentials: true }),
+          axios.get("/api/members"),
+        ]);
 
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const res = await axios.get("/api/data", { withCredentials: true });
-        const cleaned = res.data.monthlyStats.map((m) => ({
+        setViewCount(viewsRes.data.totalViews);
+
+        const cleaned = statsRes.data.monthlyStats.map((m) => ({
           month: m.month,
           kg: m.plastic_collected,
         }));
         setTrashData(cleaned);
+
+        setMemberCount(membersRes.data.length);
       } catch (err) {
-        console.error("Failed to fetch stats", err);
+        console.error("Failed to fetch dashboard data", err);
+      } finally {
+        setLoading(false);
       }
     };
 
-    const fetchMemberCount = async () => {
-      try {
-        const res = await axios.get("/api/members");
-        setMemberCount(res.data.length);
-      } catch (err) {
-        console.error("Failed to fetch members", err);
-      }
-    };
-
-    fetchStats();
-    fetchMemberCount();
+    fetchAllData();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        {loading ? <Loader2 className="animate-spin" /> : "Loading..."}
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
