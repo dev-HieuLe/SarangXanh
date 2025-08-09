@@ -39,9 +39,8 @@ app.use("/views", StatsRoutes);
 app.use("/upload", uploadRoutes); 
 
 
-app.listen(8081, () => {
-  console.log("✅ Server running on port 8081");
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 
 
