@@ -4,6 +4,9 @@ import db from "../Config/db.js";
 
 const SALT_ROUNDS = 10;
 
+// Utility to detect if running in production (https)
+const isProd = process.env.NODE_ENV === "production";
+
 // 📝 REGISTER
 export const register = async (req, res) => {
   try {
@@ -13,11 +16,23 @@ export const register = async (req, res) => {
     const [result] = await db.execute(sql, [name, email, hash]);
     const id = result.insertId;
 
-    const accessToken = jwt.sign({ name, email, id }, process.env.JWT_SECRET, { expiresIn: "15m" });
-    const refreshToken = jwt.sign({ id, email }, process.env.JWT_REFRESH_SECRET, { expiresIn: "7d" });
+    const accessToken = jwt.sign({ name, email, id }, process.env.JWT_SECRET, {
+      expiresIn: "15m",
+    });
+    const refreshToken = jwt.sign({ id, email }, process.env.JWT_REFRESH_SECRET, {
+      expiresIn: "7d",
+    });
 
-    res.cookie("token", accessToken, { httpOnly: true, sameSite: "Lax" });
-    res.cookie("refreshToken", refreshToken, { httpOnly: true, sameSite: "Lax" });
+    res.cookie("token", accessToken, {
+      httpOnly: true,
+      sameSite: "Lax",
+      secure: isProd,
+    });
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      sameSite: "Lax",
+      secure: isProd,
+    });
 
     return res.status(201).json({ status: "Success", user: { name, email, id } });
   } catch (err) {
@@ -36,18 +51,36 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const [rows] = await db.execute("SELECT * FROM Users WHERE email = ?", [email]);
+    const [rows] = await db.execute("SELECT * FROM Users WHERE email = ?", [
+      email,
+    ]);
 
     if (rows.length === 0 || !(await bcrypt.compare(password, rows[0].password))) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
 
     const { id, name } = rows[0];
-    const refreshToken = jwt.sign({ name, email, id }, process.env.JWT_REFRESH_SECRET, { expiresIn: "7d" });
-    const accessToken = jwt.sign({ name, email, id }, process.env.JWT_SECRET, { expiresIn: "15m" });
+    const refreshToken = jwt.sign(
+      { name, email, id },
+      process.env.JWT_REFRESH_SECRET,
+      { expiresIn: "7d" }
+    );
+    const accessToken = jwt.sign(
+      { name, email, id },
+      process.env.JWT_SECRET,
+      { expiresIn: "15m" }
+    );
 
-    res.cookie("refreshToken", refreshToken, { httpOnly: true, sameSite: "Lax" });
-    res.cookie("token", accessToken, { httpOnly: true, sameSite: "Lax" });
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      sameSite: "Lax",
+      secure: isProd,
+    });
+    res.cookie("token", accessToken, {
+      httpOnly: true,
+      sameSite: "Lax",
+      secure: isProd,
+    });
 
     return res.status(200).json({ status: "Success", user: { name, email, id } });
   } catch (err) {
@@ -63,8 +96,8 @@ export const getUser = (req, res) => {
 
 // 📝 LOGOUT
 export const logout = (req, res) => {
-  res.clearCookie("token", { httpOnly: true, sameSite: "Lax" });
-  res.clearCookie("refreshToken", { httpOnly: true, sameSite: "Lax" });
+  res.clearCookie("token", { httpOnly: true, sameSite: "Lax", secure: isProd });
+  res.clearCookie("refreshToken", { httpOnly: true, sameSite: "Lax", secure: isProd });
   return res.json({ Status: "Success" });
 };
 
@@ -76,11 +109,21 @@ export const refreshToken = (req, res) => {
   jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, async (err, user) => {
     if (err) return res.status(403).json({ error: "Invalid refresh token" });
 
-    const [rows] = await db.execute("SELECT name FROM Users WHERE id = ?", [user.id]);
+    const [rows] = await db.execute("SELECT name FROM Users WHERE id = ?", [
+      user.id,
+    ]);
     const name = rows[0].name;
 
-    const newAccessToken = jwt.sign({ id: user.id, email: user.email, name }, process.env.JWT_SECRET, { expiresIn: "15m" });
-    res.cookie("token", newAccessToken, { httpOnly: true, sameSite: "Lax" });
+    const newAccessToken = jwt.sign(
+      { id: user.id, email: user.email, name },
+      process.env.JWT_SECRET,
+      { expiresIn: "15m" }
+    );
+    res.cookie("token", newAccessToken, {
+      httpOnly: true,
+      sameSite: "Lax",
+      secure: isProd,
+    });
     return res.json({ status: "Success" });
   });
 };
