@@ -2,9 +2,8 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  base: '/', // important for correct routing in Vercel
+  base: '/',
   plugins: [
     react(),
     tailwindcss()
