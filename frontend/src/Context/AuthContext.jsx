@@ -1,4 +1,3 @@
-// AuthContext.jsx
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 
@@ -11,11 +10,11 @@ export const AuthProvider = ({ children }) => {
   const [authCheckedOnce, setAuthCheckedOnce] = useState(false);
   const [wasLoggedInBefore, setWasLoggedInBefore] = useState(false);
 
-  //refresh token if access token expired
+  // Refresh token if access token expired
   const tryRefreshToken = async () => {
     try {
       const res = await axios.post(
-        "/api/refresh-token",
+        `${import.meta.env.VITE_API_BASE_URL}/refresh-token`,
         {},
         { withCredentials: true }
       );
@@ -29,10 +28,12 @@ export const AuthProvider = ({ children }) => {
     return false;
   };
 
-  //Check token Session
+  // Check token session
   const checkAuth = async () => {
     try {
-      const res = await axios.get("/api/user", { withCredentials: true });
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/user`, {
+        withCredentials: true,
+      });
       if (res.status === 200 && res.data?.name) {
         setAuth(true);
         setUser({
@@ -46,13 +47,17 @@ export const AuthProvider = ({ children }) => {
         setUser({});
       }
     } catch (err) {
-      console.warn("⚠️ Token might be expired, trying refresh...");
-      const refreshed = await tryRefreshToken();
-      if (refreshed) {
-        return await checkAuth(); 
+      if (err.response?.status === 401) {
+        alert("⚠️ You are not authorized. Please refresh the page or login again.");
       } else {
-        setAuth(false);
-        setUser({});
+        console.warn("⚠️ Token might be expired, trying refresh...");
+        const refreshed = await tryRefreshToken();
+        if (refreshed) {
+          return await checkAuth();
+        } else {
+          setAuth(false);
+          setUser({});
+        }
       }
     } finally {
       setAuthCheckedOnce(true);
@@ -60,12 +65,12 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  //Check once on load
+  // Check once on load
   useEffect(() => {
     checkAuth();
   }, []);
 
-  //Re-check every 5 minutes
+  // Re-check every 5 minutes if user was logged in before
   useEffect(() => {
     if (!wasLoggedInBefore) return;
 
@@ -75,7 +80,6 @@ export const AuthProvider = ({ children }) => {
 
     return () => clearInterval(interval);
   }, [wasLoggedInBefore]);
-
 
   return (
     <AuthContext.Provider
