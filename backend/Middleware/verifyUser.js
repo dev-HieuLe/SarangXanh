@@ -11,4 +11,6 @@ export const verifyUser = (req, res, next) => {
     req.id = decoded.id;
     next();
   });
+  console.log('Token from cookie:', req.cookies.token);
+
 };
