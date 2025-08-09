@@ -3,8 +3,6 @@ import jwt from "jsonwebtoken";
 import db from "../Config/db.js";
 
 const SALT_ROUNDS = 10;
-
-// Utility to detect if running in production (https)
 const isProd = process.env.NODE_ENV === "production";
 
 // 📝 REGISTER
@@ -25,13 +23,13 @@ export const register = async (req, res) => {
 
     res.cookie("token", accessToken, {
       httpOnly: true,
-      sameSite: "Lax",
-      secure: true,
+      sameSite: isProd ? "None" : "Lax",
+      secure: isProd,
     });
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      sameSite: "Lax",
-      secure: true,
+      sameSite: isProd ? "None" : "Lax",
+      secure: isProd,
     });
 
     return res.status(201).json({ status: "Success", user: { name, email, id } });
@@ -73,13 +71,13 @@ export const login = async (req, res) => {
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      sameSite: "Lax",
-      secure: true,
+      sameSite: isProd ? "None" : "Lax",
+      secure: isProd,
     });
     res.cookie("token", accessToken, {
       httpOnly: true,
-      sameSite: "Lax",
-      secure: true,
+      sameSite: isProd ? "None" : "Lax",
+      secure: isProd,
     });
 
     return res.status(200).json({ status: "Success", user: { name, email, id } });
@@ -96,8 +94,16 @@ export const getUser = (req, res) => {
 
 // 📝 LOGOUT
 export const logout = (req, res) => {
-  res.clearCookie("token", { httpOnly: true, sameSite: "Lax", secure: isProd });
-  res.clearCookie("refreshToken", { httpOnly: true, sameSite: "Lax", secure: isProd });
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: isProd ? "None" : "Lax",
+    secure: isProd,
+  });
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    sameSite: isProd ? "None" : "Lax",
+    secure: isProd,
+  });
   return res.json({ Status: "Success" });
 };
 
@@ -121,8 +127,8 @@ export const refreshToken = (req, res) => {
     );
     res.cookie("token", newAccessToken, {
       httpOnly: true,
-      sameSite: "Lax",
-      secure: true,
+      sameSite: isProd ? "None" : "Lax",
+      secure: isProd,
     });
     return res.json({ status: "Success" });
   });
