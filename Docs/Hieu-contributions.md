@@ -244,7 +244,7 @@ I designed the entire frontend routing architecture via `App.jsx`:
 - **Role**: Full-Stack Developer  
 - **Date**: August 2025  
 - **Location**: Hanoi, Vietnam  
-- **Ownership**: Backend logic (with AI-assisted integration), Admin API system, Homepage routing & UI  
+- **Ownership**: Backend logic (with AI-assisted integration), Admin API system, Homepage UI & Website Routing 
 - **Branch Used**: `hieu`  
 - **Debugging Tools**: Postman, browser dev tools, console logs, MDN, StackOverflow
 
