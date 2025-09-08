@@ -45,7 +45,10 @@ const Data = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/data`, { withCredentials: true });
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/data`,
+          { withCredentials: true }
+        );
         const backendStats = res.data.stats;
         const timeline = res.data.timeline;
         const monthly = res.data.monthlyStats;
@@ -120,12 +123,22 @@ const Data = () => {
               onMouseEnter={() => setHoveredStat(idx)}
               onMouseLeave={() => setHoveredStat(null)}
               className={`cursor-pointer bg-white p-6 rounded-xl shadow text-center transition border-2
-                ${activeChart === idx ? "border-blue-600 bg-blue-100 scale-105" : ""}
-                ${hoveredStat === idx && activeChart !== idx ? "bg-blue-50 scale-105 shadow-lg" : ""}
+                ${
+                  activeChart === idx
+                    ? "border-blue-600 bg-blue-100 scale-105"
+                    : ""
+                }
+                ${
+                  hoveredStat === idx && activeChart !== idx
+                    ? "bg-blue-50 scale-105 shadow-lg"
+                    : ""
+                }
               `}
               style={{ transition: "all 0.3s" }}
             >
-              <p className="text-blue-800 text-sm font-semibold">{stat.label}</p>
+              <p className="text-blue-800 text-sm font-semibold">
+                {stat.label}
+              </p>
               <h3 className="text-3xl font-bold text-blue-700">{stat.value}</h3>
               <span className="block mt-2 text-xs text-blue-400">
                 {activeChart === idx ? "Showing chart" : "Click to view chart"}
@@ -211,6 +224,7 @@ const Data = () => {
                   background: "#3b82f6",
                   color: "#fff",
                 }}
+                position={idx % 2 === 0 ? "left" : "right"} // 🔥 alternate sides
                 className={`transition-all duration-300 ${
                   hoveredTimeline === idx
                     ? "scale-105 shadow-lg bg-blue-50"
@@ -219,21 +233,53 @@ const Data = () => {
                 onMouseEnter={() => setHoveredTimeline(idx)}
                 onMouseLeave={() => setHoveredTimeline(null)}
               >
-                <h3 className="text-lg font-bold text-blue-700">
-                  {event.title}
-                </h3>
-                {event.image && (
-                  <img
-                    src={event.image}
-                    alt={event.title}
-                    className="mt-4 rounded-lg shadow-md"
-                  />
-                )}
-                {event.description && (
-                  <p className="mt-2 text-sm text-gray-600 leading-relaxed">
-                    {event.description}
-                  </p>
-                )}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                  {idx % 2 === 0 ? (
+                    <>
+                      {/* Image left */}
+                      {event.image && (
+                        <img
+                          src={event.image}
+                          alt={event.title}
+                          className="rounded-lg shadow-md"
+                        />
+                      )}
+                      {/* Text right */}
+                      <div>
+                        <h3 className="text-lg font-bold text-blue-700">
+                          {event.title}
+                        </h3>
+                        {event.description && (
+                          <p className="mt-2 text-sm text-gray-600 leading-relaxed">
+                            {event.description}
+                          </p>
+                        )}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      {/* Text left */}
+                      <div>
+                        <h3 className="text-lg font-bold text-blue-700">
+                          {event.title}
+                        </h3>
+                        {event.description && (
+                          <p className="mt-2 text-sm text-gray-600 leading-relaxed">
+                            {event.description}
+                          </p>
+                        )}
+                      </div>
+                      {/* Image right */}
+                      {event.image && (
+                        <img
+                          src={event.image}
+                          alt={event.title}
+                          className="rounded-lg shadow-md"
+                        />
+                      )}
+                    </>
+                  )}
+                </div>
               </VerticalTimelineElement>
             ))}
           </VerticalTimeline>

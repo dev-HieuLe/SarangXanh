@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import AOS from "aos";
 import { Droplets, Fish, Sprout, CookingPot, Biohazard } from "lucide-react";
-
+import { useNavigate } from 'react-router-dom';
 const Effects = () => {
   useEffect(() => {
     AOS.init({
@@ -10,6 +10,7 @@ const Effects = () => {
       easing: "ease-in-out",
     });
   }, []);
+  const navigate = useNavigate();
 
   const effects = [
     {
@@ -76,6 +77,7 @@ const Effects = () => {
               className="mt-6 w-fit px-6 py-3 rounded-xl text-white font-medium bg-cyan-600 hover:bg-cyan-700 transition shadow-md hover:shadow-lg"
               data-aos="zoom-in"
               data-aos-delay="200"
+              onClick={() => navigate('/research')}
             >
               Explore More
             </button>
