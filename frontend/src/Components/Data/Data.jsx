@@ -211,77 +211,71 @@ const Data = () => {
         </div>
 
         {/* Timeline */}
-        <div className="mb-10">
-          <h3 className="text-2xl font-bold mb-8 text-blue-700">
-            📅 Collection Timeline
-          </h3>
-          <VerticalTimeline>
-            {timelineEvents.map((event, idx) => (
-              <VerticalTimelineElement
-                key={event.id || idx}
-                date={event.date}
-                iconStyle={{
-                  background: "#3b82f6",
-                  color: "#fff",
-                }}
-                position="right" // keep all aligned to right, so timeline is centered
-                className={`transition-all duration-300 ${
-                  hoveredTimeline === idx
-                    ? "scale-105 shadow-lg bg-blue-50"
-                    : ""
-                }`}
-                onMouseEnter={() => setHoveredTimeline(idx)}
-                onMouseLeave={() => setHoveredTimeline(null)}
-              >
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-                  {idx % 2 === 0 ? (
-                    <>
-                      {/* Image left, Text right */}
-                      {event.image && (
-                        <img
-                          src={event.image}
-                          alt={event.title}
-                          className="rounded-lg shadow-md w-full"
-                        />
+        <VerticalTimeline>
+          {timelineEvents.map((event, idx) => (
+            <VerticalTimelineElement
+              key={event.id || idx}
+              date={event.date}
+              iconStyle={{
+                background: "#3b82f6",
+                color: "#fff",
+              }}
+              position="right" // keep them all on one side so the line is centered
+              contentStyle={{
+                background: "transparent",
+                boxShadow: "none",
+                padding: 0,
+              }}
+              contentArrowStyle={{ display: "none" }}
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                {idx % 2 === 0 ? (
+                  <>
+                    {/* Image left, Text right */}
+                    {event.image && (
+                      <img
+                        src={event.image}
+                        alt={event.title}
+                        className="rounded-lg shadow-md w-full"
+                      />
+                    )}
+                    <div className="bg-white p-4 rounded-lg shadow">
+                      <h3 className="text-lg font-bold text-blue-700">
+                        {event.title}
+                      </h3>
+                      {event.description && (
+                        <p className="mt-2 text-sm text-gray-600 leading-relaxed">
+                          {event.description}
+                        </p>
                       )}
-                      <div>
-                        <h3 className="text-lg font-bold text-blue-700">
-                          {event.title}
-                        </h3>
-                        {event.description && (
-                          <p className="mt-2 text-sm text-gray-600 leading-relaxed">
-                            {event.description}
-                          </p>
-                        )}
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      {/* Text left, Image right */}
-                      <div>
-                        <h3 className="text-lg font-bold text-blue-700">
-                          {event.title}
-                        </h3>
-                        {event.description && (
-                          <p className="mt-2 text-sm text-gray-600 leading-relaxed">
-                            {event.description}
-                          </p>
-                        )}
-                      </div>
-                      {event.image && (
-                        <img
-                          src={event.image}
-                          alt={event.title}
-                          className="rounded-lg shadow-md w-full"
-                        />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    {/* Text left, Image right */}
+                    <div className="bg-white p-4 rounded-lg shadow">
+                      <h3 className="text-lg font-bold text-blue-700">
+                        {event.title}
+                      </h3>
+                      {event.description && (
+                        <p className="mt-2 text-sm text-gray-600 leading-relaxed">
+                          {event.description}
+                        </p>
                       )}
-                    </>
-                  )}
-                </div>
-              </VerticalTimelineElement>
-            ))}
-          </VerticalTimeline>
-        </div>
+                    </div>
+                    {event.image && (
+                      <img
+                        src={event.image}
+                        alt={event.title}
+                        className="rounded-lg shadow-md w-full"
+                      />
+                    )}
+                  </>
+                )}
+              </div>
+            </VerticalTimelineElement>
+          ))}
+        </VerticalTimeline>
       </div>
     </section>
   );
