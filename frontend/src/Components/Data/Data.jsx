@@ -14,16 +14,18 @@ import {
   VerticalTimelineElement,
 } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
-import { Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
-  LineElement,
   CategoryScale,
   LinearScale,
-  PointElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
 } from "chart.js";
 
-ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const collectedLocations = [
   { city: "Hanoi", lat: 21.0285, lng: 105.8542 },
@@ -55,11 +57,13 @@ const Data = () => {
 
         setTimelineEvents(timeline);
 
-        // Construct chart data from monthly breakdown
-        const labels = monthly.map((item) => item.month.slice(5)); // "2025-07" → "07"
-        const collected = monthly.map((item) => item.plastic_collected);
-        const recycled = monthly.map((item) => item.plastic_recycled);
-        const volunteer = monthly.map((item) => item.volunteers);
+        // reverse so the latest month is on the right
+        const reversed = [...monthly].reverse();
+
+        const labels = reversed.map((item) => item.month.slice(5)); // "2025-07" → "07"
+        const collected = reversed.map((item) => item.plastic_collected);
+        const recycled = reversed.map((item) => item.plastic_recycled);
+        const volunteer = reversed.map((item) => item.volunteers);
 
         setStats([
           {
@@ -82,7 +86,7 @@ const Data = () => {
           },
         ]);
 
-        setMonthlyStats(monthly);
+        setMonthlyStats(reversed);
       } catch (err) {
         console.error("❌ Failed to fetch data:", err);
       }
@@ -158,17 +162,16 @@ const Data = () => {
             <h4 className="text-lg font-semibold text-center mb-4 text-blue-700">
               {stats[activeChart].label} - Monthly Progress
             </h4>
-            <Line
+            <Bar
               data={{
                 labels: stats[activeChart].labels,
                 datasets: [
                   {
                     label: stats[activeChart].label,
                     data: stats[activeChart].chart,
+                    backgroundColor: "rgba(59, 130, 246, 0.6)",
                     borderColor: "#3b82f6",
-                    backgroundColor: "rgba(59, 130, 246, 0.2)",
-                    tension: 0.3,
-                    pointRadius: 5,
+                    borderWidth: 1,
                   },
                 ],
               }}
@@ -220,7 +223,7 @@ const Data = () => {
                 background: "#3b82f6",
                 color: "#fff",
               }}
-              position="right" // keep them all on one side so the line is centered
+              position="right"
               contentStyle={{
                 background: "transparent",
                 boxShadow: "none",
