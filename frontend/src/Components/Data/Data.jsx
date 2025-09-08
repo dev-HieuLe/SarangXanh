@@ -224,7 +224,7 @@ const Data = () => {
                   background: "#3b82f6",
                   color: "#fff",
                 }}
-                position={idx % 2 === 0 ? "left" : "right"} // 🔥 alternate sides
+                position="right" // keep all aligned to right, so timeline is centered
                 className={`transition-all duration-300 ${
                   hoveredTimeline === idx
                     ? "scale-105 shadow-lg bg-blue-50"
@@ -233,18 +233,17 @@ const Data = () => {
                 onMouseEnter={() => setHoveredTimeline(idx)}
                 onMouseLeave={() => setHoveredTimeline(null)}
               >
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
                   {idx % 2 === 0 ? (
                     <>
-                      {/* Image left */}
+                      {/* Image left, Text right */}
                       {event.image && (
                         <img
                           src={event.image}
                           alt={event.title}
-                          className="rounded-lg shadow-md"
+                          className="rounded-lg shadow-md w-full"
                         />
                       )}
-                      {/* Text right */}
                       <div>
                         <h3 className="text-lg font-bold text-blue-700">
                           {event.title}
@@ -258,7 +257,7 @@ const Data = () => {
                     </>
                   ) : (
                     <>
-                      {/* Text left */}
+                      {/* Text left, Image right */}
                       <div>
                         <h3 className="text-lg font-bold text-blue-700">
                           {event.title}
@@ -269,12 +268,11 @@ const Data = () => {
                           </p>
                         )}
                       </div>
-                      {/* Image right */}
                       {event.image && (
                         <img
                           src={event.image}
                           alt={event.title}
-                          className="rounded-lg shadow-md"
+                          className="rounded-lg shadow-md w-full"
                         />
                       )}
                     </>
