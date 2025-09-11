@@ -22,6 +22,7 @@ const allowedOrigins = [
   process.env.FRONTEND_URL,
   process.env.FRONTEND_URL_WWW,
   "http://localhost:5173",
+  "https://sarang-xanh.vercel.app",
 ].filter(Boolean); // remove undefined
 
 console.log("CORS allowed origins:", allowedOrigins);
