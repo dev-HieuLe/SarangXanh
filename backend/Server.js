@@ -18,12 +18,30 @@ import helmet from "helmet";
 const app = express();
 
 
-// Enable CORS for frontend origin
-console.log('CORS allowed origin:', process.env.FRONTEND_URL);
-app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:5173",
-  credentials: true,
-}));
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  process.env.FRONTEND_URL_WWW,
+  "http://localhost:5173",
+].filter(Boolean); // remove undefined
+
+console.log("CORS allowed origins:", allowedOrigins);
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // allow requests with no origin (like curl, Postman)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("Not allowed by CORS: " + origin));
+      }
+    },
+    credentials: true,
+  })
+);
+
 
 
 // Global middleware
