@@ -4,41 +4,31 @@ import db from "../Config/db.js";
 export const getData = async (req, res) => {
   try {
     const now = new Date();
-    const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+    const currentMonth = `${now.getFullYear()}-${String(
+      now.getMonth() + 1
+    ).padStart(2, "0")}`;
 
     // Get all current stats
-    const [monthlyStats] = await db.execute(`SELECT * FROM Stats ORDER BY month DESC`);
+    const [monthlyStats] = await db.execute(
+      `SELECT * FROM Stats ORDER BY month DESC`
+    );
 
     // Check if current month already exists
     const exists = monthlyStats.some((m) => m.month === currentMonth);
 
     if (!exists) {
-      // Get the latest available month to copy data from
-      const [prevData] = await db.execute(
-        `SELECT * FROM Stats WHERE month < ? ORDER BY month DESC LIMIT 1`,
-        [currentMonth]
-      );
-
-      const prev = prevData[0] || {
-        plastic_collected: 0,
-        plastic_recycled: 0,
-        volunteers: 0,
-      };
-
+      // Always insert a NEW month with 0 values
       await db.execute(
         `INSERT INTO Stats (month, plastic_collected, plastic_recycled, volunteers)
-         VALUES (?, ?, ?, ?)`,
-        [
-          currentMonth,
-          prev.plastic_collected,
-          prev.plastic_recycled,
-          prev.volunteers,
-        ]
+         VALUES (?, 0, 0, 0)`,
+        [currentMonth]
       );
     }
 
     // Fetch fresh data (after insert)
-    const [updatedStats] = await db.execute(`SELECT * FROM Stats ORDER BY month DESC`);
+    const [updatedStats] = await db.execute(
+      `SELECT * FROM Stats ORDER BY month DESC`
+    );
     const [totals] = await db.execute(`
       SELECT 
         SUM(plastic_collected) AS plastic_collected,
@@ -46,7 +36,9 @@ export const getData = async (req, res) => {
         SUM(volunteers) AS volunteers
       FROM Stats
     `);
-    const [timeline] = await db.execute(`SELECT * FROM Timeline ORDER BY id DESC`);
+    const [timeline] = await db.execute(
+      `SELECT * FROM Timeline ORDER BY id DESC`
+    );
 
     res.json({
       stats: totals[0],
@@ -58,7 +50,6 @@ export const getData = async (req, res) => {
     res.status(500).json({ error: "Failed to load data" });
   }
 };
-
 
 // Update or insert monthly stat
 export const updateMonthlyStat = async (req, res) => {
@@ -84,27 +75,11 @@ export const updateMonthlyStat = async (req, res) => {
         [plastic_collected, plastic_recycled, volunteers, month]
       );
     } else {
-      // Copy from last available month
-      const [prevMonth] = await db.execute(
-        `SELECT * FROM Stats WHERE month < ? ORDER BY month DESC LIMIT 1`,
-        [month]
-      );
-
-      const prev = prevMonth[0] || {
-        plastic_collected: 0,
-        plastic_recycled: 0,
-        volunteers: 0,
-      };
-
+      // Insert clean new month
       await db.execute(
         `INSERT INTO Stats (month, plastic_collected, plastic_recycled, volunteers)
-         VALUES (?, ?, ?, ?)`,
-        [
-          month,
-          plastic_collected ?? prev.plastic_collected,
-          plastic_recycled ?? prev.plastic_recycled,
-          volunteers ?? prev.volunteers,
-        ]
+         VALUES (?, 0, 0, 0)`,
+        [month]
       );
     }
 
@@ -115,7 +90,7 @@ export const updateMonthlyStat = async (req, res) => {
   }
 };
 
-// Other unchanged timeline endpoints
+// Add timeline event
 export const addTimeline = async (req, res) => {
   try {
     const { date, title, description, image } = req.body;
@@ -132,6 +107,7 @@ export const addTimeline = async (req, res) => {
   }
 };
 
+// Delete timeline event
 export const deleteTimeline = async (req, res) => {
   try {
     const { id } = req.params;
@@ -145,6 +121,7 @@ export const deleteTimeline = async (req, res) => {
   }
 };
 
+// Update timeline event
 export const editTimeline = async (req, res) => {
   try {
     const { id } = req.params;
